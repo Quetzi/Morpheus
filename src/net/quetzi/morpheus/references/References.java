@@ -1,4 +1,4 @@
-package net.quetzi.morpheus;
+package net.quetzi.morpheus.references;
 
 public class References {
 	public static final String MODID = "Morpheus";

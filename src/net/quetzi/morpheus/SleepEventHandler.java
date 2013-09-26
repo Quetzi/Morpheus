@@ -48,7 +48,8 @@ public class SleepEventHandler {
 
 			// Check against config and set time
 			if (percAsleep >= Morpheus.perc) {
-				setTime(0, event.entityPlayer.worldObj);
+				advanceToMorning(event.entityPlayer.worldObj.getWorldTime(),
+						event.entityPlayer.worldObj);
 				sleepingPlayers = 0;
 			}
 		} else {
@@ -56,7 +57,8 @@ public class SleepEventHandler {
 		}
 	}
 
-	private void setTime(int ticks, World world) {
+	private void advanceToMorning(long time, World world) {
+		long ticks = time + (24000 - (time % 24000));
 		world.setWorldTime(ticks);
 	}
 
