@@ -20,6 +20,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @NetworkMod(clientSideRequired = false, serverSideRequired = true)
 public class Morpheus {
 	public static int perc;
+	public static boolean alertPlayers;
 	public static Logger mLog = Logger.getLogger("Morpheus");
 
 	@EventHandler
@@ -38,6 +39,7 @@ public class Morpheus {
 				event.getSuggestedConfigurationFile());
 		config.load();
 		perc = config.get("settings", "SleeperPerc", 50).getInt();
+		alertPlayers = config.get("settings", "AlertPlayers", true).getBoolean(true);
 		config.save();
 	}
 

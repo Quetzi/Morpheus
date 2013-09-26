@@ -39,8 +39,9 @@ public class SleepEventHandler {
 					+ sleepingPlayers + "/" + playerList.size() + " ("
 					+ percAsleep + "%)");
 			// Send players text alert
-			alertPlayers(chatAlert, playerList);
-
+			if (Morpheus.alertPlayers) {
+				alertPlayers(chatAlert, playerList);
+			}
 			// Update console
 			Morpheus.mLog.info(event.entityPlayer.username + " is now asleep :"
 					+ sleepingPlayers + "/" + playerCount + " " + percAsleep
