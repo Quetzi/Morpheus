@@ -2,6 +2,7 @@ package net.quetzi.morpheus;
 
 import java.util.logging.Logger;
 
+import net.minecraft.morpheus.commands.AlertToggleCommand;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import net.quetzi.morpheus.references.References;
@@ -29,6 +30,14 @@ public class Morpheus {
 		MinecraftForge.EVENT_BUS.register(new SleepEventHandler());
 	}
 
+	public static boolean isAlertPlayers() {
+		return alertPlayers;
+	}
+
+	public static void setAlertPlayers(boolean alertPlayers) {
+		Morpheus.alertPlayers = alertPlayers;
+	}
+
 	@EventHandler
 	@SideOnly(Side.SERVER)
 	public void PreInit(FMLPreInitializationEvent event) {
@@ -51,5 +60,6 @@ public class Morpheus {
 	@EventHandler
 	@SideOnly(Side.SERVER)
 	public void serverLoad(FMLServerStartingEvent event) {
+		event.registerServerCommand(new AlertToggleCommand());
 	}
 }
