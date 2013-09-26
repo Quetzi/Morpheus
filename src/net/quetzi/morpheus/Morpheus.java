@@ -2,9 +2,9 @@ package net.quetzi.morpheus;
 
 import java.util.logging.Logger;
 
-import net.minecraft.morpheus.commands.AlertToggleCommand;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
+import net.quetzi.morpheus.commands.AlertToggleCommand;
 import net.quetzi.morpheus.references.References;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;

@@ -1,4 +1,4 @@
-package net.minecraft.morpheus.commands;
+package net.quetzi.morpheus.commands;
 
 import java.util.List;
 
@@ -8,11 +8,12 @@ import net.minecraft.util.ChatMessageComponent;
 import net.quetzi.morpheus.Morpheus;
 
 public class AlertToggleCommand implements ICommand {
-    private List<String> aliases;
-    
-    public AlertToggleCommand() {
-    	
-    }
+	private List<String> aliases;
+
+	public AlertToggleCommand() {
+
+	}
+
 	@Override
 	public int compareTo(Object arg0) {
 		return 0;
@@ -36,17 +37,19 @@ public class AlertToggleCommand implements ICommand {
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] astring) {
 		if (astring.length == 0) {
-			icommandsender.sendChatToPlayer(new ChatMessageComponent().addText("Usage: /morpheus alert"));
+			icommandsender.sendChatToPlayer(new ChatMessageComponent()
+					.addText("Usage: /morpheus alert"));
 			return;
 		}
 		if (astring.toString().matches("alert")) {
 			if (Morpheus.alertPlayers) {
 				Morpheus.setAlertPlayers(false);
-				icommandsender.sendChatToPlayer(new ChatMessageComponent().addText("Text alerts turned off"));
-			}
-			else {
+				icommandsender.sendChatToPlayer(new ChatMessageComponent()
+						.addText("Text alerts turned off"));
+			} else {
 				Morpheus.setAlertPlayers(true);
-				icommandsender.sendChatToPlayer(new ChatMessageComponent().addText("Text alerts turned on"));
+				icommandsender.sendChatToPlayer(new ChatMessageComponent()
+						.addText("Text alerts turned on"));
 			}
 		}
 	}
@@ -66,8 +69,8 @@ public class AlertToggleCommand implements ICommand {
 	public boolean isUsernameIndex(String[] astring, int i) {
 		return false;
 	}
-	
-    public int getRequiredPermissionLevel() {
-        return 3;
-    }
+
+	public int getRequiredPermissionLevel() {
+		return 3;
+	}
 }
