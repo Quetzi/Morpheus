@@ -41,7 +41,7 @@ public class AlertToggleCommand implements ICommand {
 					.addText("Usage: /morpheus alert"));
 			return;
 		}
-		if (astring.toString().matches("alert")) {
+		if (astring[0].equalsIgnoreCase("alert")) {
 			if (Morpheus.alertPlayers) {
 				Morpheus.setAlertPlayers(false);
 				icommandsender.sendChatToPlayer(new ChatMessageComponent()
