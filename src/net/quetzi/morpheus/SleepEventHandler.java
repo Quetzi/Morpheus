@@ -9,10 +9,11 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
+import cpw.mods.fml.common.IPlayerTracker;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class SleepEventHandler {
+public class SleepEventHandler implements IPlayerTracker {
 
 	private int sleepingPlayers;
 
@@ -21,38 +22,11 @@ public class SleepEventHandler {
 	public void onPlayerSleeping(PlayerSleepInBedEvent event) {
 		// Is it night?
 		if (!event.entityPlayer.worldObj.isDaytime()) {
-			sleepingPlayers = 1;
-
-			// Get list of players for the dimension
-			ArrayList<EntityPlayer> playerList = (ArrayList<EntityPlayer>) event.entityPlayer.worldObj.playerEntities;
-
-			// Count Sleeping Players
-			countSleepingPlayers(playerList);
-			int playerCount = playerList.size();
-			int percAsleep = sleepingPlayers * 100 / playerCount;
-
-			// Construct alert text
-			ChatMessageComponent chatAlert = new ChatMessageComponent();
-			chatAlert.addText(EnumChatFormatting.GOLD + "Player "
-					+ EnumChatFormatting.WHITE + event.entityPlayer.username
-					+ EnumChatFormatting.GOLD + " is now sleeping. "
-					+ sleepingPlayers + "/" + playerList.size() + " ("
-					+ percAsleep + "%)");
-			// Send players text alert
-			if (Morpheus.alertPlayers) {
-				alertPlayers(chatAlert, playerList);
-			}
-			// Update console
+			sleepCheck(event.entityPlayer, "is now asleep.", true);
+//			// Update console
 			Morpheus.mLog.info(event.entityPlayer.username + " is now asleep :"
-					+ sleepingPlayers + "/" + playerCount + " " + percAsleep
-					+ "%");
-
-			// Check against config and set time
-			if (percAsleep >= Morpheus.perc) {
-				advanceToMorning(event.entityPlayer.worldObj.getWorldTime(),
-						event.entityPlayer.worldObj);
-				sleepingPlayers = 0;
-			}
+					+ sleepingPlayers + "/"
+					+ event.entityPlayer.worldObj.playerEntities.size());
 		} else {
 			// Trying to sleep during the day
 		}
@@ -73,14 +47,69 @@ public class SleepEventHandler {
 		}
 	}
 
-	private void countSleepingPlayers(ArrayList<EntityPlayer> players) {
+	private int countSleepingPlayers(EntityPlayer playerTrigger, boolean forced) {
+		ArrayList<EntityPlayer> players = (ArrayList<EntityPlayer>) playerTrigger.worldObj.playerEntities;
+		if(forced) {
+			sleepingPlayers = 1;
+		}
+		else {
+			sleepingPlayers = 0;
+		}
 		// Count sleeping players
-		Iterator<?> iterator = players.iterator();
-		while (iterator.hasNext()) {
-			EntityPlayer player = (EntityPlayer) iterator.next();
+		for (EntityPlayer player : players) {
 			if (player.isPlayerSleeping()) {
 				sleepingPlayers++;
 			}
 		}
+		return sleepingPlayers * 100 / players.size();
+	}
+
+	private boolean areEnoughPlayersAsleep(int percAsleep, EntityPlayer player) {
+		if (percAsleep >= Morpheus.perc) {
+			return true;
+		}
+		return false;
+	}
+
+	private ChatMessageComponent createAlert(EntityPlayer player, String text,
+			int percAsleep) {
+		ChatMessageComponent chatAlert = new ChatMessageComponent();
+		chatAlert.addText(EnumChatFormatting.GOLD + "Player "
+				+ EnumChatFormatting.WHITE + player.username
+				+ EnumChatFormatting.GOLD + " " + text + " " + sleepingPlayers
+				+ "/" + player.worldObj.playerEntities.size() + " ("
+				+ percAsleep + "%)");
+		return chatAlert;
+	}
+
+	public void sleepCheck(EntityPlayer player, String reason, boolean forced) {
+		int percAsleep = countSleepingPlayers(player, forced);
+		if (percAsleep > 0 || forced) {
+			alertPlayers(createAlert(player, reason, percAsleep),
+					(ArrayList<EntityPlayer>) player.worldObj.playerEntities);
+			if (areEnoughPlayersAsleep(percAsleep, player)) {
+				advanceToMorning(player.worldObj.getWorldTime(),
+						player.worldObj);
+				sleepingPlayers = 0;
+			}
+		}
+	}
+	@Override
+	public void onPlayerLogin(EntityPlayer player) {
+		sleepCheck(player,"logged in.", false);
+	}
+
+	@Override
+	public void onPlayerLogout(EntityPlayer player) {
+		sleepCheck(player,"logged out.", false);
+	}
+
+	@Override
+	public void onPlayerChangedDimension(EntityPlayer player) {
+		sleepCheck(player,"left this world.", false);
+	}
+
+	@Override
+	public void onPlayerRespawn(EntityPlayer player) {
 	}
 }
