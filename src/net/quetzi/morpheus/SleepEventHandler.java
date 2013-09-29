@@ -22,11 +22,7 @@ public class SleepEventHandler implements IPlayerTracker {
 	public void onPlayerSleeping(PlayerSleepInBedEvent event) {
 		// Is it night?
 		if (!event.entityPlayer.worldObj.isDaytime()) {
-			sleepCheck(event.entityPlayer, "is now asleep.", true);
-//			// Update console
-			Morpheus.mLog.info(event.entityPlayer.username + " is now asleep :"
-					+ sleepingPlayers + "/"
-					+ event.entityPlayer.worldObj.playerEntities.size());
+			sleepCheck(event.entityPlayer, "is now asleep", true);
 		} else {
 			// Trying to sleep during the day
 		}
@@ -76,7 +72,7 @@ public class SleepEventHandler implements IPlayerTracker {
 		ChatMessageComponent chatAlert = new ChatMessageComponent();
 		chatAlert.addText(EnumChatFormatting.GOLD + "Player "
 				+ EnumChatFormatting.WHITE + player.username
-				+ EnumChatFormatting.GOLD + " " + text + " " + sleepingPlayers
+				+ EnumChatFormatting.GOLD + " " + text + ". " + sleepingPlayers
 				+ "/" + player.worldObj.playerEntities.size() + " ("
 				+ percAsleep + "%)");
 		return chatAlert;
@@ -87,6 +83,11 @@ public class SleepEventHandler implements IPlayerTracker {
 		if (percAsleep > 0 || forced) {
 			alertPlayers(createAlert(player, reason, percAsleep),
 					(ArrayList<EntityPlayer>) player.worldObj.playerEntities);
+			// Update console
+			Morpheus.mLog.info(player.username + " " + reason + ":"
+					+ sleepingPlayers + "/"
+					+ player.worldObj.playerEntities.size());
+			// If enough players are asleep set it to daytime
 			if (areEnoughPlayersAsleep(percAsleep, player)) {
 				advanceToMorning(player.worldObj.getWorldTime(),
 						player.worldObj);
@@ -96,17 +97,17 @@ public class SleepEventHandler implements IPlayerTracker {
 	}
 	@Override
 	public void onPlayerLogin(EntityPlayer player) {
-		sleepCheck(player,"logged in.", false);
+		sleepCheck(player,"logged in", false);
 	}
 
 	@Override
 	public void onPlayerLogout(EntityPlayer player) {
-		sleepCheck(player,"logged out.", false);
+		sleepCheck(player,"logged out", false);
 	}
 
 	@Override
 	public void onPlayerChangedDimension(EntityPlayer player) {
-		sleepCheck(player,"left this world.", false);
+		sleepCheck(player,"left this world", false);
 	}
 
 	@Override
