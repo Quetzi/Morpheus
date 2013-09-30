@@ -100,8 +100,8 @@ public class SleepChecker implements ITickHandler {
 		long ticks = world.getWorldTime()
 				+ (24000 - (world.getWorldTime() % 24000));
 		world.setWorldTime(ticks);
-		// Send Good morning message, reset HashMap for this world
-		Morpheus.playerSleepStatus.remove(world.provider.dimensionId);
+		// Send Good morning message
+		alertPlayers(new ChatMessageComponent().addText(EnumChatFormatting.GOLD + Morpheus.onMorningText), world);
 	}
 
 	private void areEnoughPlayersAsleep(World world) {

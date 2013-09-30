@@ -25,7 +25,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class Morpheus {
 	public static int perc;
 	public static boolean alertPlayers;
-	public static String onSleepText, onWakeText;
+	public static String onSleepText, onWakeText, onMorningText;
 	public static Logger mLog = Logger.getLogger("Morpheus");
 	public static HashMap<Integer, HashMap<String, Boolean>> playerSleepStatus = new HashMap<Integer, HashMap<String, Boolean>>();
 
@@ -59,6 +59,9 @@ public class Morpheus {
 				.getString();
 		onWakeText = config
 				.get("settings", "OnWakeText", "has left their bed.")
+				.getString();
+		onWakeText = config
+				.get("settings", "OnMorningText", "Wakey, wakey, rise and shine...Good Morning everyone!")
 				.getString();
 		config.save();
 	}
