@@ -26,6 +26,10 @@ public class MorpheusTracker implements IPlayerTracker {
 
 	@Override
 	public void onPlayerChangedDimension(EntityPlayer player) {
+		if (Morpheus.playerSleepStatus.get(player.dimension) == null) {
+			Morpheus.playerSleepStatus.put(player.dimension, new HashMap<String, Boolean>());
+		}
+		// Remove player from all world states
 		Iterator<Entry<Integer,HashMap<String,Boolean>>> entry = Morpheus.playerSleepStatus.entrySet().iterator();
 		while(entry.hasNext()) {
 			try {
@@ -35,6 +39,8 @@ public class MorpheusTracker implements IPlayerTracker {
 				Morpheus.mLog.info("Caught error removing player from world state:" + e.getMessage());
 			}
 		}
+		// Add player to new world state
+		Morpheus.playerSleepStatus.get(player.dimension).put(player.username, false);
 	}
 
 	@Override
