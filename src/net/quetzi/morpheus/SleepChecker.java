@@ -39,6 +39,9 @@ public class SleepChecker implements ITickHandler {
 			Morpheus.playerSleepStatus.remove(world.provider.dimensionId);
 		}
 		for (EntityPlayer player : (ArrayList<EntityPlayer>) world.playerEntities) {
+			if (Morpheus.playerSleepStatus.get(player.dimension).get(player.username) == null) {
+				Morpheus.playerSleepStatus.get(player.dimension).put(player.username, false);
+			}
 			if (player.isPlayerFullyAsleep()
 					&& !Morpheus.playerSleepStatus.get(player.dimension).get(
 							player.username)) {
