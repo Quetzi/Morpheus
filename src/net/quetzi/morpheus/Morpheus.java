@@ -15,6 +15,8 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -30,7 +32,7 @@ public class Morpheus {
 	@EventHandler
 	@SideOnly(Side.SERVER)
 	public void Init(FMLInitializationEvent event) {
-		MinecraftForge.EVENT_BUS.register(new SleepChecker());
+//		MinecraftForge.EVENT_BUS.register(new SleepChecker());
 	}
 
 	public static boolean isAlertPlayers() {
@@ -64,6 +66,8 @@ public class Morpheus {
 	@EventHandler
 	@SideOnly(Side.SERVER)
 	public void PostInit(FMLPostInitializationEvent event) {
+		GameRegistry.registerPlayerTracker(new MorpheusTracker());
+		TickRegistry.registerTickHandler(new SleepChecker(), Side.SERVER);
 	}
 
 	@EventHandler
