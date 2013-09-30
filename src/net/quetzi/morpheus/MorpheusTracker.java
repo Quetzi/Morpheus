@@ -11,6 +11,9 @@ public class MorpheusTracker implements IPlayerTracker {
 	// IPlayerTracker implementation
 	@Override
 	public void onPlayerLogin(EntityPlayer player) {
+		if (Morpheus.playerSleepStatus.get(player.dimension) == null) {
+			Morpheus.playerSleepStatus.put(player.dimension, new HashMap<String, Boolean>());
+		}
 		Morpheus.playerSleepStatus.get(player.dimension).put(player.username,
 				false);
 	}
