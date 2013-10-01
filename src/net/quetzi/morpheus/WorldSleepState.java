@@ -19,8 +19,7 @@ public class WorldSleepState {
 
 	public int getSleepingPlayers() {
 		int asleepCount = 0;
-		Iterator<Entry<String, Boolean>> entry = this.playerStatus.entrySet()
-				.iterator();
+		Iterator<Entry<String, Boolean>> entry = this.playerStatus.entrySet().iterator();
 		while (entry.hasNext()) {
 			if (entry.next().getValue()) {
 				asleepCount++;

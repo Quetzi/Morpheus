@@ -13,53 +13,53 @@ import cpw.mods.fml.common.TickType;
 public class SleepChecker implements ITickHandler {
 
 	public void updatePlayerStates(World world) {
-		if (world.playerEntities.size() == 0) {
-			Morpheus.playerSleepStatus.remove(world.provider.dimensionId);
-		}
+		// Iterate players and update their status
 		for (EntityPlayer player : (ArrayList<EntityPlayer>) world.playerEntities) {
-			if (player.isPlayerFullyAsleep()
-					&& !Morpheus.playerSleepStatus.get(player.dimension).isPlayerSleeping(player.username)) {
+			if (player.isPlayerFullyAsleep() && 
+					!Morpheus.playerSleepStatus.get(player.dimension).isPlayerSleeping(player.username)) {
 				Morpheus.playerSleepStatus.get(player.dimension).setPlayerAsleep(player.username);
 				// Alert players that this player has gone to bed
-				alertPlayers(
-						createAlert(player.worldObj, player,
-								Morpheus.onSleepText), world);
-			} else if (!player.isPlayerFullyAsleep()
-					&& Morpheus.playerSleepStatus.get(player.dimension).isPlayerSleeping(player.username)) {
+				alertPlayers(createAlert(player.worldObj, player,Morpheus.onSleepText), world);
+			} else if (!player.isPlayerFullyAsleep() && 
+					Morpheus.playerSleepStatus.get(player.dimension).isPlayerSleeping(player.username)) {
+				Morpheus.playerSleepStatus.get(player.dimension).setPlayerAwake(player.username);
 				// Alert players that this player has woken up
-				alertPlayers(
-						createAlert(player.worldObj, player,
-								Morpheus.onWakeText), world);
-				Morpheus.playerSleepStatus.get(player.dimension).setPlayerAwake(player.username);;
+				alertPlayers(createAlert(player.worldObj, player,Morpheus.onWakeText), world);
 			}
 		}
 	}
-	
+
 	private void alertPlayers(ChatMessageComponent alert, World world) {
-		if (alert != null) {
-			if (!Morpheus.alertPlayers) {
-				return;
-			}
+		if ((alert != null) && (Morpheus.alertPlayers)) {
 			for (EntityPlayer player : (ArrayList<EntityPlayer>) world.playerEntities) {
 				player.sendChatToPlayer(alert);
 			}
-			Morpheus.mLog.info(alert.toString());
 		}
+		Morpheus.mLog.info(alert.toString());
 	}
 
 	private ChatMessageComponent createAlert(World world, EntityPlayer player,
 			String text) {
 		ChatMessageComponent chatAlert = new ChatMessageComponent();
-		chatAlert.addText(EnumChatFormatting.GOLD + "Player "
-				+ EnumChatFormatting.WHITE + player.username
-				+ EnumChatFormatting.GOLD + " " + text + " "
-				+ Morpheus.playerSleepStatus.get(world.provider.dimensionId).getSleepingPlayers() + "/"
-				+ player.worldObj.playerEntities.size() + " ("
-				+ Morpheus.playerSleepStatus.get(world.provider.dimensionId).getPercentSleeping() + "%)");
+		chatAlert.addText(EnumChatFormatting.GOLD
+				+ "Player "
+				+ EnumChatFormatting.WHITE
+				+ player.username
+				+ EnumChatFormatting.GOLD
+				+ " "
+				+ text
+				+ " "
+				+ Morpheus.playerSleepStatus.get(world.provider.dimensionId)
+						.getSleepingPlayers()
+				+ "/"
+				+ player.worldObj.playerEntities.size()
+				+ " ("
+				+ Morpheus.playerSleepStatus.get(world.provider.dimensionId)
+						.getPercentSleeping() + "%)");
 		return chatAlert;
 	}
-	
-	private void advanceToMorning2(World world) {
+
+	private void advanceToMorning(World world) {
 		long ticks = world.getWorldTime()
 				+ (24000L - (world.getWorldTime() % 24000L));
 		world.setWorldTime(ticks);
@@ -68,31 +68,34 @@ public class SleepChecker implements ITickHandler {
 				new ChatMessageComponent().addText(EnumChatFormatting.GOLD
 						+ Morpheus.onMorningText), world);
 		// Set all players as awake silently
-		Morpheus.playerSleepStatus.get(world.provider.dimensionId).wakeAllPlayers();
+		Morpheus.playerSleepStatus.get(world.provider.dimensionId)
+				.wakeAllPlayers();
 	}
 
 	private void areEnoughPlayersAsleep(World world) {
-		if (Morpheus.playerSleepStatus.get(world.provider.dimensionId).getPercentSleeping() >= Morpheus.perc) {
-			advanceToMorning2(world);
+		if (Morpheus.playerSleepStatus.get(world.provider.dimensionId)
+				.getPercentSleeping() >= Morpheus.perc) {
+			advanceToMorning(world);
 		}
 	}
 
 	public void worldTick(World world) {
 		// This is called every tick, do something every 20 ticks
-		if ((world.getWorldTime() % 20L == 0)
-				&& (world.playerEntities.size() > 0)) {
-			
-			updatePlayerStates(world);
-			
-			if (Morpheus.playerSleepStatus.get(world.provider.dimensionId) != null) {
+		if (world.getWorldTime() % 20L == 0) {
+			if (world.playerEntities.size() > 0) {
+				if (Morpheus.playerSleepStatus.get(world.provider.dimensionId) == null) {
+					Morpheus.playerSleepStatus.put(world.provider.dimensionId,
+							new WorldSleepState(world.provider.dimensionId));
+				}
+				updatePlayerStates(world);
 				areEnoughPlayersAsleep(world);
-			} else {
-				WorldSleepState worldStatus = new WorldSleepState(world.provider.dimensionId);
-				Morpheus.playerSleepStatus.put(world.provider.dimensionId,
-						worldStatus);
+			}
+			else {
+				Morpheus.playerSleepStatus.remove(world.provider.dimensionId);
 			}
 		}
 	}
+
 	// ITickHandler implementation
 	@Override
 	public void tickStart(EnumSet<TickType> type, Object... tickData) {
