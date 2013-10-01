@@ -1,6 +1,5 @@
 package net.quetzi.morpheus;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
@@ -11,6 +10,9 @@ public class MorpheusTracker implements IPlayerTracker {
 	// IPlayerTracker implementation
 	@Override
 	public void onPlayerLogin(EntityPlayer player) {
+		if (Morpheus.playerSleepStatus.get(player.dimension) == null) {
+			Morpheus.playerSleepStatus.put(player.dimension, new WorldSleepState(player.dimension));
+		}
 		Morpheus.playerSleepStatus.get(player.dimension).setPlayerAwake(player.username);
 	}
 
