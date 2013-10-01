@@ -20,20 +20,6 @@ public class SleepChecker implements ITickHandler {
 	private HashMap<Integer, Integer> sleepingPlayers = new HashMap<Integer, Integer>();
 	private HashMap<Integer, Integer> sleepingPercent = new HashMap<Integer, Integer>();
 
-	// @ForgeSubscribe
-	// @SideOnly(Side.SERVER)
-	// public void onPlayerSleeping(PlayerSleepInBedEvent event) {
-	// if (!event.entityPlayer.worldObj.isDaytime()) {
-	// HashMap<String, Boolean> worldStatus = new HashMap<String, Boolean>();
-	// Morpheus.playerSleepStatus.put(event.entityPlayer.dimension,
-	// worldStatus);
-	// Morpheus.playerSleepStatus.get(event.entityPlayer.dimension).put(
-	// event.entityPlayer.username, true);
-	// Morpheus.playerSleepStatus.get(event.entityPlayer.dimension).put(
-	// event.entityPlayer.username, true);
-	// }
-	// }
-
 	public void updatePlayerStates(World world) {
 		if (world.playerEntities.size() == 0) {
 			Morpheus.playerSleepStatus.remove(world.provider.dimensionId);
@@ -49,7 +35,6 @@ public class SleepChecker implements ITickHandler {
 							player.username)) {
 				Morpheus.playerSleepStatus.get(player.dimension).put(
 						player.username, true);
-				areEnoughPlayersAsleep(world);
 				// Alert players that this player has gone to bed
 				alertPlayers(
 						createAlert(player.worldObj, player,
@@ -109,12 +94,12 @@ public class SleepChecker implements ITickHandler {
 	private void advanceToMorning(World world) {
 		long ticks = world.getWorldTime()
 				+ (24000L - (world.getWorldTime() % 24000L));
-		world.setWorldTime(ticks + 20L);
+		world.setWorldTime(ticks);
 		// Send Good morning message
 		alertPlayers(
 				new ChatMessageComponent().addText(EnumChatFormatting.GOLD
 						+ Morpheus.onMorningText), world);
-		// Set all players as awake
+		// Set all players as awake silently
 		for (Entry<String, Boolean> entry : Morpheus.playerSleepStatus.get(
 				world.provider.dimensionId).entrySet()) {
 			entry.setValue(false);
