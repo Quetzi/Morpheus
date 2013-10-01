@@ -57,6 +57,8 @@ public class SleepChecker implements ITickHandler {
 			} else if (!player.isPlayerFullyAsleep()
 					&& Morpheus.playerSleepStatus.get(player.dimension).get(
 							player.username)) {
+				sleepingPlayers.put(player.dimension,
+						sleepingPlayers.get(player.dimension) - 1);
 				// Alert players that this player has woken up
 				alertPlayers(
 						createAlert(player.worldObj, player,
