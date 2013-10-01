@@ -11,36 +11,27 @@ public class MorpheusTracker implements IPlayerTracker {
 	// IPlayerTracker implementation
 	@Override
 	public void onPlayerLogin(EntityPlayer player) {
-		if (Morpheus.playerSleepStatus.get(player.dimension) == null) {
-			Morpheus.playerSleepStatus.put(player.dimension, new HashMap<String, Boolean>());
-		}
-		Morpheus.playerSleepStatus.get(player.dimension).put(player.username,
-				false);
+		Morpheus.playerSleepStatus.get(player.dimension).setPlayerAwake(
+				player.username);
 	}
 
 	@Override
 	public void onPlayerLogout(EntityPlayer player) {
-		Morpheus.playerSleepStatus.get(player.dimension)
-				.remove(player.username);
+		Morpheus.playerSleepStatus.get(player.dimension).removePlayer(
+				player.username);
 	}
 
 	@Override
 	public void onPlayerChangedDimension(EntityPlayer player) {
-		if (Morpheus.playerSleepStatus.get(player.dimension) == null) {
-			Morpheus.playerSleepStatus.put(player.dimension, new HashMap<String, Boolean>());
-		}
 		// Remove player from all world states
-		Iterator<Entry<Integer,HashMap<String,Boolean>>> entry = Morpheus.playerSleepStatus.entrySet().iterator();
-		while(entry.hasNext()) {
-			try {
-			Morpheus.playerSleepStatus.get(entry.next().getKey()).remove(player.username);
-			}
-			catch (Exception e) {
-				Morpheus.mLog.info("Caught error removing player from world state:" + e.getMessage());
-			}
+		Iterator<Entry<Integer, WorldSleepState>> entry = Morpheus.playerSleepStatus
+				.entrySet().iterator();
+		while (entry.hasNext()) {
+			Morpheus.playerSleepStatus.get(entry.next().getKey()).removePlayer(
+					player.username);
 		}
 		// Add player to new world state
-		Morpheus.playerSleepStatus.get(player.dimension).put(player.username, false);
+		Morpheus.playerSleepStatus.get(player.dimension).setPlayerAwake(player.username);;
 	}
 
 	@Override

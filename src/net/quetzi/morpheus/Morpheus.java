@@ -27,8 +27,8 @@ public class Morpheus {
 	public static boolean alertPlayers;
 	public static String onSleepText, onWakeText, onMorningText;
 	public static Logger mLog = Logger.getLogger("Morpheus");
-	public static HashMap<Integer, HashMap<String, Boolean>> playerSleepStatus = new HashMap<Integer, HashMap<String, Boolean>>();
-
+	public static HashMap<Integer,WorldSleepState> playerSleepStatus = new HashMap<Integer, WorldSleepState>();
+	
 	@EventHandler
 	@SideOnly(Side.SERVER)
 	public void Init(FMLInitializationEvent event) {
