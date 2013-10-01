@@ -17,7 +17,7 @@ public class WorldSleepState {
 		return (this.getSleepingPlayers() * 100) / this.playerStatus.size();
 	}
 
-	public int getSleepingPlayers() {
+	private int getSleepingPlayers() {
 		int asleepCount = 0;
 		Iterator<Entry<String, Boolean>> entry = this.playerStatus.entrySet().iterator();
 		while (entry.hasNext()) {
@@ -28,6 +28,9 @@ public class WorldSleepState {
 		return asleepCount;
 	}
 
+	public String toString() {
+		return this.getSleepingPlayers() + "/" + this.playerStatus.size() + " (" + this.getPercentSleeping() + "&)";
+	}
 	public void setPlayerAsleep(String username) {
 		this.playerStatus.put(username, true);
 	}

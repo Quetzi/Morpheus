@@ -46,23 +46,8 @@ public class SleepChecker implements ITickHandler {
 				+ EnumChatFormatting.WHITE
 				+ player.username
 				+ EnumChatFormatting.GOLD
-<<<<<<< HEAD
 				+ " " + text + " "
-				+ Morpheus.playerSleepStatus.get(world.provider.dimensionId).getSleepingPlayers()
-				+ "/" + player.worldObj.playerEntities.size()
-				+ " (" + Morpheus.playerSleepStatus.get(world.provider.dimensionId).getPercentSleeping() + "%)");
-=======
-				+ " "
-				+ text
-				+ " "
-				+ Morpheus.playerSleepStatus.get(world.provider.dimensionId)
-						.getSleepingPlayers()
-				+ "/"
-				+ player.worldObj.playerEntities.size()
-				+ " ("
-				+ Morpheus.playerSleepStatus.get(world.provider.dimensionId)
-						.getPercentSleeping() + "%)");
->>>>>>> f3f18319c5a7ad518f570eab5f74771a27835162
+				+ Morpheus.playerSleepStatus.get(world.provider.dimensionId).toString());
 		return chatAlert;
 	}
 
