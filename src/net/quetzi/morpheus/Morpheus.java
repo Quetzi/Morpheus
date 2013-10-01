@@ -60,7 +60,7 @@ public class Morpheus {
 		onWakeText = config
 				.get("settings", "OnWakeText", "has left their bed.")
 				.getString();
-		onWakeText = config
+		onMorningText = config
 				.get("settings", "OnMorningText", "Wakey, wakey, rise and shine...Good Morning everyone!")
 				.getString();
 		config.save();

@@ -39,8 +39,10 @@ public class SleepChecker implements ITickHandler {
 			Morpheus.playerSleepStatus.remove(world.provider.dimensionId);
 		}
 		for (EntityPlayer player : (ArrayList<EntityPlayer>) world.playerEntities) {
-			if (Morpheus.playerSleepStatus.get(player.dimension).get(player.username) == null) {
-				Morpheus.playerSleepStatus.get(player.dimension).put(player.username, false);
+			if (Morpheus.playerSleepStatus.get(player.dimension).get(
+					player.username) == null) {
+				Morpheus.playerSleepStatus.get(player.dimension).put(
+						player.username, false);
 			}
 			if (player.isPlayerFullyAsleep()
 					&& !Morpheus.playerSleepStatus.get(player.dimension).get(
@@ -61,6 +63,7 @@ public class SleepChecker implements ITickHandler {
 								Morpheus.onWakeText), world);
 				Morpheus.playerSleepStatus.get(player.dimension).put(
 						player.username, false);
+
 			}
 		}
 	}
@@ -78,13 +81,15 @@ public class SleepChecker implements ITickHandler {
 	}
 
 	private void alertPlayers(ChatMessageComponent alert, World world) {
-		if (!Morpheus.alertPlayers) {
-			return;
+		if (alert != null) {
+			if (!Morpheus.alertPlayers) {
+				return;
+			}
+			for (EntityPlayer player : (ArrayList<EntityPlayer>) world.playerEntities) {
+				player.sendChatToPlayer(alert);
+			}
+			Morpheus.mLog.info(alert.toString());
 		}
-		for (EntityPlayer player : (ArrayList<EntityPlayer>) world.playerEntities) {
-			player.sendChatToPlayer(alert);
-		}
-		Morpheus.mLog.info(alert.toString());
 	}
 
 	private ChatMessageComponent createAlert(World world, EntityPlayer player,
@@ -101,10 +106,17 @@ public class SleepChecker implements ITickHandler {
 
 	private void advanceToMorning(World world) {
 		long ticks = world.getWorldTime()
-				+ (24000 - (world.getWorldTime() % 24000));
-		world.setWorldTime(ticks);
+				+ (24000L - (world.getWorldTime() % 24000L));
+		world.setWorldTime(ticks + 20L);
 		// Send Good morning message
-		alertPlayers(new ChatMessageComponent().addText(EnumChatFormatting.GOLD + Morpheus.onMorningText), world);
+		alertPlayers(
+				new ChatMessageComponent().addText(EnumChatFormatting.GOLD
+						+ Morpheus.onMorningText), world);
+		// Set all players as awake
+		for (Entry<String, Boolean> entry : Morpheus.playerSleepStatus.get(
+				world.provider.dimensionId).entrySet()) {
+			entry.setValue(false);
+		}
 	}
 
 	private void areEnoughPlayersAsleep(World world) {
