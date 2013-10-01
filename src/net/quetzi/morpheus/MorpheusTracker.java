@@ -23,6 +23,9 @@ public class MorpheusTracker implements IPlayerTracker {
 
 	@Override
 	public void onPlayerChangedDimension(EntityPlayer player) {
+		if (Morpheus.playerSleepStatus.get(player.dimension) == null) {
+			Morpheus.playerSleepStatus.put(player.dimension, new WorldSleepState(player.dimension));
+		}
 		// Remove player from all world states
 		Iterator<Entry<Integer, WorldSleepState>> entry = Morpheus.playerSleepStatus.entrySet().iterator();
 		while (entry.hasNext()) {

@@ -1,5 +1,6 @@
 package net.quetzi.morpheus.commands;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.command.ICommand;
@@ -11,7 +12,10 @@ public class AlertToggleCommand implements ICommand {
 	private List<String> aliases;
 
 	public AlertToggleCommand() {
-
+		// Just because it was requested xD
+        aliases = new ArrayList<String>();
+        aliases.add("bluepill");
+        aliases.add("redpill");
 	}
 
 	@Override

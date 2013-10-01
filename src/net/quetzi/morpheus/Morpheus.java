@@ -32,7 +32,6 @@ public class Morpheus {
 	@EventHandler
 	@SideOnly(Side.SERVER)
 	public void Init(FMLInitializationEvent event) {
-//		MinecraftForge.EVENT_BUS.register(new SleepChecker());
 	}
 
 	public static boolean isAlertPlayers() {
@@ -49,19 +48,13 @@ public class Morpheus {
 		mLog.setParent(FMLLog.getLogger());
 		mLog.info("Loading configuration");
 		// Read configs
-		Configuration config = new Configuration(
-				event.getSuggestedConfigurationFile());
+		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
 		config.load();
 		perc = config.get("settings", "SleeperPerc", 50).getInt();
-		alertPlayers = config.get("settings", "AlertPlayers", true).getBoolean(
-				true);
-		onSleepText = config.get("settings", "OnSleepText", "is now sleeping.")
-				.getString();
-		onWakeText = config
-				.get("settings", "OnWakeText", "has left their bed.")
-				.getString();
-		onMorningText = config
-				.get("settings", "OnMorningText", "Wakey, wakey, rise and shine...Good Morning everyone!")
+		alertPlayers = config.get("settings", "AlertPlayers", true).getBoolean(true);
+		onSleepText = config.get("settings", "OnSleepText", "is now sleeping.").getString();
+		onWakeText = config.get("settings", "OnWakeText", "has left their bed.").getString();
+		onMorningText = config.get("settings", "OnMorningText", "Wakey, wakey, rise and shine...Good Morning everyone!")
 				.getString();
 		config.save();
 	}
