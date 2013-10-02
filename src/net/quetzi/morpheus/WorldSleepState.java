@@ -29,7 +29,7 @@ public class WorldSleepState {
 	}
 
 	public String toString() {
-		return this.getSleepingPlayers() + "/" + this.playerStatus.size() + " (" + this.getPercentSleeping() + "&)";
+		return this.getSleepingPlayers() + "/" + this.playerStatus.size() + " (" + this.getPercentSleeping() + "%)";
 	}
 	public void setPlayerAsleep(String username) {
 		this.playerStatus.put(username, true);
