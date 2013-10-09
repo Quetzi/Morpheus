@@ -3,6 +3,5 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Minecraft"/>
-	<classpathentry kind="lib" path="C:/Users/leecoats.CAROLINECOATSSO.000/Documents/development/api/mystcraft-uni-1.6.2-0.10.6.00.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

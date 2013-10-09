@@ -20,7 +20,7 @@ import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-@Mod(modid = References.MODID, name = References.NAME, version = References.VERSION,dependencies="after:Mystcraft")
+@Mod(modid = References.MODID, name = References.NAME, version = References.VERSION)
 @NetworkMod(clientSideRequired = false, serverSideRequired = true)
 public class Morpheus {
 	public static int perc;

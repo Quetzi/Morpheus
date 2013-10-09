@@ -7,12 +7,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
-
-import com.xcompwiz.mystcraft.utility.DimensionUtils;
-import com.xcompwiz.mystcraft.world.AgeController;
-import com.xcompwiz.mystcraft.world.WorldProviderMyst;
-import com.xcompwiz.mystcraft.world.agedata.AgeData;
-
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.TickType;
 
@@ -60,14 +54,6 @@ public class SleepChecker implements ITickHandler {
 	private void advanceToMorning(World world) {
 		long ticks = world.getWorldTime()
 				+ (24000L - (world.getWorldTime() % 24000L));
-		try {
-			AgeController ac = new AgeController(world, AgeData.getMPAgeData(DimensionUtils.getDimensionUID(world.provider)));
-			ticks = ac.getTimeToSunrise(world.getWorldTime());
-			Morpheus.mLog.info("World " + world.provider.dimensionId + " is a mystcraft age, using custom day length.");
-		}
-		catch(Throwable e) {
-			Morpheus.mLog.info("World " + world.provider.dimensionId + " is not a mystcraft age");
-		}
 		world.setWorldTime(ticks);
 		// Send Good morning message
 		alertPlayers(
