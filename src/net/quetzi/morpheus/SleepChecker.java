@@ -7,12 +7,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.quetzi.morpheus.world.WorldSleepState;
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.TickType;
 
 public class SleepChecker implements ITickHandler {
 
-	public void updatePlayerStates(World world) {
+	private void updatePlayerStates(World world) {
 		// Iterate players and update their status
 		for (EntityPlayer player : (ArrayList<EntityPlayer>) world.playerEntities) {
 			if (player.isPlayerFullyAsleep() && 
@@ -52,26 +53,30 @@ public class SleepChecker implements ITickHandler {
 	}
 
 	private void advanceToMorning(World world) {
-		long ticks = world.getWorldTime()
-				+ (24000L - (world.getWorldTime() % 24000L));
-		world.setWorldTime(ticks);
+		world.setWorldTime(world.getWorldTime() + getTimeToSunrise(world));
 		// Send Good morning message
-		alertPlayers(
-				new ChatMessageComponent().addText(EnumChatFormatting.GOLD
+		alertPlayers(ChatMessageComponent.createFromText(EnumChatFormatting.GOLD
 						+ Morpheus.onMorningText), world);
 		// Set all players as awake silently
 		Morpheus.playerSleepStatus.get(world.provider.dimensionId)
 				.wakeAllPlayers();
 	}
-
-	private void areEnoughPlayersAsleep(World world) {
-		if (Morpheus.playerSleepStatus.get(world.provider.dimensionId)
-				.getPercentSleeping() >= Morpheus.perc) {
-			advanceToMorning(world);
-		}
+	
+	private long getTimeToSunrise(World world) {
+		long dayLength = 24000L;
+		long ticks = dayLength - (world.getWorldTime() % dayLength);
+		return ticks;
 	}
 
-	public void worldTick(World world) {
+	private boolean areEnoughPlayersAsleep(World world) {
+		if (Morpheus.playerSleepStatus.get(world.provider.dimensionId)
+				.getPercentSleeping() >= Morpheus.perc) {
+			return true;
+		}
+		return false;
+	}
+
+	private void worldTick(World world) {
 		// This is called every tick, do something every 20 ticks
 		if (world.getWorldTime() % 20L == 0) {
 			if (world.playerEntities.size() > 0) {
@@ -80,7 +85,9 @@ public class SleepChecker implements ITickHandler {
 							new WorldSleepState(world.provider.dimensionId));
 				}
 				updatePlayerStates(world);
-				areEnoughPlayersAsleep(world);
+				if (areEnoughPlayersAsleep(world)) {
+					advanceToMorning(world);
+				}
 			}
 			else {
 				Morpheus.playerSleepStatus.remove(world.provider.dimensionId);

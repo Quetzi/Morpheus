@@ -7,6 +7,7 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import net.quetzi.morpheus.commands.AlertToggleCommand;
 import net.quetzi.morpheus.references.References;
+import net.quetzi.morpheus.world.WorldSleepState;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
