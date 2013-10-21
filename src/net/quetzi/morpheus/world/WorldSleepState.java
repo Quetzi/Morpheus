@@ -1,4 +1,4 @@
-package net.quetzi.morpheus;
+package net.quetzi.morpheus.world;
 
 import java.util.HashMap;
 import java.util.Iterator;
