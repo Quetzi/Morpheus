@@ -1,5 +1,7 @@
 package net.quetzi.morpheus.commands;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,15 +9,13 @@ import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatMessageComponent;
 import net.quetzi.morpheus.Morpheus;
+import net.quetzi.morpheus.references.References;
 
-public class AlertToggleCommand implements ICommand {
+public class MorpheusCommand implements ICommand {
 	private List<String> aliases;
 
-	public AlertToggleCommand() {
-		// Just because it was requested xD
+	public MorpheusCommand() {
         aliases = new ArrayList<String>();
-        aliases.add("bluepill");
-        aliases.add("redpill");
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class AlertToggleCommand implements ICommand {
 
 	@Override
 	public String getCommandUsage(ICommandSender icommandsender) {
-		return "Usage: /morpheus alert";
+		return References.USAGE;
 	}
 
 	@Override
@@ -42,18 +42,26 @@ public class AlertToggleCommand implements ICommand {
 	public void processCommand(ICommandSender icommandsender, String[] astring) {
 		if (astring.length == 0) {
 			icommandsender.sendChatToPlayer(new ChatMessageComponent()
-					.addText("Usage: /morpheus alert"));
+					.addText(References.USAGE));
 			return;
 		}
 		if (astring[0].equalsIgnoreCase("alert")) {
 			if (Morpheus.alertPlayers) {
 				Morpheus.setAlertPlayers(false);
 				icommandsender.sendChatToPlayer(new ChatMessageComponent()
-						.addText("Text alerts turned off"));
+						.addText(References.ALERTS_OFF));
 			} else {
 				Morpheus.setAlertPlayers(true);
 				icommandsender.sendChatToPlayer(new ChatMessageComponent()
-						.addText("Text alerts turned on"));
+						.addText(References.ALERTS_ON));
+			}
+		}
+		else if (astring[0].equalsIgnoreCase("disable")) {
+			if (astring[1] != null) {
+				// Disable age tracking
+			}
+			else {
+				icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText(References.DISABLE_USAGE));
 			}
 		}
 	}

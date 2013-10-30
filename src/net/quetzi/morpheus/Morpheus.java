@@ -1,11 +1,11 @@
 package net.quetzi.morpheus;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Logger;
 
 import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.MinecraftForge;
-import net.quetzi.morpheus.commands.AlertToggleCommand;
+import net.quetzi.morpheus.commands.MorpheusCommand;
 import net.quetzi.morpheus.references.References;
 import net.quetzi.morpheus.world.WorldSleepState;
 import cpw.mods.fml.common.FMLLog;
@@ -51,6 +51,7 @@ public class Morpheus {
 		// Read configs
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
 		config.load();
+		
 		perc = config.get("settings", "SleeperPerc", 50).getInt();
 		alertPlayers = config.get("settings", "AlertPlayers", true).getBoolean(true);
 		onSleepText = config.get("settings", "OnSleepText", "is now sleeping.").getString();
@@ -70,6 +71,6 @@ public class Morpheus {
 	@EventHandler
 	@SideOnly(Side.SERVER)
 	public void serverLoad(FMLServerStartingEvent event) {
-		event.registerServerCommand(new AlertToggleCommand());
+		event.registerServerCommand(new MorpheusCommand());
 	}
 }
