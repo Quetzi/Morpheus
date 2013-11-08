@@ -31,7 +31,7 @@ public class SleepChecker implements ITickHandler {
 	}
 
 	private void alertPlayers(ChatMessageComponent alert, World world) {
-		if ((alert != null) && (Morpheus.alertPlayers)) {
+		if ((alert != null) && (Morpheus.alertEnabled)) {
 			for (EntityPlayer player : (ArrayList<EntityPlayer>) world.playerEntities) {
 				player.sendChatToPlayer(alert);
 			}

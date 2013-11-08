@@ -25,7 +25,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @NetworkMod(clientSideRequired = false, serverSideRequired = true)
 public class Morpheus {
 	public static int perc;
-	public static boolean alertPlayers;
+	public static boolean alertEnabled;
 	public static String onSleepText, onWakeText, onMorningText;
 	public static Logger mLog = Logger.getLogger("Morpheus");
 	public static HashMap<Integer,WorldSleepState> playerSleepStatus = new HashMap<Integer, WorldSleepState>();
@@ -35,12 +35,12 @@ public class Morpheus {
 	public void Init(FMLInitializationEvent event) {
 	}
 
-	public static boolean isAlertPlayers() {
-		return alertPlayers;
+	public static boolean isAlertEnabled() {
+		return alertEnabled;
 	}
 
-	public static void setAlertPlayers(boolean alertPlayers) {
-		Morpheus.alertPlayers = alertPlayers;
+	public static void setAlertPlayers(boolean state) {
+		Morpheus.alertEnabled = state;
 	}
 
 	@EventHandler
@@ -53,11 +53,12 @@ public class Morpheus {
 		config.load();
 		
 		perc = config.get("settings", "SleeperPerc", 50).getInt();
-		alertPlayers = config.get("settings", "AlertPlayers", true).getBoolean(true);
+		alertEnabled = config.get("settings", "AlertEnabled", true).getBoolean(true);
 		onSleepText = config.get("settings", "OnSleepText", "is now sleeping.").getString();
 		onWakeText = config.get("settings", "OnWakeText", "has left their bed.").getString();
 		onMorningText = config.get("settings", "OnMorningText", "Wakey, wakey, rise and shine...Good Morning everyone!")
 				.getString();
+		
 		config.save();
 	}
 
@@ -73,4 +74,5 @@ public class Morpheus {
 	public void serverLoad(FMLServerStartingEvent event) {
 		event.registerServerCommand(new MorpheusCommand());
 	}
+	
 }
