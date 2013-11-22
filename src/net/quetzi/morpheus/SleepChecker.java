@@ -60,6 +60,7 @@ public class SleepChecker implements ITickHandler {
 		// Set all players as awake silently
 		Morpheus.playerSleepStatus.get(world.provider.dimensionId)
 				.wakeAllPlayers();
+		world.provider.resetRainAndThunder();
 	}
 	
 	private long getTimeToSunrise(World world) {
