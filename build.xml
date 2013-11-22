@@ -3,9 +3,9 @@
 <property file="build_Number.properties" prefix="build_number" />
 
 <target name="clean">
-<delete file="${build.dir.development}\mcp162\forge\mcp\src\minecraft\mcmod.info" />
-<delete dir="${build.dir.development}\mcp162\forge\mcp\src\minecraft\net\quetzi" />
-<delete dir="${build.dir.development}\mcp162\forge\mcp\reobf\minecraft" />
+<delete file="${build.dir.development}\forge 935\mcp\src\minecraft\mcmod.info" />
+<delete dir="${build.dir.development}\forge 935\mcp\src\minecraft\net\quetzi" />
+<delete dir="${build.dir.development}\forge 935\mcp\reobf\minecraft" />
 </target>
 
 <target name="increment_build_number">
@@ -15,25 +15,25 @@
 </target>
 
 <target name="prep">
-<copy todir="${build.dir.development}\mcp162\forge\mcp\src\minecraft">
+<copy todir="${build.dir.development}\forge 935\mcp\src\minecraft">
 <fileset dir="${build.dir.development}\source\Morpheus\src" />
 </copy>
 </target>
 
 <target name="recompile">
-<exec dir="${build.dir.development}\mcp162\forge\mcp" executable="cmd" osfamily="windows">
+<exec dir="${build.dir.development}\forge 935\mcp" executable="cmd" osfamily="windows">
 <arg line="/c recompile.bat" />
 </exec>
-<exec dir="${build.dir.development}\mcp162\forge\mcp" executable="bash" osfamily="unix">
+<exec dir="${build.dir.development}\forge 935\mcp" executable="bash" osfamily="unix">
 <arg line="/c recompile.sh" />
 </exec>
 </target>
 
 <target name="reobfuscate">
-<exec dir="${build.dir.development}\mcp162\forge\mcp" executable="cmd" osfamily="windows">
+<exec dir="${build.dir.development}\forge 935\mcp" executable="cmd" osfamily="windows">
 <arg line="/c reobfuscate_srg.bat" />
 </exec>
-<exec dir="${build.dir.development}\mcp162\forge\mcp" executable="bash" osfamily="unix">
+<exec dir="${build.dir.development}\forge 935\mcp" executable="bash" osfamily="unix">
 <arg line="reobfuscate_srg.sh" />
 </exec>
 </target>
@@ -50,8 +50,9 @@
 
 <mkdir dir="${build.dir.release}\${build.release.minecraft.version}\${build.release.mod.version}" />
 <jar destfile="${build.dir.release}\${build.release.minecraft.version}\${build.release.mod.version}\Morpheus-${build.release.minecraft.version}-${build.release.mod.version}.${build_number.build_number}.jar">
-<fileset dir="${build.dir.development}\mcp162\forge\mcp\src\minecraft\" includes="mcmod.info" />
-<fileset dir="${build.dir.development}\mcp162\forge\mcp\reobf\minecraft" />
+<fileset dir="${build.dir.development}\forge 935\mcp\src\minecraft\" includes="mcmod.info" />
+<fileset dir="${build.dir.development}\forge 935\mcp\reobf\minecraft" />
+<fileset dir="${build.dir.development}\source\Morpheus\src" />
 </jar>
 <antcall target="clean" />
 </target>
