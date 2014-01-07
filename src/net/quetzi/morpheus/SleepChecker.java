@@ -64,12 +64,17 @@ public class SleepChecker implements ITickHandler {
 	}
 	
 	private long getTimeToSunrise(World world) {
-		long dayLength = 24000L;
+		long dayLength = world.getTotalWorldTime();
 		long ticks = dayLength - (world.getWorldTime() % dayLength);
 		return ticks;
 	}
 
 	private boolean areEnoughPlayersAsleep(World world) {
+
+		// Disable in Twilight Forest
+		if (world.provider.dimensionId == 7) {
+			return false;
+		}
 		if (Morpheus.playerSleepStatus.get(world.provider.dimensionId)
 				.getPercentSleeping() >= Morpheus.perc) {
 			return true;
