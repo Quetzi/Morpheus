@@ -1,20 +1,18 @@
 package net.quetzi.morpheus.commands;
 
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.util.ChatMessageComponent;
+import net.minecraft.util.ChatComponentText;
 import net.quetzi.morpheus.Morpheus;
 import net.quetzi.morpheus.references.References;
 
-public class MorpheusCommand implements ICommand {
+public class CommandMorpheus implements ICommand {
 	private List<String> aliases;
 
-	public MorpheusCommand() {
+	public CommandMorpheus() {
 		aliases = new ArrayList<String>();
 	}
 
@@ -41,26 +39,22 @@ public class MorpheusCommand implements ICommand {
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] astring) {
 		if (astring.length == 0) {
-			icommandsender.sendChatToPlayer(ChatMessageComponent
-					.createFromText(References.USAGE));
+			icommandsender.addChatMessage(new ChatComponentText(References.USAGE));
 			return;
 		}
 		if (astring[0].equalsIgnoreCase("alert")) {
 			if (Morpheus.alertEnabled) {
 				Morpheus.setAlertPlayers(false);
-				icommandsender.sendChatToPlayer(ChatMessageComponent
-						.createFromText(References.ALERTS_OFF));
+				icommandsender.addChatMessage(new ChatComponentText(References.ALERTS_OFF));
 			} else {
 				Morpheus.setAlertPlayers(true);
-				icommandsender.sendChatToPlayer(ChatMessageComponent
-						.createFromText(References.ALERTS_ON));
+				icommandsender.addChatMessage(new ChatComponentText(References.ALERTS_ON));
 			}
 		} else if (astring[0].equalsIgnoreCase("disable")) {
 			if (astring[1] != null) {
 				// Disable age tracking
 			} else {
-				icommandsender.sendChatToPlayer(ChatMessageComponent
-						.createFromText(References.DISABLE_USAGE));
+				icommandsender.addChatMessage(new ChatComponentText(References.DISABLE_USAGE));
 			}
 		}
 	}
