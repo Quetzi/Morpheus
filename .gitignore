@@ -1,2 +1,7 @@
 Releases/
 bin/
+gradle/
+build/
+gradlew
+gradlew.bat
+.gradle/
