@@ -10,23 +10,36 @@ import net.quetzi.morpheus.world.WorldSleepState;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 
 public class SleepChecker {
 
-	private void updatePlayerStates(World world) {
+	public void updatePlayerStates(World world) {
 		// Iterate players and update their status
 		for (EntityPlayer player : (ArrayList<EntityPlayer>) world.playerEntities) {
-			if (player.isPlayerFullyAsleep() && 
-					!Morpheus.playerSleepStatus.get(player.dimension).isPlayerSleeping(player.getDisplayName())) {
-				Morpheus.playerSleepStatus.get(player.dimension).setPlayerAsleep(player.getDisplayName());
+			if (player.isPlayerFullyAsleep()
+					&& !Morpheus.playerSleepStatus.get(player.dimension)
+							.isPlayerSleeping(player.getDisplayName())) {
+				Morpheus.playerSleepStatus.get(player.dimension)
+						.setPlayerAsleep(player.getDisplayName());
 				// Alert players that this player has gone to bed
-				alertPlayers(createAlert(player.worldObj, player,Morpheus.onSleepText), world);
-			} else if (!player.isPlayerFullyAsleep() && 
-					Morpheus.playerSleepStatus.get(player.dimension).isPlayerSleeping(player.getDisplayName())) {
-				Morpheus.playerSleepStatus.get(player.dimension).setPlayerAwake(player.getDisplayName());
+				alertPlayers(
+						createAlert(player.worldObj, player,
+								Morpheus.onSleepText), world);
+				// If enough are asleep set it to day
+				if (areEnoughPlayersAsleep(world)) {
+					advanceToMorning(world);
+				}
+			} else if (!player.isPlayerFullyAsleep()
+					&& Morpheus.playerSleepStatus.get(player.dimension)
+							.isPlayerSleeping(player.getDisplayName())) {
+				Morpheus.playerSleepStatus.get(player.dimension)
+						.setPlayerAwake(player.getDisplayName());
 				// Alert players that this player has woken up
-				alertPlayers(createAlert(player.worldObj, player,Morpheus.onWakeText), world);
+				alertPlayers(
+						createAlert(player.worldObj, player,
+								Morpheus.onWakeText), world);
 			}
 		}
 	}
@@ -37,7 +50,7 @@ public class SleepChecker {
 				player.addChatMessage(alert);
 			}
 		}
-		Morpheus.mLog.info(alert.toString());
+		Morpheus.mLog.info(alert.getUnformattedText());
 	}
 
 	private ChatComponentText createAlert(World world, EntityPlayer player,
@@ -47,8 +60,11 @@ public class SleepChecker {
 				+ EnumChatFormatting.WHITE
 				+ player.getDisplayName()
 				+ EnumChatFormatting.GOLD
-				+ " " + text + " "
-				+ Morpheus.playerSleepStatus.get(world.provider.dimensionId).toString();
+				+ " "
+				+ text
+				+ " "
+				+ Morpheus.playerSleepStatus.get(world.provider.dimensionId)
+						.toString();
 		ChatComponentText chatAlert = new ChatComponentText(alertText);
 		return chatAlert;
 	}
@@ -57,13 +73,13 @@ public class SleepChecker {
 		world.setWorldTime(world.getWorldTime() + getTimeToSunrise(world));
 		// Send Good morning message
 		alertPlayers(new ChatComponentText(EnumChatFormatting.GOLD
-						+ Morpheus.onMorningText), world);
+				+ Morpheus.onMorningText), world);
 		// Set all players as awake silently
 		Morpheus.playerSleepStatus.get(world.provider.dimensionId)
 				.wakeAllPlayers();
 		world.provider.resetRainAndThunder();
 	}
-	
+
 	private long getTimeToSunrise(World world) {
 		long dayLength = 24000;
 		long ticks = dayLength - (world.getWorldTime() % dayLength);
@@ -71,9 +87,9 @@ public class SleepChecker {
 	}
 
 	private boolean areEnoughPlayersAsleep(World world) {
-
 		// Disable in Twilight Forest
-		if (Loader.isModLoaded("Twilight Forest") && world.provider.dimensionId == 7) {
+		if (Loader.isModLoaded("Twilight Forest")
+				&& world.provider.dimensionId == 7) {
 			return false;
 		}
 		if (Morpheus.playerSleepStatus.get(world.provider.dimensionId)
@@ -81,30 +97,5 @@ public class SleepChecker {
 			return true;
 		}
 		return false;
-	}
-
-	private void worldTick(World world) {
-		// This is called every tick, do something every 20 ticks
-		if (world.getWorldTime() % 20L == 0) {
-			if (world.playerEntities.size() > 0) {
-				if (Morpheus.playerSleepStatus.get(world.provider.dimensionId) == null) {
-					Morpheus.playerSleepStatus.put(world.provider.dimensionId,
-							new WorldSleepState(world.provider.dimensionId));
-				}
-				updatePlayerStates(world);
-				if (areEnoughPlayersAsleep(world)) {
-					advanceToMorning(world);
-				}
-			}
-			else {
-				Morpheus.playerSleepStatus.remove(world.provider.dimensionId);
-			}
-		}
-	}
-
-
-	@SubscribeEvent
-	public void worldTickEvent(WorldTickEvent event) {
-		worldTick(event.world);
 	}
 }
