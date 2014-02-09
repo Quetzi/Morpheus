@@ -6,11 +6,7 @@ import net.minecraftforge.common.config.Configuration;
 import net.quetzi.morpheus.commands.CommandMorpheus;
 import net.quetzi.morpheus.references.References;
 import net.quetzi.morpheus.world.WorldSleepState;
-
-import org.apache.logging.log4j.Logger;
-
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -25,7 +21,7 @@ public class Morpheus {
 	public static int perc;
 	public static boolean alertEnabled;
 	public static String onSleepText, onWakeText, onMorningText;
-	public static Logger mLog = FMLLog.getLogger();
+//	public static Logger mLog = FMLLog.getLogger();
 	public static HashMap<Integer, WorldSleepState> playerSleepStatus = new HashMap<Integer, WorldSleepState>();
 	public static SleepChecker checker = new SleepChecker();
 
@@ -45,7 +41,7 @@ public class Morpheus {
 	@EventHandler
 	@SideOnly(Side.SERVER)
 	public void PreInit(FMLPreInitializationEvent event) {
-		mLog.info("Loading configuration");
+//		mLog.info("Loading configuration");
 		// Read configs
 		Configuration config = new Configuration(
 				event.getSuggestedConfigurationFile());
