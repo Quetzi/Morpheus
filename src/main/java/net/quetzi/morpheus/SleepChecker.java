@@ -20,9 +20,9 @@ public class SleepChecker {
 		for (EntityPlayer player : (ArrayList<EntityPlayer>) world.playerEntities) {
 			if (player.isPlayerFullyAsleep()
 					&& !Morpheus.playerSleepStatus.get(player.dimension)
-							.isPlayerSleeping(player.getDisplayName())) {
+							.isPlayerSleeping(player.getCommandSenderName())) {
 				Morpheus.playerSleepStatus.get(player.dimension)
-						.setPlayerAsleep(player.getDisplayName());
+						.setPlayerAsleep(player.getCommandSenderName());
 				// Alert players that this player has gone to bed
 				alertPlayers(
 						createAlert(player.worldObj, player,
@@ -33,9 +33,9 @@ public class SleepChecker {
 				}
 			} else if (!player.isPlayerFullyAsleep()
 					&& Morpheus.playerSleepStatus.get(player.dimension)
-							.isPlayerSleeping(player.getDisplayName())) {
+							.isPlayerSleeping(player.getCommandSenderName())) {
 				Morpheus.playerSleepStatus.get(player.dimension)
-						.setPlayerAwake(player.getDisplayName());
+						.setPlayerAwake(player.getCommandSenderName());
 				// Alert players that this player has woken up
 				alertPlayers(
 						createAlert(player.worldObj, player,
@@ -58,7 +58,7 @@ public class SleepChecker {
 		String alertText = EnumChatFormatting.GOLD
 				+ "Player "
 				+ EnumChatFormatting.WHITE
-				+ player.getDisplayName()
+				+ player.getCommandSenderName()
 				+ EnumChatFormatting.GOLD
 				+ " "
 				+ text
