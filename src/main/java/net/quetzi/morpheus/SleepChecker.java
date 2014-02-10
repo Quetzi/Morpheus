@@ -50,7 +50,7 @@ public class SleepChecker {
 				player.addChatMessage(alert);
 			}
 		}
-		System.out.println("[Morpheus]" + alert.getUnformattedText());
+//		System.out.println("[Morpheus]" + alert.getUnformattedText());
 	}
 
 	private ChatComponentText createAlert(World world, EntityPlayer player,
