@@ -37,9 +37,11 @@ public class SleepChecker {
 				Morpheus.playerSleepStatus.get(player.dimension)
 						.setPlayerAwake(player.getCommandSenderName());
 				// Alert players that this player has woken up
-				alertPlayers(
-						createAlert(player.worldObj, player,
-								Morpheus.onWakeText), world);
+				if (!world.isDaytime()) {
+					alertPlayers(
+							createAlert(player.worldObj, player,
+									Morpheus.onWakeText), world);
+				}
 			}
 		}
 	}
@@ -50,7 +52,7 @@ public class SleepChecker {
 				player.addChatMessage(alert);
 			}
 		}
-//		System.out.println("[Morpheus]" + alert.getUnformattedText());
+		Morpheus.mLog.info(alert);
 	}
 
 	private ChatComponentText createAlert(World world, EntityPlayer player,
@@ -74,9 +76,9 @@ public class SleepChecker {
 		// Send Good morning message
 		alertPlayers(new ChatComponentText(EnumChatFormatting.GOLD
 				+ Morpheus.onMorningText), world);
-		// Set all players as awake silently
-		Morpheus.playerSleepStatus.get(world.provider.dimensionId)
-				.wakeAllPlayers();
+//		// Set all players as awake silently
+//		Morpheus.playerSleepStatus.get(world.provider.dimensionId)
+//				.wakeAllPlayers();
 		world.provider.resetRainAndThunder();
 	}
 

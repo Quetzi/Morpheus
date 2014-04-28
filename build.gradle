@@ -17,12 +17,12 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.7.2-1.3.38"
+version = "1.7.2-1.3.41"
 group= "net.quetzi.morpheus" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "morpheus"
 
 minecraft {
-    version = "1.7.2-10.12.0.1024"
+    version = "1.7.2-10.12.0.1046"
     assetDir = "eclipse/assets"
 }
 processResources

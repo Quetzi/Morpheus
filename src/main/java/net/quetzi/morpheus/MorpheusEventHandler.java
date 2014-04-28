@@ -19,13 +19,21 @@ public class MorpheusEventHandler {
 					new WorldSleepState(event.player.dimension));
 		}
 		Morpheus.playerSleepStatus.get(event.player.dimension).setPlayerAwake(
-				event.player.getDisplayName());
+				event.player.getCommandSenderName());
 	}
 
 	@SubscribeEvent
 	public void loggedOutEvent(PlayerLoggedOutEvent event) {
-		Morpheus.playerSleepStatus.get(event.player.dimension).removePlayer(
-				event.player.getDisplayName());
+//		if (Morpheus.playerSleepStatus.get(event.player.dimension) == null) {
+//			return;
+//		}
+		// Remove player from all world states
+		Iterator<Entry<Integer, WorldSleepState>> entry = Morpheus.playerSleepStatus
+				.entrySet().iterator();
+		while (entry.hasNext()) {
+			Morpheus.playerSleepStatus.get(entry.next().getKey()).removePlayer(
+					event.player.getCommandSenderName());
+		}
 	}
 
 	@SubscribeEvent
@@ -39,11 +47,11 @@ public class MorpheusEventHandler {
 				.entrySet().iterator();
 		while (entry.hasNext()) {
 			Morpheus.playerSleepStatus.get(entry.next().getKey()).removePlayer(
-					event.player.getDisplayName());
+					event.player.getCommandSenderName());
 		}
 		// Add player to new world state
 		Morpheus.playerSleepStatus.get(event.player.dimension).setPlayerAwake(
-				event.player.getDisplayName());
+				event.player.getCommandSenderName());
 	}
 
 	@SubscribeEvent
