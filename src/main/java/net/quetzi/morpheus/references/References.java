@@ -4,7 +4,7 @@ public class References {
 	public static final String MODID = "Morpheus";
 	public static final String NAME = "Morpheus";
 	public static final String VERSION = "1.7.2-1.3";
-	public static final String BUILD = "41";
+	public static final String BUILD = "42";
 	
 	public static final String ALERTS_OFF = "Text alerts turned off";
 	public static final String ALERTS_ON = "Text alerts turned on";

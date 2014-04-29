@@ -24,16 +24,14 @@ public class MorpheusEventHandler {
 
 	@SubscribeEvent
 	public void loggedOutEvent(PlayerLoggedOutEvent event) {
-//		if (Morpheus.playerSleepStatus.get(event.player.dimension) == null) {
-//			return;
+		Morpheus.playerSleepStatus.get(event.player.dimension).removePlayer(event.player.getCommandSenderName());
+//		// Remove player from all world states
+//		Iterator<Entry<Integer, WorldSleepState>> entry = Morpheus.playerSleepStatus
+//				.entrySet().iterator();
+//		while (entry.hasNext()) {
+//			Morpheus.playerSleepStatus.get(entry.next().getKey()).removePlayer(
+//					event.player.getCommandSenderName());
 //		}
-		// Remove player from all world states
-		Iterator<Entry<Integer, WorldSleepState>> entry = Morpheus.playerSleepStatus
-				.entrySet().iterator();
-		while (entry.hasNext()) {
-			Morpheus.playerSleepStatus.get(entry.next().getKey()).removePlayer(
-					event.player.getCommandSenderName());
-		}
 	}
 
 	@SubscribeEvent
