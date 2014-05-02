@@ -6,3 +6,5 @@ gradlew
 gradlew.bat
 .gradle/
 Build.lnk
+eclipse/
+.settings/org.eclipse.jdt.core.prefs
