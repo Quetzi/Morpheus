@@ -24,31 +24,31 @@ public class MorpheusEventHandler {
 
 	@SubscribeEvent
 	public void loggedOutEvent(PlayerLoggedOutEvent event) {
-//		Morpheus.playerSleepStatus.get(event.player.dimension).removePlayer(event.player.getCommandSenderName());
-		// Remove player from all world states
-		Iterator<Entry<Integer, WorldSleepState>> entry = Morpheus.playerSleepStatus
-				.entrySet().iterator();
-		while (entry.hasNext()) {
-			Morpheus.playerSleepStatus.get(entry.next().getKey()).removePlayer(
-					event.player.getCommandSenderName());
+		if(Morpheus.playerSleepStatus.get(event.player.dimension) == null) {
+			return;
 		}
+		Morpheus.playerSleepStatus.get(event.player.dimension).removePlayer(event.player.getCommandSenderName());
+		// Remove player from all world states
+//		String username = event.player.getCommandSenderName();
+//		Iterator<Entry<Integer, WorldSleepState>> entry = Morpheus.playerSleepStatus
+//				.entrySet().iterator();
+//		while (entry.hasNext()) {
+//			Morpheus.playerSleepStatus.get(entry.next().getKey()).removePlayer(
+//					username);
+//		}
 	}
 
 	@SubscribeEvent
 	public void changedDimensionEvent(PlayerChangedDimensionEvent event) {
-		if (Morpheus.playerSleepStatus.get(event.player.dimension) == null) {
-			Morpheus.playerSleepStatus.put(event.player.dimension,
-					new WorldSleepState(event.player.dimension));
+		if (Morpheus.playerSleepStatus.get(event.toDim) == null) {
+			Morpheus.playerSleepStatus.put(event.toDim,
+					new WorldSleepState(event.toDim));
 		}
-		// Remove player from all world states
-		Iterator<Entry<Integer, WorldSleepState>> entry = Morpheus.playerSleepStatus
-				.entrySet().iterator();
-		while (entry.hasNext()) {
-			Morpheus.playerSleepStatus.get(entry.next().getKey()).removePlayer(
-					event.player.getCommandSenderName());
-		}
+		// Remove player from old World state
+		Morpheus.playerSleepStatus.get(event.fromDim).removePlayer(
+				event.player.getCommandSenderName());
 		// Add player to new world state
-		Morpheus.playerSleepStatus.get(event.player.dimension).setPlayerAwake(
+		Morpheus.playerSleepStatus.get(event.toDim).setPlayerAwake(
 				event.player.getCommandSenderName());
 	}
 
