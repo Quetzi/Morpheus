@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src/main/java"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Minecraft"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Morpheus/build/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="//server/Users/leecoats/.gradle/caches/minecraft/net/minecraftforge/forge/1.7.2-10.12.1.1065/forgeSrc-1.7.2-10.12.1.1065.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

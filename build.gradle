@@ -22,7 +22,7 @@ group= "net.quetzi.morpheus" // http://maven.apache.org/guides/mini/guide-naming
 archivesBaseName = "morpheus"
 
 minecraft {
-    version = "1.7.2-10.12.0.1046"
+    version = "1.7.2-10.12.0.1065"
     assetDir = "eclipse/assets"
 }
 processResources
