@@ -1,61 +1,67 @@
 package net.quetzi.morpheus;
 
-import java.util.ArrayList;
-
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
-import net.quetzi.morpheus.world.WorldSleepState;
 import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
+import net.quetzi.morpheus.world.SleepState;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SleepChecker {
 
-	public void updatePlayerStates(World world) {
+    private static List<Integer> worldsToRecheck =  new ArrayList<Integer>();
+
+	public static void updatePlayerStates(World world) {
 		// Iterate players and update their status
-		for (EntityPlayer player : (ArrayList<EntityPlayer>) world.playerEntities) {
-			if (player.isPlayerFullyAsleep()
-					&& !Morpheus.playerSleepStatus.get(player.dimension)
-							.isPlayerSleeping(player.getCommandSenderName())) {
-				Morpheus.playerSleepStatus.get(player.dimension)
-						.setPlayerAsleep(player.getCommandSenderName());
-				// Alert players that this player has gone to bed
-				alertPlayers(
-						createAlert(player.worldObj, player,
-								Morpheus.onSleepText), world);
-				// If enough are asleep set it to day
-				if (areEnoughPlayersAsleep(world)) {
-					advanceToMorning(world);
-				}
-			} else if (!player.isPlayerFullyAsleep()
-					&& Morpheus.playerSleepStatus.get(player.dimension)
-							.isPlayerSleeping(player.getCommandSenderName())) {
-				Morpheus.playerSleepStatus.get(player.dimension)
-						.setPlayerAwake(player.getCommandSenderName());
-				// Alert players that this player has woken up
-				if (!world.isDaytime()) {
-					alertPlayers(
-							createAlert(player.worldObj, player,
-									Morpheus.onWakeText), world);
-				}
-			}
-		}
+        for (EntityPlayer player : (ArrayList<EntityPlayer>) world.playerEntities)
+        {
+            //If a player is sleeping and the player wasn't the previous check add it to the sleep list
+            if (player.isPlayerFullyAsleep()
+                    && !SleepState.wasPlayerSleeping(player)) {
+                SleepState.addSleepingPlayer(player);
+                // Alert players that this player has gone to bed
+                alertPlayers(
+                        createAlert(player.worldObj, player,
+                                Morpheus.onSleepText)
+                );
+                // If enough are asleep set it to day
+                checkSleepNextCheck(world);
+            }
+            //If a player isn't sleeping and the player was the previous check remove it from the sleep list
+            else if (!player.isPlayerFullyAsleep()
+                    && SleepState.wasPlayerSleeping(player)) {
+                SleepState.removeSleepingPlayer(player);
+                // Alert players that this player has woken up
+                if (!world.isDaytime())
+                {
+                    alertPlayers(
+                            createAlert(player.worldObj, player,
+                                    Morpheus.onWakeText)
+                    );
+                }
+            }
+
+            if (worldsToRecheck.contains(world.provider.dimensionId)) {
+                if (areEnoughPlayersAsleep(world)) {
+                    advanceToMorning(world);
+                }
+                worldsToRecheck.remove(world.provider.dimensionId);
+            }
+        }
 	}
 
-	private void alertPlayers(ChatComponentText alert, World world) {
+	private static void alertPlayers(ChatComponentText alert) {
 		if ((alert != null) && (Morpheus.alertEnabled)) {
-			for (EntityPlayer player : (ArrayList<EntityPlayer>) world.playerEntities) {
-				player.addChatMessage(alert);
-			}
+            MinecraftServer.getServer().getConfigurationManager().sendChatMsg(alert);
 		}
 		Morpheus.mLog.info(alert);
 	}
 
-	private ChatComponentText createAlert(World world, EntityPlayer player,
+	private static ChatComponentText createAlert(World world, EntityPlayer player,
 			String text) {
 		String alertText = EnumChatFormatting.GOLD
 				+ "Player "
@@ -65,39 +71,34 @@ public class SleepChecker {
 				+ " "
 				+ text
 				+ " "
-				+ Morpheus.playerSleepStatus.get(world.provider.dimensionId)
-						.toString();
-		ChatComponentText chatAlert = new ChatComponentText(alertText);
-		return chatAlert;
+				+ SleepState.getSleepText(world);
+        return new ChatComponentText(alertText);
 	}
 
-	private void advanceToMorning(World world) {
+    private static void advanceToMorning(World world) {
 		world.setWorldTime(world.getWorldTime() + getTimeToSunrise(world));
 		// Send Good morning message
 		alertPlayers(new ChatComponentText(EnumChatFormatting.GOLD
-				+ Morpheus.onMorningText), world);
-//		// Set all players as awake silently
-//		Morpheus.playerSleepStatus.get(world.provider.dimensionId)
-//				.wakeAllPlayers();
+				+ Morpheus.onMorningText));
 		world.provider.resetRainAndThunder();
 	}
 
-	private long getTimeToSunrise(World world) {
+	private static long getTimeToSunrise(World world) {
 		long dayLength = 24000;
-		long ticks = dayLength - (world.getWorldTime() % dayLength);
-		return ticks;
+        return dayLength - (world.getWorldTime() % dayLength);
 	}
 
-	private boolean areEnoughPlayersAsleep(World world) {
+    private static boolean areEnoughPlayersAsleep(World world) {
 		// Disable in Twilight Forest
 		if (Loader.isModLoaded("Twilight Forest")
 				&& world.provider.dimensionId == 7) {
 			return false;
 		}
-		if (Morpheus.playerSleepStatus.get(world.provider.dimensionId)
-				.getPercentSleeping() >= Morpheus.perc) {
-			return true;
-		}
-		return false;
-	}
+        return SleepState.getPercentSleeping(world) >= Morpheus.perc;
+    }
+
+    public static void checkSleepNextCheck(World world) {
+        if (!worldsToRecheck.contains(world.provider.dimensionId))
+            worldsToRecheck.add(world.provider.dimensionId);
+    }
 }
