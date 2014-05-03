@@ -8,7 +8,7 @@ import java.util.List;
 
 public class SleepState {
     //List of all players sleeping right now in all Worlds
-    private static List<EntityPlayer> sleepingPlayers = new ArrayList<EntityPlayer>();
+    private static List<String> sleepingPlayers = new ArrayList<String>();
 
 	public static int getPercentSleeping(World world) {
 		return (getSleepingPlayers(world) * 100) / world.playerEntities.size();
@@ -28,14 +28,15 @@ public class SleepState {
     }
 
     public static boolean wasPlayerSleeping(EntityPlayer player) {
-        return sleepingPlayers.contains(player);
+        return sleepingPlayers.contains(player.getCommandSenderName());
     }
 
     public static void addSleepingPlayer(EntityPlayer player) {
-        sleepingPlayers.add(player);
+        if (!sleepingPlayers.contains(player.getCommandSenderName()))
+            sleepingPlayers.add(player.getCommandSenderName());
     }
 
     public static void removeSleepingPlayer(EntityPlayer player) {
-        sleepingPlayers.remove(player);
+        sleepingPlayers.remove(player.getCommandSenderName());
     }
 }

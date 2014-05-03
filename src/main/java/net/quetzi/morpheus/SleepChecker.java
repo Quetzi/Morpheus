@@ -1,6 +1,7 @@
 package net.quetzi.morpheus;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.play.server.S02PacketChat;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
@@ -26,7 +27,7 @@ public class SleepChecker {
                 // Alert players that this player has gone to bed
                 alertPlayers(
                         createAlert(player.worldObj, player,
-                                Morpheus.onSleepText)
+                                Morpheus.onSleepText), world
                 );
                 // If enough are asleep set it to day
                 checkSleepNextCheck(world);
@@ -40,7 +41,7 @@ public class SleepChecker {
                 {
                     alertPlayers(
                             createAlert(player.worldObj, player,
-                                    Morpheus.onWakeText)
+                                    Morpheus.onWakeText), world
                     );
                 }
             }
@@ -54,9 +55,10 @@ public class SleepChecker {
         }
 	}
 
-	private static void alertPlayers(ChatComponentText alert) {
+	private static void alertPlayers(ChatComponentText alert, World world) {
 		if ((alert != null) && (Morpheus.alertEnabled)) {
-            MinecraftServer.getServer().getConfigurationManager().sendChatMsg(alert);
+            MinecraftServer.getServer().getConfigurationManager()
+                    .sendPacketToAllPlayersInDimension(new S02PacketChat(alert, true), world.provider.dimensionId);
 		}
 		Morpheus.mLog.info(alert);
 	}
@@ -79,7 +81,7 @@ public class SleepChecker {
 		world.setWorldTime(world.getWorldTime() + getTimeToSunrise(world));
 		// Send Good morning message
 		alertPlayers(new ChatComponentText(EnumChatFormatting.GOLD
-				+ Morpheus.onMorningText));
+				+ Morpheus.onMorningText), world);
 		world.provider.resetRainAndThunder();
 	}
 
