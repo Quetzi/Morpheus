@@ -15,89 +15,62 @@ import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 
 public class SleepChecker {
 
-	public void updatePlayerStates(World world) {
-		// Iterate players and update their status
-		for (EntityPlayer player : (ArrayList<EntityPlayer>) world.playerEntities) {
-			if (player.isPlayerFullyAsleep()
-					&& !Morpheus.playerSleepStatus.get(player.dimension)
-							.isPlayerSleeping(player.getCommandSenderName())) {
-				Morpheus.playerSleepStatus.get(player.dimension)
-						.setPlayerAsleep(player.getCommandSenderName());
-				// Alert players that this player has gone to bed
-				alertPlayers(
-						createAlert(player.worldObj, player,
-								Morpheus.onSleepText), world);
-				// If enough are asleep set it to day
-				if (areEnoughPlayersAsleep(world)) {
-					advanceToMorning(world);
-				}
-			} else if (!player.isPlayerFullyAsleep()
-					&& Morpheus.playerSleepStatus.get(player.dimension)
-							.isPlayerSleeping(player.getCommandSenderName())) {
-				Morpheus.playerSleepStatus.get(player.dimension)
-						.setPlayerAwake(player.getCommandSenderName());
-				// Alert players that this player has woken up
-				if (!world.isDaytime()) {
-					alertPlayers(
-							createAlert(player.worldObj, player,
-									Morpheus.onWakeText), world);
-				}
-			}
-		}
-	}
+    public void updatePlayerStates(World world) {
+        // Iterate players and update their status
+        for (EntityPlayer player : (ArrayList<EntityPlayer>) world.playerEntities) {
+            String username = player.getCommandSenderName();
+            if (player.isPlayerFullyAsleep()
+                    && !Morpheus.playerSleepStatus.get(player.dimension).isPlayerSleeping(username)) {
+                Morpheus.playerSleepStatus.get(player.dimension).setPlayerAsleep(username);
+                // Alert players that this player has gone to bed
+                alertPlayers(createAlert(player.worldObj, username, Morpheus.onSleepText), world);
+            } else if (!player.isPlayerFullyAsleep()
+                    && Morpheus.playerSleepStatus.get(player.dimension).isPlayerSleeping(username)) {
+                Morpheus.playerSleepStatus.get(player.dimension).setPlayerAwake(username);
+                // Alert players that this player has woken up
+                if (!world.isDaytime()) {
+                    alertPlayers(createAlert(player.worldObj, username, Morpheus.onWakeText), world);
+                }
+            }
+        }
+        if (areEnoughPlayersAsleep(world)) {
+            advanceToMorning(world);
+        }
+    }
 
-	private void alertPlayers(ChatComponentText alert, World world) {
-		if ((alert != null) && (Morpheus.alertEnabled)) {
-			for (EntityPlayer player : (ArrayList<EntityPlayer>) world.playerEntities) {
-				player.addChatMessage(alert);
-			}
-		}
-		Morpheus.mLog.info(alert);
-	}
+    private void alertPlayers(ChatComponentText alert, World world) {
+        if ((alert != null) && (Morpheus.alertEnabled)) {
+            for (EntityPlayer player : (ArrayList<EntityPlayer>) world.playerEntities) {
+                player.addChatMessage(alert);
+            }
+        }
+        Morpheus.mLog.info(alert);
+    }
 
-	private ChatComponentText createAlert(World world, EntityPlayer player,
-			String text) {
-		String alertText = EnumChatFormatting.GOLD
-				+ "Player "
-				+ EnumChatFormatting.WHITE
-				+ player.getCommandSenderName()
-				+ EnumChatFormatting.GOLD
-				+ " "
-				+ text
-				+ " "
-				+ Morpheus.playerSleepStatus.get(world.provider.dimensionId)
-						.toString();
-		ChatComponentText chatAlert = new ChatComponentText(alertText);
-		return chatAlert;
-	}
+    private ChatComponentText createAlert(World world, String username, String text) {
+        String alertText = EnumChatFormatting.GOLD + "Player " + EnumChatFormatting.WHITE
+                + username + EnumChatFormatting.GOLD + " " + text + " "
+                + Morpheus.playerSleepStatus.get(world.provider.dimensionId).toString();
+        return new ChatComponentText(alertText);
+    }
 
-	private void advanceToMorning(World world) {
-		world.setWorldTime(world.getWorldTime() + getTimeToSunrise(world));
-		// Send Good morning message
-		alertPlayers(new ChatComponentText(EnumChatFormatting.GOLD
-				+ Morpheus.onMorningText), world);
-//		// Set all players as awake silently
-//		Morpheus.playerSleepStatus.get(world.provider.dimensionId)
-//				.wakeAllPlayers();
-		world.provider.resetRainAndThunder();
-	}
+    private void advanceToMorning(World world) {
+        world.setWorldTime(world.getWorldTime() + getTimeToSunrise(world));
+        // Send Good morning message
+        alertPlayers(new ChatComponentText(EnumChatFormatting.GOLD + Morpheus.onMorningText), world);
+        world.provider.resetRainAndThunder();
+    }
 
-	private long getTimeToSunrise(World world) {
-		long dayLength = 24000;
-		long ticks = dayLength - (world.getWorldTime() % dayLength);
-		return ticks;
-	}
+    private long getTimeToSunrise(World world) {
+        long dayLength = 24000;
+        return dayLength - (world.getWorldTime() % dayLength);
+    }
 
-	private boolean areEnoughPlayersAsleep(World world) {
-		// Disable in Twilight Forest
-		if (Loader.isModLoaded("Twilight Forest")
-				&& world.provider.dimensionId == 7) {
-			return false;
-		}
-		if (Morpheus.playerSleepStatus.get(world.provider.dimensionId)
-				.getPercentSleeping() >= Morpheus.perc) {
-			return true;
-		}
-		return false;
-	}
+    private boolean areEnoughPlayersAsleep(World world) {
+        // Disable in Twilight Forest
+        if (Loader.isModLoaded("TwilightForest") && world.provider.dimensionId == 7) {
+            return false;
+        }
+        return Morpheus.playerSleepStatus.get(world.provider.dimensionId).getPercentSleeping() >= Morpheus.perc;
+    }
 }

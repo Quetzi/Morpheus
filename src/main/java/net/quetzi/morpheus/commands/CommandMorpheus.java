@@ -10,72 +10,71 @@ import net.quetzi.morpheus.Morpheus;
 import net.quetzi.morpheus.references.References;
 
 public class CommandMorpheus implements ICommand {
-	private List<String> aliases;
+    private List<String> aliases;
 
-	public CommandMorpheus() {
-		aliases = new ArrayList<String>();
-	}
+    public CommandMorpheus() {
+        aliases = new ArrayList<String>();
+    }
 
-	@Override
-	public int compareTo(Object arg0) {
-		return 0;
-	}
+    @Override
+    public int compareTo(Object arg0) {
+        return 0;
+    }
 
-	@Override
-	public String getCommandName() {
-		return "morpheus";
-	}
+    @Override
+    public String getCommandName() {
+        return "morpheus";
+    }
 
-	@Override
-	public String getCommandUsage(ICommandSender icommandsender) {
-		return References.USAGE;
-	}
+    @Override
+    public String getCommandUsage(ICommandSender sender) {
+        return References.USAGE;
+    }
 
-	@Override
-	public List getCommandAliases() {
-		return null;
-	}
+    @Override
+    public List getCommandAliases() {
+        return null;
+    }
 
-	@Override
-	public void processCommand(ICommandSender icommandsender, String[] astring) {
-		if (astring.length == 0) {
-			icommandsender.addChatMessage(new ChatComponentText(References.USAGE));
-			return;
-		}
-		if (astring[0].equalsIgnoreCase("alert")) {
-			if (Morpheus.alertEnabled) {
-				Morpheus.setAlertPlayers(false);
-				icommandsender.addChatMessage(new ChatComponentText(References.ALERTS_OFF));
-			} else {
-				Morpheus.setAlertPlayers(true);
-				icommandsender.addChatMessage(new ChatComponentText(References.ALERTS_ON));
-			}
-		} else if (astring[0].equalsIgnoreCase("disable")) {
-			if (astring[1] != null) {
-				// Disable age tracking
-			} else {
-				icommandsender.addChatMessage(new ChatComponentText(References.DISABLE_USAGE));
-			}
-		}
-	}
+    @Override
+    public void processCommand(ICommandSender sender, String[] astring) {
+        if (astring.length == 0) {
+            sender.addChatMessage(new ChatComponentText(References.USAGE));
+            return;
+        }
+        if (astring[0].equalsIgnoreCase("alert")) {
+            if (Morpheus.alertEnabled) {
+                Morpheus.setAlertPlayers(false);
+                sender.addChatMessage(new ChatComponentText(References.ALERTS_OFF));
+            } else {
+                Morpheus.setAlertPlayers(true);
+                sender.addChatMessage(new ChatComponentText(References.ALERTS_ON));
+            }
+        } else if (astring[0].equalsIgnoreCase("disable")) {
+            if (astring[1] != null) {
+                // Disable age tracking
+            } else {
+                sender.addChatMessage(new ChatComponentText(References.DISABLE_USAGE));
+            }
+        }
+    }
 
-	@Override
-	public boolean canCommandSenderUseCommand(ICommandSender icommandsender) {
-		return true;
-	}
+    @Override
+    public boolean canCommandSenderUseCommand(ICommandSender icommandsender) {
+        return true;
+    }
 
-	@Override
-	public List addTabCompletionOptions(ICommandSender icommandsender,
-			String[] astring) {
-		return null;
-	}
+    @Override
+    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring) {
+        return null;
+    }
 
-	@Override
-	public boolean isUsernameIndex(String[] astring, int i) {
-		return false;
-	}
+    @Override
+    public boolean isUsernameIndex(String[] astring, int i) {
+        return false;
+    }
 
-	public int getRequiredPermissionLevel() {
-		return 3;
-	}
+    public int getRequiredPermissionLevel() {
+        return 3;
+    }
 }
