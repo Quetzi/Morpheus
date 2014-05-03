@@ -1,13 +1,10 @@
 package net.quetzi.morpheus;
 
-import java.util.HashMap;
-
 import org.apache.logging.log4j.Logger;
 
 import net.minecraftforge.common.config.Configuration;
 import net.quetzi.morpheus.commands.CommandMorpheus;
 import net.quetzi.morpheus.references.References;
-import net.quetzi.morpheus.world.WorldSleepState;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
@@ -25,8 +22,6 @@ public class Morpheus {
 	public static boolean alertEnabled;
 	public static String onSleepText, onWakeText, onMorningText;
 	public static Logger mLog = FMLLog.getLogger();
-	public static HashMap<Integer, WorldSleepState> playerSleepStatus = new HashMap<Integer, WorldSleepState>();
-	public static SleepChecker checker = new SleepChecker();
 
 	@EventHandler
 	@SideOnly(Side.SERVER)
