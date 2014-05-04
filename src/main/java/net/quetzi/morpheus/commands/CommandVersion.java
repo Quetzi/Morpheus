@@ -33,7 +33,7 @@ public class CommandVersion implements ICommand {
 
     @Override
     public void processCommand(ICommandSender sender, String[] var2) {
-        sender.addChatMessage(new ChatComponentText(References.VERSION));
+        sender.addChatMessage(new ChatComponentText("Morpheus version" + References.VERSION + "." + References.BUILD));
     }
 
     @Override
