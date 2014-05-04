@@ -1,23 +1,18 @@
 package net.quetzi.morpheus;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
-import net.quetzi.morpheus.world.WorldSleepState;
 import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 
 public class SleepChecker {
 
     public void updatePlayerStates(World world) {
         // Iterate players and update their status
-        for (EntityPlayer player : (ArrayList<EntityPlayer>) world.playerEntities) {
+        for (EntityPlayer player : (List<EntityPlayer>) world.playerEntities) {
             String username = player.getCommandSenderName();
             if (player.isPlayerFullyAsleep()
                     && !Morpheus.playerSleepStatus.get(player.dimension).isPlayerSleeping(username)) {
@@ -40,7 +35,7 @@ public class SleepChecker {
 
     private void alertPlayers(ChatComponentText alert, World world) {
         if ((alert != null) && (Morpheus.alertEnabled)) {
-            for (EntityPlayer player : (ArrayList<EntityPlayer>) world.playerEntities) {
+            for (EntityPlayer player : (List<EntityPlayer>) world.playerEntities) {
                 player.addChatMessage(alert);
             }
         }
