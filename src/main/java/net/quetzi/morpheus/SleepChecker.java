@@ -18,13 +18,13 @@ public class SleepChecker {
                     && !Morpheus.playerSleepStatus.get(player.dimension).isPlayerSleeping(username)) {
                 Morpheus.playerSleepStatus.get(player.dimension).setPlayerAsleep(username);
                 // Alert players that this player has gone to bed
-                alertPlayers(createAlert(player.worldObj, username, Morpheus.onSleepText), world);
+                alertPlayers(createAlert(player.dimension, username, Morpheus.onSleepText), world);
             } else if (!player.isPlayerFullyAsleep()
                     && Morpheus.playerSleepStatus.get(player.dimension).isPlayerSleeping(username)) {
                 Morpheus.playerSleepStatus.get(player.dimension).setPlayerAwake(username);
                 // Alert players that this player has woken up
                 if (!world.isDaytime()) {
-                    alertPlayers(createAlert(player.worldObj, username, Morpheus.onWakeText), world);
+                    alertPlayers(createAlert(player.dimension, username, Morpheus.onWakeText), world);
                 }
             }
         }
@@ -39,13 +39,14 @@ public class SleepChecker {
                 player.addChatMessage(alert);
             }
         }
-        Morpheus.mLog.info(alert);
     }
 
-    private ChatComponentText createAlert(World world, String username, String text) {
+    private ChatComponentText createAlert(int dimension, String username, String text) {
         String alertText = EnumChatFormatting.GOLD + "Player " + EnumChatFormatting.WHITE
                 + username + EnumChatFormatting.GOLD + " " + text + " "
-                + Morpheus.playerSleepStatus.get(world.provider.dimensionId).toString();
+                + Morpheus.playerSleepStatus.get(dimension).toString();
+        Morpheus.mLog.info("Player " + username + " " + text + " "
+                + Morpheus.playerSleepStatus.get(dimension).toString());
         return new ChatComponentText(alertText);
     }
 
