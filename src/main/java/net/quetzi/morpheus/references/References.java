@@ -8,6 +8,8 @@ public class References {
 
     public static final String ALERTS_OFF = "Text alerts turned off";
     public static final String ALERTS_ON = "Text alerts turned on";
+    public static final String SETSPAWN_OFF = "Setting spawn disabled";
+    public static final String SETSPAWN_ON = "Setting spawn enabled";
     public static final String DISABLE_USAGE = "Use: /morpheus disable <dimension number>";
     public static final String USAGE = "/morpheus alerts";
     public static final String SPAWNSET = "Bed location set!";

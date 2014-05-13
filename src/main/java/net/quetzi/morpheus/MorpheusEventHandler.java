@@ -20,7 +20,7 @@ public class MorpheusEventHandler {
                     event.player.dimension));
         }
         Morpheus.playerSleepStatus.get(event.player.dimension).setPlayerAwake(
-                event.player.getCommandSenderName());
+                event.player.getGameProfile().getName());
     }
 
     @SubscribeEvent
@@ -29,7 +29,7 @@ public class MorpheusEventHandler {
             return;
         }
         Morpheus.playerSleepStatus.get(event.player.dimension).removePlayer(
-                event.player.getCommandSenderName());
+                event.player.getGameProfile().getName());
         // Remove player from all world states
         // String username = event.player.getCommandSenderName();
         // Iterator<Entry<Integer, WorldSleepState>> entry =
@@ -48,10 +48,10 @@ public class MorpheusEventHandler {
         }
         // Remove player from old World state
         Morpheus.playerSleepStatus.get(event.fromDim).removePlayer(
-                event.player.getCommandSenderName());
+                event.player.getGameProfile().getName());
         // Add player to new world state
         Morpheus.playerSleepStatus.get(event.toDim).setPlayerAwake(
-                event.player.getCommandSenderName());
+                event.player.getGameProfile().getName());
     }
 
     @SubscribeEvent
@@ -74,7 +74,7 @@ public class MorpheusEventHandler {
     
     @SubscribeEvent
     public void playerSleepInBedEvent(PlayerSleepInBedEvent event) {
-        if (event.result == EnumStatus.NOT_POSSIBLE_NOW) {
+        if ((event.result == EnumStatus.NOT_POSSIBLE_NOW) && (Morpheus.isSpawnSetEnabled() == true)) {
             event.entityPlayer.setSpawnChunk(event.entityPlayer.playerLocation, false, event.entityPlayer.dimension);
             event.entityPlayer.addChatMessage(new ChatComponentText(Morpheus.spawnSetText));
         }

@@ -25,7 +25,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @Mod(modid = References.MODID, name = References.NAME, version = References.VERSION, acceptableRemoteVersions="*")
 public class Morpheus {
     public static int perc;
-    public static boolean alertEnabled,spawnSetEnabled;
+    private static boolean alertEnabled,spawnSetEnabled;
     public static String onSleepText, onWakeText, onMorningText, spawnSetText;
     public static Logger mLog = LogManager.getLogger("Morpheus");
     public static HashMap<Integer, WorldSleepState> playerSleepStatus = new HashMap<Integer, WorldSleepState>();
@@ -41,9 +41,17 @@ public class Morpheus {
     }
 
     public static void setAlertPlayers(boolean state) {
-        Morpheus.alertEnabled = state;
+        alertEnabled = state;
+    }
+    
+    public static boolean isSpawnSetEnabled() {
+        return spawnSetEnabled;
     }
 
+    public static void setSpawnEnabled(boolean state) {
+        spawnSetEnabled = state;
+    }
+    
     @EventHandler
     @SideOnly(Side.SERVER)
     public void PreInit(FMLPreInitializationEvent event) {

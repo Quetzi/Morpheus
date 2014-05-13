@@ -43,7 +43,7 @@ public class CommandMorpheus implements ICommand {
             return;
         }
         if (astring[0].equalsIgnoreCase("alert")) {
-            if (Morpheus.alertEnabled) {
+            if (Morpheus.isAlertEnabled()) {
                 Morpheus.setAlertPlayers(false);
                 sender.addChatMessage(new ChatComponentText(References.ALERTS_OFF));
             } else {
@@ -55,6 +55,14 @@ public class CommandMorpheus implements ICommand {
                 // Disable age tracking
             } else {
                 sender.addChatMessage(new ChatComponentText(References.DISABLE_USAGE));
+            } 
+        } else if (astring[0].equalsIgnoreCase("setspawn")) {
+            if (Morpheus.isSpawnSetEnabled()) {
+                Morpheus.setSpawnEnabled(false);
+                sender.addChatMessage(new ChatComponentText(References.SETSPAWN_OFF));
+            } else {
+                Morpheus.setSpawnEnabled(true);
+                sender.addChatMessage(new ChatComponentText(References.SETSPAWN_ON));
             }
         }
     }

@@ -13,7 +13,7 @@ public class SleepChecker {
     public void updatePlayerStates(World world) {
         // Iterate players and update their status
         for (EntityPlayer player : (List<EntityPlayer>) world.playerEntities) {
-            String username = player.getCommandSenderName();
+            String username = player.getGameProfile().getName();
             if (player.isPlayerFullyAsleep()
                     && !Morpheus.playerSleepStatus.get(player.dimension).isPlayerSleeping(username)) {
                 Morpheus.playerSleepStatus.get(player.dimension).setPlayerAsleep(username);
@@ -34,7 +34,7 @@ public class SleepChecker {
     }
 
     private void alertPlayers(ChatComponentText alert, World world) {
-        if ((alert != null) && (Morpheus.alertEnabled)) {
+        if ((alert != null) && (Morpheus.isAlertEnabled())) {
             for (EntityPlayer player : (List<EntityPlayer>) world.playerEntities) {
                 player.addChatMessage(alert);
             }
