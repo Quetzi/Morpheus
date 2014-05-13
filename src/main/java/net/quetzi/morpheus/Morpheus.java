@@ -21,7 +21,7 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-@Mod(modid = References.MODID, name = References.NAME, version = References.VERSION)
+@Mod(modid = References.MODID, name = References.NAME, version = References.VERSION, acceptableRemoteVersions="*")
 public class Morpheus {
     public static int perc;
     public static boolean alertEnabled;
