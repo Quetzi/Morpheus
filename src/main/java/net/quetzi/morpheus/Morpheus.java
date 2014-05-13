@@ -2,6 +2,7 @@ package net.quetzi.morpheus;
 
 import java.util.HashMap;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.quetzi.morpheus.commands.CommandMorpheus;
 import net.quetzi.morpheus.commands.CommandVersion;
@@ -24,8 +25,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @Mod(modid = References.MODID, name = References.NAME, version = References.VERSION, acceptableRemoteVersions="*")
 public class Morpheus {
     public static int perc;
-    public static boolean alertEnabled;
-    public static String onSleepText, onWakeText, onMorningText;
+    public static boolean alertEnabled,spawnSetEnabled;
+    public static String onSleepText, onWakeText, onMorningText, spawnSetText;
     public static Logger mLog = LogManager.getLogger("Morpheus");
     public static HashMap<Integer, WorldSleepState> playerSleepStatus = new HashMap<Integer, WorldSleepState>();
     public static SleepChecker checker = new SleepChecker();
@@ -53,10 +54,12 @@ public class Morpheus {
 
         perc = config.get("settings", "SleeperPerc", 50).getInt();
         alertEnabled = config.get("settings", "AlertEnabled", true).getBoolean(true);
+        spawnSetEnabled = config.get("settings", "SpawnSetEnabled", true).getBoolean(true);
         onSleepText = config.get("settings", "OnSleepText", "is now sleeping.").getString();
         onWakeText = config.get("settings", "OnWakeText", "has left their bed.").getString();
         onMorningText = config.get("settings", "OnMorningText",
                 "Wakey, wakey, rise and shine... Good Morning everyone!").getString();
+        spawnSetText = config.get("settings", "SpawnSetText", "Bed location set!").getString();
         config.save();
     }
 
@@ -64,6 +67,7 @@ public class Morpheus {
     @SideOnly(Side.SERVER)
     public void PostInit(FMLPostInitializationEvent event) {
         FMLCommonHandler.instance().bus().register(new MorpheusEventHandler());
+        MinecraftForge.EVENT_BUS.register(new MorpheusEventHandler());
     }
 
     @EventHandler

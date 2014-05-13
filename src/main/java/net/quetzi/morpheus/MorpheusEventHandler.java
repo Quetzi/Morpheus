@@ -1,8 +1,9 @@
 package net.quetzi.morpheus;
 
-import java.util.Iterator;
-import java.util.Map.Entry;
-
+import net.minecraft.entity.player.EntityPlayer.EnumStatus;
+import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
+import net.quetzi.morpheus.references.References;
 import net.quetzi.morpheus.world.WorldSleepState;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
@@ -68,6 +69,14 @@ public class MorpheusEventHandler {
                     Morpheus.playerSleepStatus.remove(event.world.provider.dimensionId);
                 }
             }
+        }
+    }
+    
+    @SubscribeEvent
+    public void playerSleepInBedEvent(PlayerSleepInBedEvent event) {
+        if (event.result == EnumStatus.NOT_POSSIBLE_NOW) {
+            event.entityPlayer.setSpawnChunk(event.entityPlayer.playerLocation, false, event.entityPlayer.dimension);
+            event.entityPlayer.addChatMessage(new ChatComponentText(Morpheus.spawnSetText));
         }
     }
 }
