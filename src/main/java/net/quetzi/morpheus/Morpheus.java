@@ -27,7 +27,7 @@ public class Morpheus {
     public static int perc;
     private static boolean alertEnabled,spawnSetEnabled;
     public static String onSleepText, onWakeText, onMorningText, spawnSetText;
-    public static Logger mLog = LogManager.getLogger("Morpheus");
+    public static Logger mLog;
     public static HashMap<Integer, WorldSleepState> playerSleepStatus = new HashMap<Integer, WorldSleepState>();
     public static SleepChecker checker = new SleepChecker();
 
@@ -55,6 +55,7 @@ public class Morpheus {
     @EventHandler
     @SideOnly(Side.SERVER)
     public void PreInit(FMLPreInitializationEvent event) {
+        this.mLog = event.getModLog();
         mLog.info("Loading configuration");
         // Read configs
         Configuration config = new Configuration(event.getSuggestedConfigurationFile());
