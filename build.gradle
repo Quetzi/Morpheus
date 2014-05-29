@@ -17,7 +17,7 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.7.2-1.3.48"
+version = "1.7.2-1.3.50"
 group= "net.quetzi.morpheus" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "morpheus"
 
