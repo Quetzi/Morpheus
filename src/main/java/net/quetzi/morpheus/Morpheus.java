@@ -32,7 +32,6 @@ public class Morpheus {
     public static SleepChecker checker = new SleepChecker();
 
     @EventHandler
-    @SideOnly(Side.SERVER)
     public void Init(FMLInitializationEvent event) {
     }
 
@@ -53,7 +52,6 @@ public class Morpheus {
     }
     
     @EventHandler
-    @SideOnly(Side.SERVER)
     public void PreInit(FMLPreInitializationEvent event) {
         this.mLog = event.getModLog();
         mLog.info("Loading configuration");
@@ -73,14 +71,12 @@ public class Morpheus {
     }
 
     @EventHandler
-    @SideOnly(Side.SERVER)
     public void PostInit(FMLPostInitializationEvent event) {
         FMLCommonHandler.instance().bus().register(new MorpheusEventHandler());
         MinecraftForge.EVENT_BUS.register(new MorpheusEventHandler());
     }
 
     @EventHandler
-    @SideOnly(Side.SERVER)
     public void serverLoad(FMLServerStartingEvent event) {
         event.registerServerCommand(new CommandMorpheus());
         event.registerServerCommand(new CommandVersion());
