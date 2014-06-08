@@ -21,14 +21,14 @@ project.ext {
     major = "1"
     minor = "4"
 }
-version = "1.7.2-${project.ext.major}.${project.minor}.${System.getenv("BUILD_NUMBER") ?:0}"
-group= "net.quetzi.morpheus" 
+version = "1.7.2-${project.ext.major}.${project.minor}.${System.getenv("BUILD_NUMBER") ?: 0}"
+group = "net.quetzi.morpheus"
 archivesBaseName = "morpheus"
 
 minecraft {
     version = "1.7.2-10.12.1.1101"
     assetDir = "eclipse/assets"
-    
+
     // replacing stuff in the source
     replace '@MAJOR@', project.major
     replace '@MINOR@', project.minor
@@ -37,21 +37,21 @@ minecraft {
 }
 
 processResources
-{
-    // this will ensure that this task is redone when the versions change.
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
+        {
+            // this will ensure that this task is redone when the versions change.
+            inputs.property "version", project.version
+            inputs.property "mcversion", project.minecraft.version
 
-    // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include '*.info'
-                
-        // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-        
-    // copy everything else, thats not the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
-}
+            // replace stuff in mcmod.info, nothing else
+            from(sourceSets.main.resources.srcDirs) {
+                include '*.info'
+
+                // replace version and mcversion
+                expand 'version': project.version, 'mcversion': project.minecraft.version
+            }
+
+            // copy everything else, thats not the mcmod.info
+            from(sourceSets.main.resources.srcDirs) {
+                exclude 'mcmod.info'
+            }
+        }

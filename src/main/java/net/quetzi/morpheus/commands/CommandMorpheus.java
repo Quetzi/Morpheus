@@ -1,43 +1,50 @@
 package net.quetzi.morpheus.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.quetzi.morpheus.Morpheus;
 import net.quetzi.morpheus.references.References;
 
-public class CommandMorpheus implements ICommand {
+import java.util.ArrayList;
+import java.util.List;
+
+public class CommandMorpheus implements ICommand
+{
     private List<String> aliases;
 
-    public CommandMorpheus() {
+    public CommandMorpheus()
+    {
         aliases = new ArrayList<String>();
     }
 
     @Override
-    public int compareTo(Object arg0) {
+    public int compareTo(Object arg0)
+    {
         return 0;
     }
 
     @Override
-    public String getCommandName() {
+    public String getCommandName()
+    {
         return "morpheus";
     }
 
     @Override
-    public String getCommandUsage(ICommandSender sender) {
+    public String getCommandUsage(ICommandSender sender)
+    {
         return References.USAGE;
     }
 
     @Override
-    public List getCommandAliases() {
+    public List getCommandAliases()
+    {
         return null;
     }
 
     @Override
-    public void processCommand(ICommandSender sender, String[] astring) {
+    public void processCommand(ICommandSender sender, String[] astring)
+    {
         if (astring.length == 0) {
             sender.addChatMessage(new ChatComponentText(References.USAGE));
             return;
@@ -55,7 +62,7 @@ public class CommandMorpheus implements ICommand {
                 // Disable age tracking
             } else {
                 sender.addChatMessage(new ChatComponentText(References.DISABLE_USAGE));
-            } 
+            }
         } else if (astring[0].equalsIgnoreCase("setspawn")) {
             if (Morpheus.isSpawnSetEnabled()) {
                 Morpheus.setSpawnEnabled(false);
@@ -68,21 +75,25 @@ public class CommandMorpheus implements ICommand {
     }
 
     @Override
-    public boolean canCommandSenderUseCommand(ICommandSender icommandsender) {
+    public boolean canCommandSenderUseCommand(ICommandSender icommandsender)
+    {
         return true;
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring) {
+    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring)
+    {
         return null;
     }
 
     @Override
-    public boolean isUsernameIndex(String[] astring, int i) {
+    public boolean isUsernameIndex(String[] astring, int i)
+    {
         return false;
     }
 
-    public int getRequiredPermissionLevel() {
+    public int getRequiredPermissionLevel()
+    {
         return 3;
     }
 }
