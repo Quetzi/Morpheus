@@ -18,43 +18,43 @@ import org.apache.logging.log4j.Logger;
 import java.util.HashMap;
 
 @Mod(modid = References.MODID, name = References.NAME, version = References.VERSION, acceptableRemoteVersions = "*")
-public class Morpheus
-{
-    public static int    perc;
-    public static String onSleepText, onWakeText, onMorningText, spawnSetText;
-    public static Logger mLog;
+public class Morpheus {
+
+    public static int                               perc;
+    public static String                            onSleepText, onWakeText, onMorningText, spawnSetText;
+    public static Logger                            mLog;
     public static HashMap<Integer, WorldSleepState> playerSleepStatus = new HashMap<Integer, WorldSleepState>();
     public static SleepChecker                      checker           = new SleepChecker();
-    private static boolean alertEnabled, spawnSetEnabled;
+    private static boolean                          alertEnabled, spawnSetEnabled;
 
-    public static boolean isAlertEnabled()
-    {
+    public static boolean isAlertEnabled() {
+
         return alertEnabled;
     }
 
-    public static void setAlertPlayers(boolean state)
-    {
+    public static void setAlertPlayers(boolean state) {
+
         alertEnabled = state;
     }
 
-    public static boolean isSpawnSetEnabled()
-    {
+    public static boolean isSpawnSetEnabled() {
+
         return spawnSetEnabled;
     }
 
-    public static void setSpawnEnabled(boolean state)
-    {
+    public static void setSpawnEnabled(boolean state) {
+
         spawnSetEnabled = state;
     }
 
     @EventHandler
-    public void Init(FMLInitializationEvent event)
-    {
+    public void Init(FMLInitializationEvent event) {
+
     }
 
     @EventHandler
-    public void PreInit(FMLPreInitializationEvent event)
-    {
+    public void PreInit(FMLPreInitializationEvent event) {
+
         Morpheus.mLog = event.getModLog();
         mLog.info("Loading configuration");
         // Read configs
@@ -72,15 +72,14 @@ public class Morpheus
     }
 
     @EventHandler
-    public void PostInit(FMLPostInitializationEvent event)
-    {
+    public void PostInit(FMLPostInitializationEvent event) {
+
         FMLCommonHandler.instance().bus().register(new MorpheusEventHandler());
-        MinecraftForge.EVENT_BUS.register(new MorpheusEventHandler());
     }
 
     @EventHandler
-    public void serverLoad(FMLServerStartingEvent event)
-    {
+    public void serverLoad(FMLServerStartingEvent event) {
+
         event.registerServerCommand(new CommandMorpheus());
         event.registerServerCommand(new CommandVersion());
     }

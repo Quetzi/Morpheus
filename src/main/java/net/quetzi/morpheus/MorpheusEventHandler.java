@@ -12,11 +12,11 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.quetzi.morpheus.world.WorldSleepState;
 
-public class MorpheusEventHandler
-{
+public class MorpheusEventHandler {
+
     @SubscribeEvent
-    public void loggedInEvent(PlayerLoggedInEvent event)
-    {
+    public void loggedInEvent(PlayerLoggedInEvent event) {
+
         if (!MinecraftServer.getServer().worldServerForDimension(event.player.dimension).isRemote) {
             if (Morpheus.playerSleepStatus.get(event.player.dimension) == null) {
                 Morpheus.playerSleepStatus.put(event.player.dimension, new WorldSleepState(event.player.dimension));
@@ -26,28 +26,17 @@ public class MorpheusEventHandler
     }
 
     @SubscribeEvent
-    public void loggedOutEvent(PlayerLoggedOutEvent event)
-    {
+    public void loggedOutEvent(PlayerLoggedOutEvent event) {
+
         if (!MinecraftServer.getServer().worldServerForDimension(event.player.dimension).isRemote) {
-            if (Morpheus.playerSleepStatus.get(event.player.dimension) == null) {
-                return;
-            }
+            if (Morpheus.playerSleepStatus.get(event.player.dimension) == null) { return; }
             Morpheus.playerSleepStatus.get(event.player.dimension).removePlayer(event.player.getGameProfile().getName());
-            // Remove player from all world states
-            // String username = event.player.getCommandSenderName();
-            // Iterator<Entry<Integer, WorldSleepState>> entry =
-            // Morpheus.playerSleepStatus
-            // .entrySet().iterator();
-            // while (entry.hasNext()) {
-            // Morpheus.playerSleepStatus.get(entry.next().getKey()).removePlayer(
-            // username);
-            // }
         }
     }
 
     @SubscribeEvent
-    public void changedDimensionEvent(PlayerChangedDimensionEvent event)
-    {
+    public void changedDimensionEvent(PlayerChangedDimensionEvent event) {
+
         if (!MinecraftServer.getServer().worldServerForDimension(event.player.dimension).isRemote) {
             if (Morpheus.playerSleepStatus.get(event.toDim) == null) {
                 Morpheus.playerSleepStatus.put(event.toDim, new WorldSleepState(event.toDim));
@@ -60,8 +49,8 @@ public class MorpheusEventHandler
     }
 
     @SubscribeEvent
-    public void worldTickEvent(WorldTickEvent event)
-    {
+    public void worldTickEvent(WorldTickEvent event) {
+
         if (!event.world.isRemote) {
             if (event.phase == TickEvent.Phase.END) {
                 // This is called every tick, do something every 20 ticks
@@ -75,17 +64,6 @@ public class MorpheusEventHandler
                         Morpheus.playerSleepStatus.remove(event.world.provider.dimensionId);
                     }
                 }
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public void playerSleepInBedEvent(PlayerSleepInBedEvent event)
-    {
-        if (!MinecraftServer.getServer().worldServerForDimension(event.entityPlayer.dimension).isRemote) {
-            if ((event.result == EnumStatus.NOT_POSSIBLE_NOW) && (Morpheus.isSpawnSetEnabled() == true)) {
-                event.entityPlayer.setSpawnChunk(event.entityPlayer.playerLocation, false, event.entityPlayer.dimension);
-                event.entityPlayer.addChatMessage(new ChatComponentText(Morpheus.spawnSetText));
             }
         }
     }
