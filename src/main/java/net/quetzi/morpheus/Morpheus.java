@@ -26,7 +26,7 @@ public class Morpheus {
     public static Logger                            mLog;
     public static HashMap<Integer, WorldSleepState> playerSleepStatus = new HashMap<Integer, WorldSleepState>();
     public static SleepChecker                      checker           = new SleepChecker();
-    private static boolean                          alertEnabled, spawnSetEnabled;
+    private static boolean                          alertEnabled;
 
     public static boolean isAlertEnabled() {
 
@@ -36,16 +36,6 @@ public class Morpheus {
     public static void setAlertPlayers(boolean state) {
 
         alertEnabled = state;
-    }
-
-    public static boolean isSpawnSetEnabled() {
-
-        return spawnSetEnabled;
-    }
-
-    public static void setSpawnEnabled(boolean state) {
-
-        spawnSetEnabled = state;
     }
 
     @EventHandler
@@ -64,7 +54,6 @@ public class Morpheus {
 
         perc = config.get("settings", "SleeperPerc", 50).getInt();
         alertEnabled = config.get("settings", "AlertEnabled", true).getBoolean(true);
-        spawnSetEnabled = config.get("settings", "SpawnSetEnabled", true).getBoolean(true);
         onSleepText = config.get("settings", "OnSleepText", "is now sleeping.").getString();
         onWakeText = config.get("settings", "OnWakeText", "has left their bed.").getString();
         onMorningText = config.get("settings", "OnMorningText", "Wakey, wakey, rise and shine... Good Morning everyone!").getString();

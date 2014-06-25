@@ -26,7 +26,7 @@ public class SleepChecker {
                 }
             }
         }
-        if (areEnoughPlayersAsleep(world)) {
+        if (areEnoughPlayersAsleep(world.provider.dimensionId)) {
             advanceToMorning(world);
         }
     }
@@ -52,6 +52,13 @@ public class SleepChecker {
 
         if (world.provider.dimensionId == 0) {
             world.setWorldTime(world.getWorldTime() + getTimeToSunrise(world));
+        } else {
+            try {
+                MorpheusRegistry.registry.get(world.provider.dimensionId).startNewDay();
+            }
+            catch (Exception e) {
+                Morpheus.mLog.error("Exception caught while starting a new day for dimension " + world.provider.dimensionId);
+            }
         }
         // Send Good morning message
         alertPlayers(new ChatComponentText(EnumChatFormatting.GOLD + Morpheus.onMorningText), world);
@@ -64,10 +71,10 @@ public class SleepChecker {
         return dayLength - (world.getWorldTime() % dayLength);
     }
 
-    private boolean areEnoughPlayersAsleep(World world) {
+    private boolean areEnoughPlayersAsleep(int dimension) {
 
-        if ((world.provider.dimensionId == 0)) { // || (MorpheusRegistry.registry.get(world.provider.dimensionId) != null)) {
-            return Morpheus.playerSleepStatus.get(world.provider.dimensionId).getPercentSleeping() >= Morpheus.perc;
+        if ((dimension == 0) || (MorpheusRegistry.registry.get(dimension) != null)) {
+            return Morpheus.playerSleepStatus.get(dimension).getPercentSleeping() >= Morpheus.perc;
         }
         return false;
     }
