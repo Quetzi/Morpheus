@@ -21,7 +21,7 @@ project.ext {
     major = "1"
     minor = "5"
 }
-version = "1.7.10-${project.ext.major}.${project.minor}.${System.getenv("BUILD_NUMBER") ?: 0}"
+version = "1.7.2-${project.ext.major}.${project.minor}.${System.getenv("BUILD_NUMBER") ?: 0}"
 group = "net.quetzi.morpheus"
 archivesBaseName = "Morpheus"
 
@@ -40,7 +40,7 @@ task libJar(type: Jar) {
     from(sourceSets.main.java) {
         include "net/quetzi/morpheus/api/*"
     }
-    classifier = 'lib'
+    classifier = 'api'
 }
 
 artifacts {
