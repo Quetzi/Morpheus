@@ -70,7 +70,6 @@ public class Morpheus {
         onMorningText = config.get("settings", "OnMorningText", "Wakey, wakey, rise and shine... Good Morning everyone!").getString();
         spawnSetText = config.get("settings", "SpawnSetText", "Bed location set!").getString();
         config.save();
-        MorpheusRegistry register = new MorpheusRegistry();
     }
 
     @EventHandler

@@ -1,6 +1,5 @@
 package net.quetzi.morpheus;
 
-import cpw.mods.fml.common.Loader;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
@@ -53,13 +52,6 @@ public class SleepChecker {
 
         if (world.provider.dimensionId == 0) {
             world.setWorldTime(world.getWorldTime() + getTimeToSunrise(world));
-        } else {
-            try {
-            MorpheusRegistry.registry.get(world.provider.dimensionId).startNewDay();
-            }
-            catch (Exception e) {
-                Morpheus.mLog.error("Exception caught while starting a new day for dimension " + world.provider.dimensionId);
-            }
         }
         // Send Good morning message
         alertPlayers(new ChatComponentText(EnumChatFormatting.GOLD + Morpheus.onMorningText), world);
@@ -74,7 +66,7 @@ public class SleepChecker {
 
     private boolean areEnoughPlayersAsleep(World world) {
 
-        if ((world.provider.dimensionId == 0) || (MorpheusRegistry.registry.get(world.provider.dimensionId) != null)) { 
+        if ((world.provider.dimensionId == 0)) { // || (MorpheusRegistry.registry.get(world.provider.dimensionId) != null)) {
             return Morpheus.playerSleepStatus.get(world.provider.dimensionId).getPercentSleeping() >= Morpheus.perc;
         }
         return false;
