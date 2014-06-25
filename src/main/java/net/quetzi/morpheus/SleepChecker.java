@@ -51,7 +51,16 @@ public class SleepChecker {
 
     private void advanceToMorning(World world) {
 
-        world.setWorldTime(world.getWorldTime() + getTimeToSunrise(world));
+        if (world.provider.dimensionId == 0) {
+            world.setWorldTime(world.getWorldTime() + getTimeToSunrise(world));
+        } else {
+            try {
+            MorpheusRegistry.registry.get(world.provider.dimensionId).startNewDay();
+            }
+            catch (Exception e) {
+                Morpheus.mLog.error("Exception caught while starting a new day for dimension " + world.provider.dimensionId);
+            }
+        }
         // Send Good morning message
         alertPlayers(new ChatComponentText(EnumChatFormatting.GOLD + Morpheus.onMorningText), world);
         world.provider.resetRainAndThunder();
@@ -65,8 +74,9 @@ public class SleepChecker {
 
     private boolean areEnoughPlayersAsleep(World world) {
 
-        // Disable in Twilight Forest
-        if (Loader.isModLoaded("TwilightForest") && world.provider.dimensionId == 7) { return false; }
-        return Morpheus.playerSleepStatus.get(world.provider.dimensionId).getPercentSleeping() >= Morpheus.perc;
+        if ((world.provider.dimensionId == 0) || (MorpheusRegistry.registry.get(world.provider.dimensionId) != null)) { 
+            return Morpheus.playerSleepStatus.get(world.provider.dimensionId).getPercentSleeping() >= Morpheus.perc;
+        }
+        return false;
     }
 }

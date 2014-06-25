@@ -1,5 +1,15 @@
 package net.quetzi.morpheus;
 
+import java.util.HashMap;
+
+import net.minecraftforge.common.config.Configuration;
+import net.quetzi.morpheus.commands.CommandMorpheus;
+import net.quetzi.morpheus.commands.CommandVersion;
+import net.quetzi.morpheus.references.References;
+import net.quetzi.morpheus.world.WorldSleepState;
+
+import org.apache.logging.log4j.Logger;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -7,15 +17,6 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.config.Configuration;
-import net.quetzi.morpheus.commands.CommandMorpheus;
-import net.quetzi.morpheus.commands.CommandVersion;
-import net.quetzi.morpheus.references.References;
-import net.quetzi.morpheus.world.WorldSleepState;
-import org.apache.logging.log4j.Logger;
-
-import java.util.HashMap;
 
 @Mod(modid = References.MODID, name = References.NAME, version = References.VERSION, acceptableRemoteVersions = "*")
 public class Morpheus {
@@ -69,6 +70,7 @@ public class Morpheus {
         onMorningText = config.get("settings", "OnMorningText", "Wakey, wakey, rise and shine... Good Morning everyone!").getString();
         spawnSetText = config.get("settings", "SpawnSetText", "Bed location set!").getString();
         config.save();
+        MorpheusRegistry register = new MorpheusRegistry();
     }
 
     @EventHandler

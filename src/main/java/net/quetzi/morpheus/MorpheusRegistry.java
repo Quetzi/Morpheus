@@ -6,7 +6,7 @@ import net.quetzi.morpheus.api.IMorpheusAPI;
 import net.quetzi.morpheus.api.INewDayHandler;
 
 public class MorpheusRegistry implements IMorpheusAPI {
-    
+
     public static ArrayList<INewDayHandler> registry;
 
     public MorpheusRegistry() {
@@ -16,14 +16,13 @@ public class MorpheusRegistry implements IMorpheusAPI {
 
     @Override
     public void registerHandler(INewDayHandler newDayHandler, int dimension) {
-        
+
         registry.add(dimension, newDayHandler);
     }
 
     @Override
     public void unregisterHandler(int dimension) {
-        
+
         registry.remove(dimension);
     }
-
 }

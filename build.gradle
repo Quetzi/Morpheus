@@ -21,12 +21,12 @@ project.ext {
     major = "1"
     minor = "4"
 }
-version = "1.7.2-${project.ext.major}.${project.minor}.${System.getenv("BUILD_NUMBER") ?: 0}"
+version = "1.7.10-${project.ext.major}.${project.minor}.${System.getenv("BUILD_NUMBER") ?: 0}"
 group = "net.quetzi.morpheus"
-archivesBaseName = "morpheus"
+archivesBaseName = "Morpheus"
 
 minecraft {
-    version = "1.7.2-10.12.1.1101"
+    version = "1.7.10_pre4-10.12.2.1138-prerelease"
     assetDir = "eclipse/assets"
 
     // replacing stuff in the source
@@ -36,22 +36,32 @@ minecraft {
     replace '@BUILD_NUMBER@', System.getenv("BUILD_NUMBER")
 }
 
-processResources
-        {
-            // this will ensure that this task is redone when the versions change.
-            inputs.property "version", project.version
-            inputs.property "mcversion", project.minecraft.version
+task libJar(type: Jar) {
+    from(sourceSets.main.java) {
+        include "net/quetzi/morpheus/api/*"
+    }
+    classifier = 'lib'
+}
 
-            // replace stuff in mcmod.info, nothing else
-            from(sourceSets.main.resources.srcDirs) {
-                include '*.info'
+artifacts {
+    archives libJar
+}
 
-                // replace version and mcversion
-                expand 'version': project.version, 'mcversion': project.minecraft.version
-            }
+processResources {
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
 
-            // copy everything else, thats not the mcmod.info
-            from(sourceSets.main.resources.srcDirs) {
-                exclude 'mcmod.info'
-            }
-        }
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include '*.info'
+
+        // replace version and mcversion
+        expand 'version': project.version, 'mcversion': project.minecraft.version
+    }
+
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
