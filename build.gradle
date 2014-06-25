@@ -19,14 +19,14 @@ apply plugin: 'forge'
 
 project.ext {
     major = "1"
-    minor = "4"
+    minor = "5"
 }
 version = "1.7.10-${project.ext.major}.${project.minor}.${System.getenv("BUILD_NUMBER") ?: 0}"
 group = "net.quetzi.morpheus"
 archivesBaseName = "Morpheus"
 
 minecraft {
-    version = "1.7.10-pre4-10.12.2.1138-prerelease"
+    version = "1.7.2-10.12.2.1121"
     assetDir = "eclipse/assets"
 
     // replacing stuff in the source
