@@ -21,12 +21,12 @@ project.ext {
     major = "1"
     minor = "5"
 }
-version = "1.7.2-${project.ext.major}.${project.minor}.${System.getenv("BUILD_NUMBER") ?: 0}"
+version = "1.7.10-${project.ext.major}.${project.minor}.${System.getenv("BUILD_NUMBER") ?: 0}"
 group = "net.quetzi.morpheus"
 archivesBaseName = "Morpheus"
 
 minecraft {
-    version = "1.7.2-10.12.2.1121"
+    version = "1.7.10-10.13.0.1150"
     assetDir = "eclipse/assets"
 
     // replacing stuff in the source
