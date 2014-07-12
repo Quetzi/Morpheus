@@ -35,7 +35,7 @@ public class SleepChecker {
 
         if ((alert != null) && (Morpheus.isAlertEnabled())) {
             for (EntityPlayer player : (List<EntityPlayer>) world.playerEntities) {
-                player.addChatMessage(alert);
+                player.addChatComponentMessage(alert);
             }
         }
     }
