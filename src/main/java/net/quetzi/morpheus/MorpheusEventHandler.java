@@ -42,7 +42,9 @@ public class MorpheusEventHandler {
                 Morpheus.playerSleepStatus.put(event.toDim, new WorldSleepState(event.toDim));
             }
             // Remove player from old World state
-            Morpheus.playerSleepStatus.get(event.fromDim).removePlayer(event.player.getGameProfile().getName());
+            if (Morpheus.playerSleepStatus.get(event.fromDim) != null) {
+                Morpheus.playerSleepStatus.get(event.fromDim).removePlayer(event.player.getGameProfile().getName());
+            }
             // Add player to new world state
             Morpheus.playerSleepStatus.get(event.toDim).setPlayerAwake(event.player.getGameProfile().getName());
         }
