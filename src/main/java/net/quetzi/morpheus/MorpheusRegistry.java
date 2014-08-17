@@ -40,6 +40,9 @@ public class MorpheusRegistry implements IMorpheusAPI {
     @Override
     public INewDayHandler getHandler(int dimensionId) {
     
+        for (Integer i : handlers.keySet())
+            if (i.intValue() == dimensionId) return handlers.get(i);
+        
         return null;
     }
     
