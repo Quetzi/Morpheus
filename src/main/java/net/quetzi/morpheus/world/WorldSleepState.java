@@ -1,7 +1,12 @@
 package net.quetzi.morpheus.world;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
+import net.quetzi.morpheus.Morpheus;
+
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
 
 public class WorldSleepState {
@@ -17,7 +22,15 @@ public class WorldSleepState {
 
     public int getPercentSleeping() {
 
-        return (this.getSleepingPlayers() * 100) / this.playerStatus.size();
+        int miningPlayers = 0;
+        if (!Morpheus.includeMiners) {
+            for (EntityPlayer player : (List<EntityPlayer>) MinecraftServer.getServer().worldServerForDimension(this.dimension).playerEntities) {
+                if (player.getPlayerCoordinates().posY < Morpheus.groundLevel) {
+                    miningPlayers++;
+                }
+            }
+        }
+        return ((this.getSleepingPlayers() + miningPlayers) * 100) / this.playerStatus.size();
     }
 
     private int getSleepingPlayers() {
