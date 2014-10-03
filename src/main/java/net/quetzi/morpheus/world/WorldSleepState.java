@@ -22,15 +22,20 @@ public class WorldSleepState {
 
     public int getPercentSleeping() {
 
+        if (this.getSleepingPlayers() > 0) {
+            return ((this.getSleepingPlayers() + this.getMiningPlayers()) * 100) / this.playerStatus.size();
+        }
+        return 0;
+    }
+    
+    private int getMiningPlayers() {
         int miningPlayers = 0;
-        if (!Morpheus.includeMiners) {
-            for (EntityPlayer player : (List<EntityPlayer>) MinecraftServer.getServer().worldServerForDimension(this.dimension).playerEntities) {
-                if (player.getPlayerCoordinates().posY < Morpheus.groundLevel) {
-                    miningPlayers++;
-                }
+        for (EntityPlayer player : (List<EntityPlayer>) MinecraftServer.getServer().worldServerForDimension(this.dimension).playerEntities) {
+            if (player.getPlayerCoordinates().posY < Morpheus.groundLevel) {
+                miningPlayers++;
             }
         }
-        return ((this.getSleepingPlayers() + miningPlayers) * 100) / this.playerStatus.size();
+        return Morpheus.includeMiners ? miningPlayers : 0;
     }
 
     private int getSleepingPlayers() {
