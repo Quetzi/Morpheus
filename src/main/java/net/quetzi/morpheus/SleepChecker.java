@@ -50,26 +50,19 @@ public class SleepChecker {
 
     private void advanceToMorning(World world) {
 
-        if (world.provider.dimensionId == 0) {
-            world.setWorldTime(world.getWorldTime() + getTimeToSunrise(world));
-        } else {
-            try {
-                MorpheusRegistry.registry.get(world.provider.dimensionId).startNewDay();
-            }
-            catch (Exception e) {
-                Morpheus.mLog.error("Exception caught while starting a new day for dimension " + world.provider.dimensionId);
-            }
+        try {
+            MorpheusRegistry.registry.get(world.provider.dimensionId).startNewDay();
         }
+        catch (Exception e) {
+            Morpheus.mLog.error("Exception caught while starting a new day for dimension " + world.provider.dimensionId);
+        }
+
         // Send Good morning message
         alertPlayers(new ChatComponentText(EnumChatFormatting.GOLD + Morpheus.onMorningText), world);
         world.provider.resetRainAndThunder();
     }
 
-    private long getTimeToSunrise(World world) {
 
-        long dayLength = 24000;
-        return dayLength - (world.getWorldTime() % dayLength);
-    }
 
     private boolean areEnoughPlayersAsleep(int dimension) {
 
