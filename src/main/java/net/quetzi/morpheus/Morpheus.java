@@ -20,7 +20,7 @@ import java.util.HashMap;
 public class Morpheus {
 
     public static int                               perc;
-    public static String                            onSleepText, onWakeText, onMorningText, spawnSetText;
+    public static String                            onSleepText, onWakeText, onMorningText;
     public static Logger                            mLog;
     public static HashMap<Integer, WorldSleepState> playerSleepStatus = new HashMap<Integer, WorldSleepState>();
     public static SleepChecker                      checker           = new SleepChecker();

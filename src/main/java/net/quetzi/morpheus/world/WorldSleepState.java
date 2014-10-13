@@ -35,7 +35,7 @@ public class WorldSleepState {
                 miningPlayers++;
             }
         }
-        return Morpheus.includeMiners ? miningPlayers : 0;
+        return !Morpheus.includeMiners ? miningPlayers : 0;
     }
 
     private int getSleepingPlayers() {
@@ -52,7 +52,7 @@ public class WorldSleepState {
 
     public String toString() {
 
-        return this.getSleepingPlayers() + "/" + this.playerStatus.size() + " (" + this.getPercentSleeping() + "%)";
+        return Morpheus.includeMiners ? this.getSleepingPlayers() + "/" + this.playerStatus.size() + " (" + this.getPercentSleeping() + "%)" : this.getSleepingPlayers() + "/" + this.playerStatus.size() + " + " + this.getMiningPlayers() + " miners (" + this.getPercentSleeping() + "%)";
     }
 
     public void setPlayerAsleep(String username) {
