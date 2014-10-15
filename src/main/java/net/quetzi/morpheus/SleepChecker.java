@@ -58,7 +58,7 @@ public class SleepChecker {
         }
 
         // Send Good morning message
-        alertPlayers(new ChatComponentText(EnumChatFormatting.GOLD + Morpheus.onMorningText), world);
+        alertPlayers(new ChatComponentText(DateHandler.getMorningText()), world);
         world.provider.resetRainAndThunder();
     }
 
