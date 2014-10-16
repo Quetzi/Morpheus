@@ -9,6 +9,7 @@ import java.util.List;
 
 public class SleepChecker {
 
+    @SuppressWarnings("unchecked")
     public void updatePlayerStates(World world) {
 
         // Iterate players and update their status
@@ -66,9 +67,6 @@ public class SleepChecker {
 
     private boolean areEnoughPlayersAsleep(int dimension) {
 
-        if ((dimension == 0) || (MorpheusRegistry.registry.get(dimension) != null)) {
-            return Morpheus.playerSleepStatus.get(dimension).getPercentSleeping() >= Morpheus.perc;
-        }
-        return false;
+        return ((dimension == 0) || (MorpheusRegistry.registry.get(dimension) != null)) && Morpheus.playerSleepStatus.get(dimension).getPercentSleeping() >= Morpheus.perc;
     }
 }

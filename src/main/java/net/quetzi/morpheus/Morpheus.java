@@ -39,11 +39,6 @@ public class Morpheus {
     }
 
     @EventHandler
-    public void Init(FMLInitializationEvent event) {
-
-    }
-
-    @EventHandler
     public void PreInit(FMLPreInitializationEvent event) {
 
         Morpheus.mLog = event.getModLog();
