@@ -22,10 +22,7 @@ public class WorldSleepState {
 
     public int getPercentSleeping() {
 
-        if (this.getSleepingPlayers() > 0) {
-            return ((this.getSleepingPlayers() + this.getMiningPlayers()) * 100) / this.playerStatus.size();
-        }
-        return 0;
+        return (this.getSleepingPlayers() > 0) ? ((this.getSleepingPlayers() + this.getMiningPlayers()) * 100) / this.playerStatus.size() : 0;
     }
     
     private int getMiningPlayers() {
@@ -41,11 +38,9 @@ public class WorldSleepState {
     private int getSleepingPlayers() {
 
         int asleepCount = 0;
-        Iterator<Entry<String, Boolean>> entry = this.playerStatus.entrySet().iterator();
-        while (entry.hasNext()) {
-            if (entry.next().getValue()) {
+        for (Entry<String, Boolean> entry : this.playerStatus.entrySet()) {
+            if (entry.getValue())
                 asleepCount++;
-            }
         }
         return asleepCount;
     }
@@ -82,9 +77,8 @@ public class WorldSleepState {
 
     public void wakeAllPlayers() {
 
-        Iterator<Entry<String, Boolean>> entry = this.playerStatus.entrySet().iterator();
-        while (entry.hasNext()) {
-            entry.next().setValue(false);
+        for (Entry<String, Boolean> entry : this.playerStatus.entrySet()) {
+            entry.setValue(false);
         }
     }
 }

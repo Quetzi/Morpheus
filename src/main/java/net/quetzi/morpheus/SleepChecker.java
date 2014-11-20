@@ -19,7 +19,8 @@ public class SleepChecker {
                 Morpheus.playerSleepStatus.get(player.dimension).setPlayerAsleep(username);
                 // Alert players that this player has gone to bed
                 alertPlayers(createAlert(player.dimension, player.getDisplayName(), Morpheus.onSleepText), world);
-            } else if (!player.isPlayerFullyAsleep() && Morpheus.playerSleepStatus.get(player.dimension).isPlayerSleeping(username)) {
+            }
+            else if (!player.isPlayerFullyAsleep() && Morpheus.playerSleepStatus.get(player.dimension).isPlayerSleeping(username)) {
                 Morpheus.playerSleepStatus.get(player.dimension).setPlayerAwake(username);
                 // Alert players that this player has woken up
                 if (!world.isDaytime()) {
@@ -60,6 +61,7 @@ public class SleepChecker {
 
         // Send Good morning message
         alertPlayers(new ChatComponentText(DateHandler.getMorningText()), world);
+        Morpheus.playerSleepStatus.get(world.provider.dimensionId).wakeAllPlayers();
         world.provider.resetRainAndThunder();
     }
 
