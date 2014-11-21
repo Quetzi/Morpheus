@@ -1,13 +1,12 @@
 package net.quetzi.morpheus;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+//import net.minecraftforge.common.config.Configuration;
 import net.quetzi.morpheus.commands.CommandMorpheus;
 import net.quetzi.morpheus.commands.CommandVersion;
 import net.quetzi.morpheus.references.References;
@@ -42,19 +41,19 @@ public class Morpheus {
     public void PreInit(FMLPreInitializationEvent event) {
 
         Morpheus.mLog = event.getModLog();
-        mLog.info("Loading configuration");
+//        mLog.info("Loading configuration");
         // Read configs
-        Configuration config = new Configuration(event.getSuggestedConfigurationFile());
-        config.load();
+//        Configuration config = new Configuration(event.getSuggestedConfigurationFile());
+//        config.load();
 
-        perc = config.get("settings", "SleeperPerc", 50).getInt();
-        alertEnabled = config.get("settings", "AlertEnabled", true).getBoolean();
-        onSleepText = config.get("settings", "OnSleepText", "is now sleeping.").getString();
-        onWakeText = config.get("settings", "OnWakeText", "has left their bed.").getString();
-        onMorningText = config.get("settings", "OnMorningText", "Wakey, wakey, rise and shine... Good Morning everyone!").getString();
-        includeMiners = config.get("settings", "IncludeMiners", true).getBoolean();
-        groundLevel = config.getInt("settings", "GroundLevel", 64, 1, 255, "Ground Level (1-255)");
-        config.save();
+        perc = 50; //config.get("settings", "SleeperPerc", 50).getInt();
+        alertEnabled = true; //config.get("settings", "AlertEnabled", true).getBoolean();
+        onSleepText = "is now sleeping."; //config.get("settings", "OnSleepText", "is now sleeping.").getString();
+        onWakeText = "has left their bed."; //config.get("settings", "OnWakeText", "has left their bed.").getString();
+        onMorningText = "Good Morning!"; //config.get("settings", "OnMorningText", "Wakey, wakey, rise and shine... Good Morning everyone!").getString();
+        includeMiners = true; //config.get("settings", "IncludeMiners", true).getBoolean();
+        groundLevel = 64; //config.getInt("settings", "GroundLevel", 64, 1, 255, "Ground Level (1-255)");
+//        config.save();
         MorpheusRegistry register = new MorpheusRegistry();
     }
 

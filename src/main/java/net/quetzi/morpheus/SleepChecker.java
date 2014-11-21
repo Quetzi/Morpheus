@@ -18,16 +18,17 @@ public class SleepChecker {
             if (player.isPlayerFullyAsleep() && !Morpheus.playerSleepStatus.get(player.dimension).isPlayerSleeping(username)) {
                 Morpheus.playerSleepStatus.get(player.dimension).setPlayerAsleep(username);
                 // Alert players that this player has gone to bed
-                alertPlayers(createAlert(player.dimension, player.getDisplayName(), Morpheus.onSleepText), world);
-            } else if (!player.isPlayerFullyAsleep() && Morpheus.playerSleepStatus.get(player.dimension).isPlayerSleeping(username)) {
+                alertPlayers(createAlert(player.dimension, player.getGameProfile().getName(), Morpheus.onSleepText), world);
+            }
+            else if (!player.isPlayerFullyAsleep() && Morpheus.playerSleepStatus.get(player.dimension).isPlayerSleeping(username)) {
                 Morpheus.playerSleepStatus.get(player.dimension).setPlayerAwake(username);
                 // Alert players that this player has woken up
                 if (!world.isDaytime()) {
-                    alertPlayers(createAlert(player.dimension, player.getDisplayName(), Morpheus.onWakeText), world);
+                    alertPlayers(createAlert(player.dimension, player.getGameProfile().getName(), Morpheus.onWakeText), world);
                 }
             }
         }
-        if (areEnoughPlayersAsleep(world.provider.dimensionId)) {
+        if (areEnoughPlayersAsleep(world.provider.getDimensionId())) {
             advanceToMorning(world);
         }
     }
@@ -52,15 +53,16 @@ public class SleepChecker {
     private void advanceToMorning(World world) {
 
         try {
-            MorpheusRegistry.registry.get(world.provider.dimensionId).startNewDay();
+            MorpheusRegistry.registry.get(world.provider.getDimensionId()).startNewDay();
         }
         catch (Exception e) {
-            Morpheus.mLog.error("Exception caught while starting a new day for dimension " + world.provider.dimensionId);
+            Morpheus.mLog.error("Exception caught while starting a new day for dimension " + world.provider.getDimensionId());
         }
 
         // Send Good morning message
         alertPlayers(new ChatComponentText(DateHandler.getMorningText()), world);
-        world.provider.resetRainAndThunder();
+        Morpheus.playerSleepStatus.get(world.provider.getDimensionId()).wakeAllPlayers();
+//        world.provider.resetRainAndThunder();
     }
 
 

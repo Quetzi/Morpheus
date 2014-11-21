@@ -1,11 +1,11 @@
 package net.quetzi.morpheus;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.server.MinecraftServer;
 import net.quetzi.morpheus.world.WorldSleepState;
 
@@ -55,12 +55,12 @@ public class MorpheusEventHandler {
                 // This is called every tick, do something every 20 ticks
                 if (event.world.getWorldTime() % 20L == 10) {
                     if (event.world.playerEntities.size() > 0) {
-                        if (Morpheus.playerSleepStatus.get(event.world.provider.dimensionId) == null) {
-                            Morpheus.playerSleepStatus.put(event.world.provider.dimensionId, new WorldSleepState(event.world.provider.dimensionId));
+                        if (Morpheus.playerSleepStatus.get(event.world.provider.getDimensionId()) == null) {
+                            Morpheus.playerSleepStatus.put(event.world.provider.getDimensionId(), new WorldSleepState(event.world.provider.getDimensionId()));
                         }
                         Morpheus.checker.updatePlayerStates(event.world);
                     } else {
-                        Morpheus.playerSleepStatus.remove(event.world.provider.dimensionId);
+                        Morpheus.playerSleepStatus.remove(event.world.provider.getDimensionId());
                     }
                 }
             }

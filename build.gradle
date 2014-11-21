@@ -15,19 +15,20 @@ buildscript {
     }
 }
 
-apply plugin: 'forge'
+apply plugin: 'fml'
 
 project.ext {
-    major = "1"
-    minor = "5"
+    major = "2"
+    minor = "0"
 }
-version = "1.7.10-${project.ext.major}.${project.minor}.${System.getenv("BUILD_NUMBER") ?: 0}"
+version = "1.8-${project.ext.major}.${project.minor}.${System.getenv("BUILD_NUMBER") ?: 0}"
 group = "net.quetzi.morpheus"
 archivesBaseName = "Morpheus"
 
 minecraft {
-    version = "1.7.10-10.13.0.1208"
+    version = "1.8-8.0.9.1016-1.8"
     assetDir = "eclipse/assets"
+    mappings = "snapshot_20141121"
 
     // replacing stuff in the source
     replace '@MAJOR@', project.major

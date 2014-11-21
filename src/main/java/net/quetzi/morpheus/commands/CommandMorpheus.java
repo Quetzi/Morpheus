@@ -2,6 +2,7 @@ package net.quetzi.morpheus.commands;
 
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.quetzi.morpheus.Morpheus;
 import net.quetzi.morpheus.references.References;
@@ -25,7 +26,7 @@ public class CommandMorpheus implements ICommand {
     }
 
     @Override
-    public String getCommandName() {
+    public String getName() {
 
         return "morpheus";
     }
@@ -37,13 +38,13 @@ public class CommandMorpheus implements ICommand {
     }
 
     @Override
-    public List getCommandAliases() {
+    public List getAliases() {
 
         return null;
     }
 
     @Override
-    public void processCommand(ICommandSender sender, String[] astring) {
+    public void execute(ICommandSender sender, String[] astring) {
 
         if (astring.length == 0) {
             sender.addChatMessage(new ChatComponentText(References.USAGE));
@@ -67,13 +68,13 @@ public class CommandMorpheus implements ICommand {
     }
 
     @Override
-    public boolean canCommandSenderUseCommand(ICommandSender icommandsender) {
+    public boolean canCommandSenderUse(ICommandSender icommandsender) {
 
         return true;
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring) {
+    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring, BlockPos pos) {
 
         return null;
     }
