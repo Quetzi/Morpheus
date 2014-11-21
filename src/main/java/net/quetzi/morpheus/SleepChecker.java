@@ -62,7 +62,10 @@ public class SleepChecker {
         // Send Good morning message
         alertPlayers(new ChatComponentText(DateHandler.getMorningText()), world);
         Morpheus.playerSleepStatus.get(world.provider.getDimensionId()).wakeAllPlayers();
-//        world.provider.resetRainAndThunder();
+        world.getWorldInfo().setRainTime(0);
+        world.getWorldInfo().setRaining(false);
+        world.getWorldInfo().setThunderTime(0);
+        world.getWorldInfo().setThundering(false);
     }
 
 
