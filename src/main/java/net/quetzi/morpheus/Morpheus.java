@@ -6,14 +6,13 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-//import net.minecraftforge.common.config.Configuration;
-import net.quetzi.morpheus.commands.CommandMorpheus;
-import net.quetzi.morpheus.commands.CommandVersion;
 import net.quetzi.morpheus.references.References;
 import net.quetzi.morpheus.world.WorldSleepState;
 import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
+
+//import net.minecraftforge.common.config.Configuration;
 
 @Mod(modid = References.MODID, name = References.NAME, version = References.VERSION, acceptableRemoteVersions = "*")
 public class Morpheus {
@@ -66,8 +65,8 @@ public class Morpheus {
     @EventHandler
     public void serverLoad(FMLServerStartingEvent event) {
 
-        event.registerServerCommand(new CommandMorpheus());
-        event.registerServerCommand(new CommandVersion());
+//        event.registerServerCommand(new CommandMorpheus());
+//        event.registerServerCommand(new CommandVersion());
     }
 
 }
