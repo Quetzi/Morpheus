@@ -20,13 +20,19 @@ apply plugin: 'fml'
 project.ext {
     major = "2"
     minor = "0"
+    if (System.getenv("BUILD_NUMBER") != null) {
+        build = System.getenv("BUILD_NUMBER")
+    } else {
+        build = "-custom"
+    }
+    mcVersion = "1.8"
 }
-version = "1.8-${project.ext.major}.${project.minor}.${System.getenv("BUILD_NUMBER") ?: 0}"
+version = "${project.ext.mcVersion}-${project.ext.major}.${project.minor}.${System.getenv("BUILD_NUMBER") ?: 0}"
 group = "net.quetzi.morpheus"
 archivesBaseName = "Morpheus"
 
 minecraft {
-    version = "1.8-8.0.9.1016-1.8"
+    version = "${project.ext.mcVersion}-8.0.9.1016-1.8"
     assetDir = "eclipse/assets"
     mappings = "snapshot_20141121"
 
@@ -34,7 +40,7 @@ minecraft {
     replace '@MAJOR@', project.major
     replace '@MINOR@', project.minor
     replace '@MC_VERSION@', version
-    replace '@BUILD_NUMBER@', System.getenv("BUILD_NUMBER")
+    replace '@BUILD_NUMBER@', build
 }
 
 task libJar(type: Jar) {
