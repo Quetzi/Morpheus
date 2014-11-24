@@ -27,7 +27,7 @@ project.ext {
     }
     mcVersion = "1.8"
 }
-version = "${project.ext.mcVersion}-${project.ext.major}.${project.minor}.${System.getenv("BUILD_NUMBER") ?: 0}"
+version = "${project.ext.mcVersion}-${project.ext.major}.${project.minor}.${project.build}"
 group = "net.quetzi.morpheus"
 archivesBaseName = "Morpheus"
 
@@ -39,8 +39,8 @@ minecraft {
     // replacing stuff in the source
     replace '@MAJOR@', project.major
     replace '@MINOR@', project.minor
-    replace '@MC_VERSION@', version
-    replace '@BUILD_NUMBER@', build
+    replace '@MC_VERSION@', project.ext.mcVersion
+    replace '@BUILD_NUMBER@', project.build
 }
 
 task libJar(type: Jar) {

@@ -40,7 +40,8 @@ public class CommandMorpheus implements ICommand {
     @Override
     public List getAliases() {
 
-        return null;
+        aliases.add("sleepvote");
+        return aliases;
     }
 
     @Override
@@ -51,19 +52,10 @@ public class CommandMorpheus implements ICommand {
             return;
         }
         if (astring[0].equalsIgnoreCase("alert")) {
-            if (Morpheus.isAlertEnabled()) {
-                Morpheus.setAlertPlayers(false);
-                sender.addChatMessage(new ChatComponentText(References.ALERTS_OFF));
-            } else {
-                Morpheus.setAlertPlayers(true);
-                sender.addChatMessage(new ChatComponentText(References.ALERTS_ON));
-            }
-        } else if (astring[0].equalsIgnoreCase("disable")) {
-            if (astring[1] != null) {
-                // Disable age tracking
-            } else {
-                sender.addChatMessage(new ChatComponentText(References.DISABLE_USAGE));
-            }
+            Morpheus.setAlertPlayers(!Morpheus.isAlertEnabled());
+            sender.addChatMessage(new ChatComponentText(Morpheus.isAlertEnabled() ? References.ALERTS_ON : References.ALERTS_OFF));
+        } else if (astring[0].equalsIgnoreCase("version")) {
+            sender.addChatMessage(new ChatComponentText("Morpheus version: " + References.VERSION));
         }
     }
 
@@ -87,6 +79,6 @@ public class CommandMorpheus implements ICommand {
 
     public int getRequiredPermissionLevel() {
 
-        return 3;
+        return 4;
     }
 }
