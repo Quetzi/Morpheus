@@ -1,6 +1,6 @@
 package net.quetzi.morpheus.commands;
 
-import net.minecraft.command.ICommand;
+import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
@@ -10,7 +10,7 @@ import net.quetzi.morpheus.references.References;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandMorpheus implements ICommand {
+public class CommandMorpheus extends CommandBase {
 
     private List<String> aliases;
 
