@@ -1,4 +1,4 @@
-package net.quetzi.morpheus;
+package net.quetzi.morpheus.helpers;
 
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.server.MinecraftServer;
+import net.quetzi.morpheus.Morpheus;
 import net.quetzi.morpheus.world.WorldSleepState;
 
 public class MorpheusEventHandler {

@@ -1,7 +1,7 @@
-package net.quetzi.morpheus;
+package net.quetzi.morpheus.helpers;
 
 import net.minecraft.util.EnumChatFormatting;
-import net.quetzi.morpheus.references.References;
+import net.quetzi.morpheus.Morpheus;
 
 import java.util.Calendar;
 

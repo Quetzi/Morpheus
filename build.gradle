@@ -15,7 +15,7 @@ buildscript {
     }
 }
 
-apply plugin: 'fml'
+apply plugin: 'forge'
 
 project.ext {
     major = "2"
@@ -32,7 +32,7 @@ group = "net.quetzi.morpheus"
 archivesBaseName = "Morpheus"
 
 minecraft {
-    version = "${project.ext.mcVersion}-8.0.9.1016-1.8"
+    version = "${project.ext.mcVersion}-11.14.0.1239-1.8"
     assetDir = "eclipse/assets"
     mappings = "snapshot_20141121"
 

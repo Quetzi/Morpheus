@@ -1,4 +1,4 @@
-package net.quetzi.morpheus.references;
+package net.quetzi.morpheus.helpers;
 
 public class References {
 

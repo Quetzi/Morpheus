@@ -5,7 +5,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.quetzi.morpheus.Morpheus;
-import net.quetzi.morpheus.references.References;
+import net.quetzi.morpheus.helpers.References;
 
 import java.util.ArrayList;
 import java.util.List;
