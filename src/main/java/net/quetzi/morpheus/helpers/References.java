@@ -4,10 +4,11 @@ public class References {
 
     public static final String MODID          = "Morpheus";
     public static final String NAME           = "Morpheus";
-    private static final String MAJOR          = "@MAJOR@";
-    private static final String MINOR          = "@MINOR@";
-    private static final String BUILD          = "@BUILD_NUMBER@";
-    public static final String VERSION        = "1.7.10-" + MAJOR + "." + MINOR + "." + BUILD;
+    private static final String MAJOR         = "@MAJOR@";
+    private static final String MINOR         = "@MINOR@";
+    private static final String BUILD         = "@BUILD_NUMBER@";
+    private static final String MCVERSION     = "@MC_VERSION@";
+    public static final String VERSION        = MCVERSION + MAJOR + "." + MINOR + "." + BUILD;
 
     public static final String ALERTS_OFF     = "Text alerts turned off";
     public static final String ALERTS_ON      = "Text alerts turned on";

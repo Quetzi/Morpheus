@@ -33,7 +33,7 @@ archivesBaseName = "Morpheus"
 
 minecraft {
     version = "${project.ext.mcVersion}-11.14.0.1239-1.8"
-    assetDir = "eclipse/assets"
+    runDir = "eclipse"
     mappings = "snapshot_20141121"
 
     // replacing stuff in the source
