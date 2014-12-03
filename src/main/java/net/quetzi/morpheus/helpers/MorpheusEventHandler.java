@@ -52,17 +52,15 @@ public class MorpheusEventHandler {
     public void worldTickEvent(WorldTickEvent event) {
 
         if (!event.world.isRemote) {
-            if (event.phase == TickEvent.Phase.END) {
-                // This is called every tick, do something every 20 ticks
-                if (event.world.getWorldTime() % 20L == 10) {
-                    if (event.world.playerEntities.size() > 0) {
-                        if (Morpheus.playerSleepStatus.get(event.world.provider.getDimensionId()) == null) {
-                            Morpheus.playerSleepStatus.put(event.world.provider.getDimensionId(), new WorldSleepState(event.world.provider.getDimensionId()));
-                        }
-                        Morpheus.checker.updatePlayerStates(event.world);
-                    } else {
-                        Morpheus.playerSleepStatus.remove(event.world.provider.getDimensionId());
+            // This is called every tick, do something every 20 ticks
+            if (event.world.getWorldTime() % 20L == 10 && event.phase == TickEvent.Phase.END) {
+                if (event.world.playerEntities.size() > 0) {
+                    if (Morpheus.playerSleepStatus.get(event.world.provider.getDimensionId()) == null) {
+                        Morpheus.playerSleepStatus.put(event.world.provider.getDimensionId(), new WorldSleepState(event.world.provider.getDimensionId()));
                     }
+                    Morpheus.checker.updatePlayerStates(event.world);
+                } else {
+                    Morpheus.playerSleepStatus.remove(event.world.provider.getDimensionId());
                 }
             }
         }

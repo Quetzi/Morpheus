@@ -65,6 +65,8 @@ public class SleepChecker {
         // Send Good morning message
         alertPlayers(new ChatComponentText(DateHandler.getMorningText()), world);
         Morpheus.playerSleepStatus.get(world.provider.getDimensionId()).wakeAllPlayers();
+
+        // Reset weather
         world.getWorldInfo().setRainTime(0);
         world.getWorldInfo().setRaining(false);
         world.getWorldInfo().setThunderTime(0);
@@ -75,6 +77,6 @@ public class SleepChecker {
 
     private boolean areEnoughPlayersAsleep(int dimension) {
 
-        return ((dimension == 0) || (MorpheusRegistry.registry.get(dimension) != null)) && Morpheus.playerSleepStatus.get(dimension).getPercentSleeping() >= Morpheus.perc;
+        return MorpheusRegistry.registry.get(dimension) != null && Morpheus.playerSleepStatus.get(dimension).getPercentSleeping() >= Morpheus.perc;
     }
 }

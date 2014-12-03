@@ -24,7 +24,7 @@ public class Morpheus {
     public static String                            onSleepText, onWakeText, onMorningText;
     public static Logger                            mLog;
     public static HashMap<Integer, WorldSleepState> playerSleepStatus = new HashMap<Integer, WorldSleepState>();
-    public static SleepChecker checker           = new SleepChecker();
+    public static SleepChecker                      checker           = new SleepChecker();
     private static boolean                          alertEnabled;
     public static boolean                           includeMiners;
     public static int                               groundLevel;
