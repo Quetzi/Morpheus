@@ -8,7 +8,7 @@ public class References {
     private static final String MINOR         = "@MINOR@";
     private static final String BUILD         = "@BUILD_NUMBER@";
     private static final String MCVERSION     = "@MC_VERSION@";
-    public static final String VERSION        = MCVERSION + MAJOR + "." + MINOR + "." + BUILD;
+    public static final String VERSION        = MCVERSION + "-" + MAJOR + "." + MINOR + "." + BUILD;
 
     public static final String ALERTS_OFF     = "Text alerts turned off";
     public static final String ALERTS_ON      = "Text alerts turned on";
