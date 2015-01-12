@@ -1,8 +1,10 @@
 package net.quetzi.morpheus;
 
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
@@ -15,19 +17,19 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 
-import net.minecraftforge.common.config.Configuration;
-
 @Mod(modid = References.MODID, name = References.NAME, version = References.VERSION, dependencies = "required-after:Forge@[11.14.0.1239,);", acceptableRemoteVersions = "*")
 public class Morpheus {
 
     public static int                               perc;
     public static String                            onSleepText, onWakeText, onMorningText;
-    public static Logger                            mLog;
-    public static HashMap<Integer, WorldSleepState> playerSleepStatus = new HashMap<Integer, WorldSleepState>();
-    public static SleepChecker                      checker           = new SleepChecker();
-    private static boolean                          alertEnabled;
-    public static boolean                           includeMiners;
-    public static int                               groundLevel;
+    public static Logger mLog;
+    public static final HashMap<Integer, WorldSleepState> playerSleepStatus = new HashMap<Integer, WorldSleepState>();
+    public static final SleepChecker                      checker           = new SleepChecker();
+    private static boolean  alertEnabled;
+    public static  boolean  includeMiners;
+    public static  int      groundLevel;
+    @Instance(References.MODID)
+    public static  Morpheus INSTANCE;
 
     public static boolean isAlertEnabled() {
 

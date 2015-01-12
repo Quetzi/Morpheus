@@ -10,8 +10,8 @@ import java.util.Map.Entry;
 
 public class WorldSleepState {
 
-    private int                      dimension;
-    private HashMap<String, Boolean> playerStatus;
+    private final int                      dimension;
+    private final HashMap<String, Boolean> playerStatus;
 
     public WorldSleepState(int dimension) {
 

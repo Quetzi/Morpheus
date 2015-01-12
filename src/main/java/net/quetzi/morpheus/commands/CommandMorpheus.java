@@ -12,7 +12,7 @@ import java.util.List;
 
 public class CommandMorpheus extends CommandBase {
 
-    private List<String> aliases;
+    private final List<String> aliases;
 
     public CommandMorpheus() {
 
