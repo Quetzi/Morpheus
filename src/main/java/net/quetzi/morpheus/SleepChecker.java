@@ -44,9 +44,9 @@ public class SleepChecker {
 
     private ChatComponentText createAlert(int dimension, String username, String text) {
 
-        String alertText = EnumChatFormatting.GOLD + "Player " + EnumChatFormatting.WHITE + username + EnumChatFormatting.GOLD + " " + text + " "
+        String alertText = EnumChatFormatting.WHITE + username + EnumChatFormatting.GOLD + " " + text + " "
                 + Morpheus.playerSleepStatus.get(dimension).toString();
-        Morpheus.mLog.info("Player " + username + " " + text + " " + Morpheus.playerSleepStatus.get(dimension).toString());
+        Morpheus.mLog.info(username + " " + text + " " + Morpheus.playerSleepStatus.get(dimension).toString());
         return new ChatComponentText(alertText);
     }
 
