@@ -26,13 +26,13 @@ public class CommandMorpheus extends CommandBase {
     }
 
     @Override
-    public String getName() {
+    public String getCommandName() {
 
         return "morpheus";
     }
 
     @Override
-    public String getCommandUsage(ICommandSender sender) {
+    public String getUsage(ICommandSender sender) {
 
         return References.USAGE;
     }
@@ -45,7 +45,7 @@ public class CommandMorpheus extends CommandBase {
     }
 
     @Override
-    public void execute(ICommandSender sender, String[] astring) {
+    public void processCommand(ICommandSender sender, String[] astring) {
 
         if (astring.length == 0) {
             sender.addChatMessage(new ChatComponentText(References.USAGE));
@@ -60,13 +60,13 @@ public class CommandMorpheus extends CommandBase {
     }
 
     @Override
-    public boolean canCommandSenderUse(ICommandSender icommandsender) {
+    public boolean canCommandSenderUseCommand(ICommandSender icommandsender) {
 
         return true;
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring, BlockPos pos) {
+    public List tabComplete(ICommandSender icommandsender, String[] astring, BlockPos pos) {
 
         return null;
     }
@@ -80,6 +80,6 @@ public class CommandMorpheus extends CommandBase {
     @Override
     public int getRequiredPermissionLevel() {
 
-        return 4;
+        return 3;
     }
 }
