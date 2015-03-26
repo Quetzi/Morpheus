@@ -5,9 +5,12 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class SleepChecker {
+
+    private HashMap<Integer, Boolean> alertSent = new HashMap<Integer, Boolean>();
 
     @SuppressWarnings("unchecked")
     public void updatePlayerStates(World world) {
@@ -23,13 +26,15 @@ public class SleepChecker {
             else if (!player.isPlayerFullyAsleep() && Morpheus.playerSleepStatus.get(player.dimension).isPlayerSleeping(username)) {
                 Morpheus.playerSleepStatus.get(player.dimension).setPlayerAwake(username);
                 // Alert players that this player has woken up
-                if (!world.isDaytime()) {
+                if (!world.isDaytime() && !alertSent.get(world.provider.dimensionId)) {
                     alertPlayers(createAlert(player.dimension, player.getDisplayName(), Morpheus.onWakeText), world);
                 }
             }
         }
         if (areEnoughPlayersAsleep(world.provider.dimensionId)) {
             advanceToMorning(world);
+        } else {
+            alertSent.put(world.provider.dimensionId, false);
         }
     }
 
@@ -59,13 +64,14 @@ public class SleepChecker {
             Morpheus.mLog.error("Exception caught while starting a new day for dimension " + world.provider.dimensionId);
         }
 
-        // Send Good morning message
-        alertPlayers(new ChatComponentText(DateHandler.getMorningText()), world);
-        Morpheus.playerSleepStatus.get(world.provider.dimensionId).wakeAllPlayers();
+        if (!alertSent.get(world.provider.dimensionId)) {
+            // Send Good morning message
+            alertPlayers(new ChatComponentText(DateHandler.getMorningText()), world);
+            Morpheus.playerSleepStatus.get(world.provider.dimensionId).wakeAllPlayers();
+            alertSent.put(world.provider.dimensionId, true);
+        }
         world.provider.resetRainAndThunder();
     }
-
-
 
     private boolean areEnoughPlayersAsleep(int dimension) {
 
