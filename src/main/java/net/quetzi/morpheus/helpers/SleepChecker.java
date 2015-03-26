@@ -6,11 +6,13 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.quetzi.morpheus.Morpheus;
 import net.quetzi.morpheus.MorpheusRegistry;
-import net.quetzi.morpheus.helpers.DateHandler;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class SleepChecker {
+
+    private HashMap<Integer, Boolean> alertSent = new HashMap<Integer, Boolean>();
 
     @SuppressWarnings("unchecked")
     public void updatePlayerStates(World world) {
@@ -33,9 +35,12 @@ public class SleepChecker {
         }
         if (areEnoughPlayersAsleep(world.provider.getDimensionId())) {
             advanceToMorning(world);
+        } else {
+            alertSent.put(world.provider.getDimensionId(), false);
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void alertPlayers(ChatComponentText alert, World world) {
 
         if ((alert != null) && (Morpheus.isAlertEnabled())) {
@@ -62,9 +67,12 @@ public class SleepChecker {
             Morpheus.mLog.error("Exception caught while starting a new day for dimension " + world.provider.getDimensionId());
         }
 
-        // Send Good morning message
-        alertPlayers(new ChatComponentText(DateHandler.getMorningText()), world);
-        Morpheus.playerSleepStatus.get(world.provider.getDimensionId()).wakeAllPlayers();
+        if (!alertSent.get(world.provider.getDimensionId())) {
+            // Send Good morning message
+            alertPlayers(new ChatComponentText(DateHandler.getMorningText()), world);
+            Morpheus.playerSleepStatus.get(world.provider.getDimensionId()).wakeAllPlayers();
+            alertSent.put(world.provider.getDimensionId(), true);
+        }
 
         // Reset weather
         world.getWorldInfo().setRainTime(0);

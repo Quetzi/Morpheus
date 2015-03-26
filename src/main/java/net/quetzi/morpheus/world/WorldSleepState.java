@@ -23,7 +23,8 @@ public class WorldSleepState {
 
         return (this.getSleepingPlayers() > 0) ? ((this.getSleepingPlayers() + this.getMiningPlayers()) * 100) / this.playerStatus.size() : 0;
     }
-    
+
+    @SuppressWarnings("unchecked")
     private int getMiningPlayers() {
         int miningPlayers = 0;
         for (EntityPlayer player : (List<EntityPlayer>) MinecraftServer.getServer().worldServerForDimension(this.dimension).playerEntities) {
