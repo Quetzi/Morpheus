@@ -4,10 +4,13 @@ import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.quetzi.morpheus.Morpheus;
+import net.quetzi.morpheus.MorpheusRegistry;
 import net.quetzi.morpheus.references.References;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.Integer.parseInt;
 
 public class CommandMorpheus implements ICommand {
 
@@ -39,7 +42,7 @@ public class CommandMorpheus implements ICommand {
     @Override
     public List getCommandAliases() {
 
-        return null;
+        return aliases;
     }
 
     @Override
@@ -59,7 +62,10 @@ public class CommandMorpheus implements ICommand {
             }
         } else if (astring[0].equalsIgnoreCase("disable")) {
             if (astring[1] != null) {
-                // Disable age tracking
+                int ageToDisable = parseInt(astring[1]);
+                if (MorpheusRegistry.registry.containsKey(ageToDisable)) {
+                    Morpheus.register.unregisterHandler(ageToDisable);
+                }
             } else {
                 sender.addChatMessage(new ChatComponentText(References.DISABLE_USAGE));
             }

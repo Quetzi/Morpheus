@@ -3,7 +3,6 @@ package net.quetzi.morpheus;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
@@ -19,14 +18,16 @@ import java.util.HashMap;
 @Mod(modid = References.MODID, name = References.NAME, version = References.VERSION, acceptableRemoteVersions = "*")
 public class Morpheus {
 
-    public static int                               perc;
-    public static String                            onSleepText, onWakeText, onMorningText;
-    public static Logger                            mLog;
+    public static int    perc;
+    public static String onSleepText, onWakeText, onMorningText;
+    public static Logger mLog;
     public static HashMap<Integer, WorldSleepState> playerSleepStatus = new HashMap<Integer, WorldSleepState>();
     public static SleepChecker                      checker           = new SleepChecker();
-    private static boolean                          alertEnabled;
-    public static boolean                           includeMiners;
-    public static int                               groundLevel;
+    public static MorpheusRegistry                  register          = new MorpheusRegistry();
+    private static boolean alertEnabled;
+    public static  boolean includeMiners;
+    public static  int     groundLevel;
+
 
     public static boolean isAlertEnabled() {
 
@@ -55,7 +56,7 @@ public class Morpheus {
         includeMiners = config.get("settings", "IncludeMiners", true).getBoolean();
         groundLevel = config.getInt("settings", "GroundLevel", 64, 1, 255, "Ground Level (1-255)");
         config.save();
-        MorpheusRegistry register = new MorpheusRegistry();
+
     }
 
     @EventHandler
@@ -70,5 +71,4 @@ public class Morpheus {
         event.registerServerCommand(new CommandMorpheus());
         event.registerServerCommand(new CommandVersion());
     }
-
 }
