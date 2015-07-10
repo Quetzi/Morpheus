@@ -10,7 +10,7 @@ import java.util.Calendar;
  */
 public class DateHandler {
 
-    public static enum Event {
+    public enum Event {
         XMAS(25, 12, EnumChatFormatting.RED + References.XMASTEXT),
         NEW_YEAR(1, 1, EnumChatFormatting.GOLD + References.NEWYEARTEXT),
         STPATRICKS(17, 3, EnumChatFormatting.DARK_GREEN + References.STPATRICKSTEXT),

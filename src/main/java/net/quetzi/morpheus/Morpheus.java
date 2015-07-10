@@ -20,14 +20,16 @@ import java.util.HashMap;
 @Mod(modid = References.MODID, name = References.NAME, version = References.VERSION, dependencies = "required-after:Forge@[11.14.0.1239,);", acceptableRemoteVersions = "*")
 public class Morpheus {
 
-    public static int                               perc;
-    public static String                            onSleepText, onWakeText, onMorningText;
+    public static int    perc;
+    public static String onSleepText, onWakeText, onMorningText;
     public static Logger mLog;
     public static final HashMap<Integer, WorldSleepState> playerSleepStatus = new HashMap<Integer, WorldSleepState>();
     public static final SleepChecker                      checker           = new SleepChecker();
+    public static       MorpheusRegistry                  register          = new MorpheusRegistry();
     private static boolean  alertEnabled;
     public static  boolean  includeMiners;
     public static  int      groundLevel;
+
     @Instance(References.MODID)
     public static  Morpheus INSTANCE;
 
@@ -58,7 +60,7 @@ public class Morpheus {
         includeMiners = config.get("settings", "IncludeMiners", true).getBoolean();
         groundLevel = config.getInt("settings", "GroundLevel", 64, 1, 255, "Ground Level (1-255)");
         config.save();
-        MorpheusRegistry register = new MorpheusRegistry();
+
     }
 
     @EventHandler
@@ -72,5 +74,4 @@ public class Morpheus {
 
         event.registerServerCommand(new CommandMorpheus());
     }
-
 }

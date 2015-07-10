@@ -13,7 +13,6 @@ public class MorpheusRegistry implements IMorpheusAPI {
     public MorpheusRegistry() {
 
         registry = new HashMap<Integer, INewDayHandler>();
-
         registerHandler(new DefaultOverworldHandler(), 0);
     }
 
@@ -28,5 +27,10 @@ public class MorpheusRegistry implements IMorpheusAPI {
     public void unregisterHandler(int dimension) {
 
         registry.remove(dimension);
+    }
+
+    public boolean isDimRegistered(int dim) {
+
+        return registry.containsKey(dim);
     }
 }
