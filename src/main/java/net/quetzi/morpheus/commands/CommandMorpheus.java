@@ -2,7 +2,10 @@ package net.quetzi.morpheus.commands;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.world.WorldServer;
 import net.quetzi.morpheus.Morpheus;
 import net.quetzi.morpheus.MorpheusRegistry;
 import net.quetzi.morpheus.references.References;
@@ -70,7 +73,24 @@ public class CommandMorpheus extends CommandBase {
             } else {
                 sender.addChatMessage(new ChatComponentText(References.DISABLE_USAGE));
             }
-        } else if (astring[0].equalsIgnoreCase("version")) {
+        } else if (astring[0].equalsIgnoreCase("status")) {
+            for (WorldServer server : MinecraftServer.getServer().worldServers) {
+                if (Morpheus.register.isDimRegistered(server.provider.dimensionId)) {
+                    sender.addChatMessage(new ChatComponentText("Dim " + server.provider.dimensionId + ": " + EnumChatFormatting.GREEN + "ENABLED" + EnumChatFormatting.RESET));
+                    } else {
+                    sender.addChatMessage(new ChatComponentText("Dim " + server.provider.dimensionId + ": " + EnumChatFormatting.RED + "DISABLED" + EnumChatFormatting.RESET));
+                }
+            }
+            sender.addChatMessage(new ChatComponentText("Alerts are currently: " + (Morpheus.isAlertEnabled() ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)
+                                                        + "ENABLED" + EnumChatFormatting.RESET));
+            sender.addChatMessage(new ChatComponentText("Percentage of players required to sleep: " + Morpheus.perc));
+            sender.addChatMessage(new ChatComponentText("Mining players are " + (Morpheus.includeMiners ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)
+                                                        + (Morpheus.includeMiners ? "INCLUDED" : "EXCLUDED") + EnumChatFormatting.RESET + " from voting"));
+            if (!Morpheus.includeMiners) {
+                sender.addChatMessage(new ChatComponentText("Players below y" + Morpheus.groundLevel + " are considered to be mining"));
+            }
+        }
+        else if (astring[0].equalsIgnoreCase("version")) {
             sender.addChatMessage(new ChatComponentText("Morpheus version: " + References.VERSION));
         }
     }
