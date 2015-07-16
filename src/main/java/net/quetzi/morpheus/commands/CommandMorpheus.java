@@ -85,7 +85,7 @@ public class CommandMorpheus extends CommandBase {
                                                         + "ENABLED" + EnumChatFormatting.RESET));
             sender.addChatMessage(new ChatComponentText("Percentage of players required to sleep: " + Morpheus.perc));
             sender.addChatMessage(new ChatComponentText("Mining players are " + (Morpheus.includeMiners ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)
-                                                        + (Morpheus.includeMiners ? "INCLUDED" : "EXCLUDED") + EnumChatFormatting.RESET + " from voting"));
+                                                        + (Morpheus.includeMiners ? "INCLUDED"  + EnumChatFormatting.RESET + " in votes": "EXCLUDED" + EnumChatFormatting.RESET + " from votes")));
             if (!Morpheus.includeMiners) {
                 sender.addChatMessage(new ChatComponentText("Players below y" + Morpheus.groundLevel + " are considered to be mining"));
             }
