@@ -8,7 +8,6 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.common.config.Configuration;
 import net.quetzi.morpheus.commands.CommandMorpheus;
-import net.quetzi.morpheus.commands.CommandVersion;
 import net.quetzi.morpheus.references.References;
 import net.quetzi.morpheus.world.WorldSleepState;
 import org.apache.logging.log4j.Logger;
@@ -27,17 +26,6 @@ public class Morpheus {
     private static boolean alertEnabled;
     public static  boolean includeMiners;
     public static  int     groundLevel;
-
-
-    public static boolean isAlertEnabled() {
-
-        return alertEnabled;
-    }
-
-    public static void setAlertPlayers(boolean state) {
-
-        alertEnabled = state;
-    }
 
     @EventHandler
     public void PreInit(FMLPreInitializationEvent event) {
@@ -69,6 +57,15 @@ public class Morpheus {
     public void serverLoad(FMLServerStartingEvent event) {
 
         event.registerServerCommand(new CommandMorpheus());
-        event.registerServerCommand(new CommandVersion());
+    }
+
+    public static boolean isAlertEnabled() {
+
+        return alertEnabled;
+    }
+
+    public static void setAlertPlayers(boolean state) {
+
+        alertEnabled = state;
     }
 }
