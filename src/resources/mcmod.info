@@ -1,0 +1,20 @@
+[
+{
+  "modid" : "Morpheus",
+  "name" : "Morpheus",
+  "version" : "${version}",
+  "url" : "http://www.curse.com/mc-mods/Minecraft/morpheus",
+  "credits" : "",
+  "authorList": [
+    "Quetzi"
+  ],
+  "description": "Morpheus is a server-only mod that adds sleep voting to a forge based server. When a player sleeps, all other players in the same dimension are notified so it is easier to coordinate.",
+  "updateUrl" : "",
+  "parent" : "",
+  "screenshots": [
+  ],
+  "dependencies": [
+    "Forge"
+  ]
+}
+]
