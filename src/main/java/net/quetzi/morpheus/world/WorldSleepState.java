@@ -10,8 +10,8 @@ import java.util.Map.Entry;
 
 public class WorldSleepState {
 
-    private final int                      dimension;
-    private final HashMap<String, Boolean> playerStatus;
+    private int                      dimension;
+    private HashMap<String, Boolean> playerStatus;
 
     public WorldSleepState(int dimension) {
 
@@ -23,12 +23,11 @@ public class WorldSleepState {
 
         return (this.getSleepingPlayers() > 0) ? ((this.getSleepingPlayers() + this.getMiningPlayers()) * 100) / this.playerStatus.size() : 0;
     }
-
-    @SuppressWarnings("unchecked")
+    
     private int getMiningPlayers() {
         int miningPlayers = 0;
         for (EntityPlayer player : (List<EntityPlayer>) MinecraftServer.getServer().worldServerForDimension(this.dimension).playerEntities) {
-            if (player.getPosition().getY() < Morpheus.groundLevel) {
+            if (player.posY < Morpheus.groundLevel) {
                 miningPlayers++;
             }
         }
@@ -39,9 +38,8 @@ public class WorldSleepState {
 
         int asleepCount = 0;
         for (Entry<String, Boolean> entry : this.playerStatus.entrySet()) {
-            if (entry.getValue()) {
+            if (entry.getValue())
                 asleepCount++;
-            }
         }
         return asleepCount;
     }

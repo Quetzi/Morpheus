@@ -23,13 +23,13 @@ public class SleepChecker {
             if (player.isPlayerFullyAsleep() && !Morpheus.playerSleepStatus.get(player.dimension).isPlayerSleeping(username)) {
                 Morpheus.playerSleepStatus.get(player.dimension).setPlayerAsleep(username);
                 // Alert players that this player has gone to bed
-                alertPlayers(createAlert(player.dimension, player.getGameProfile().getName(), Morpheus.onSleepText), world);
+                alertPlayers(createAlert(player.dimension, player.getDisplayNameString(), Morpheus.onSleepText), world);
             }
             else if (!player.isPlayerFullyAsleep() && Morpheus.playerSleepStatus.get(player.dimension).isPlayerSleeping(username)) {
                 Morpheus.playerSleepStatus.get(player.dimension).setPlayerAwake(username);
                 // Alert players that this player has woken up
-                if (!world.isDaytime()) {
-                    alertPlayers(createAlert(player.dimension, player.getGameProfile().getName(), Morpheus.onWakeText), world);
+                if (!world.isDaytime() && !alertSent.get(world.provider.getDimensionId())) {
+                    alertPlayers(createAlert(player.dimension, player.getDisplayNameString(), Morpheus.onWakeText), world);
                 }
             }
         }
@@ -40,7 +40,6 @@ public class SleepChecker {
         }
     }
 
-    @SuppressWarnings("unchecked")
     private void alertPlayers(ChatComponentText alert, World world) {
 
         if ((alert != null) && (Morpheus.isAlertEnabled())) {
@@ -73,18 +72,11 @@ public class SleepChecker {
             Morpheus.playerSleepStatus.get(world.provider.getDimensionId()).wakeAllPlayers();
             alertSent.put(world.provider.getDimensionId(), true);
         }
-
-        // Reset weather
-        world.getWorldInfo().setRainTime(0);
-        world.getWorldInfo().setRaining(false);
-        world.getWorldInfo().setThunderTime(0);
-        world.getWorldInfo().setThundering(false);
+        world.provider.resetRainAndThunder();
     }
-
-
 
     private boolean areEnoughPlayersAsleep(int dimension) {
 
-        return MorpheusRegistry.registry.get(dimension) != null && Morpheus.playerSleepStatus.get(dimension).getPercentSleeping() >= Morpheus.perc;
+        return ((dimension == 0) || (MorpheusRegistry.registry.get(dimension) != null)) && Morpheus.playerSleepStatus.get(dimension).getPercentSleeping() >= Morpheus.perc;
     }
 }
