@@ -56,7 +56,7 @@ public class Morpheus {
         alertEnabled = config.get("settings", "AlertEnabled", true).getBoolean();
         onSleepText = config.get("settings", "OnSleepText", "is now sleeping.").getString();
         onWakeText = config.get("settings", "OnWakeText", "has left their bed.").getString();
-        onMorningText = config.get("settings", "OnMorningText", "Wakey, wakey, rise and shine... Good Morning everyone!").getString();
+        onMorningText = config.get("settings", "OnMorningText", "Wakey, wakey, rise and shine... Good Morning everyone!").getString().replaceAll("%%", "§");
         includeMiners = config.get("settings", "IncludeMiners", true).getBoolean();
         groundLevel = config.getInt("settings", "GroundLevel", 64, 1, 255, "Ground Level (1-255)");
         config.save();
