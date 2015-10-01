@@ -6,7 +6,6 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.quetzi.morpheus.commands.CommandMorpheus;
 import net.quetzi.morpheus.references.References;
@@ -27,28 +26,23 @@ public class Morpheus {
     private static boolean alertEnabled;
     public static  boolean includeMiners;
     public static  int     groundLevel;
-    public static boolean setSpawn;
 
     @EventHandler
     public void PreInit(FMLPreInitializationEvent event) {
 
         Morpheus.mLog = event.getModLog();
         mLog.info("Loading configuration");
-        String cat = "settings";
-
         // Read configs
         Configuration config = new Configuration(event.getSuggestedConfigurationFile());
         config.load();
 
-        perc = config.get(cat, "SleeperPerc", 50).getInt();
-        alertEnabled = config.get(cat, "AlertEnabled", true).getBoolean();
-        onSleepText = config.get(cat, "OnSleepText", "is now sleeping.").getString();
-        onWakeText = config.get(cat, "OnWakeText", "has left their bed.").getString();
-        onMorningText = config.get(cat, "OnMorningText", "Wakey, wakey, rise and shine... Good Morning everyone!").getString();
-        includeMiners = config.get(cat, "IncludeMiners", true).getBoolean();
-        groundLevel = config.getInt(cat, "GroundLevel", 64, 1, 255, "Ground Level (1-255)");
-        setSpawn = config.get(cat, "SetSpawnDuringDay", true, "Set to true to enable beds to set players respawn point when they can't sleep").getBoolean();
-
+        perc = config.get("settings", "SleeperPerc", 50).getInt();
+        alertEnabled = config.get("settings", "AlertEnabled", true).getBoolean();
+        onSleepText = config.get("settings", "OnSleepText", "is now sleeping.").getString();
+        onWakeText = config.get("settings", "OnWakeText", "has left their bed.").getString();
+        onMorningText = config.get("settings", "OnMorningText", "Wakey, wakey, rise and shine... Good Morning everyone!").getString();
+        includeMiners = config.get("settings", "IncludeMiners", true).getBoolean();
+        groundLevel = config.getInt("settings", "GroundLevel", 64, 1, 255, "Ground Level (1-255)");
         config.save();
 
     }
@@ -57,7 +51,6 @@ public class Morpheus {
     public void PostInit(FMLPostInitializationEvent event) {
 
         FMLCommonHandler.instance().bus().register(new MorpheusEventHandler());
-        MinecraftForge.EVENT_BUS.register(new MorpheusEventHandler());
     }
 
     @EventHandler
