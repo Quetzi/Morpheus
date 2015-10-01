@@ -1,5 +1,8 @@
 package net.quetzi.morpheus.helpers;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
@@ -63,6 +66,14 @@ public class MorpheusEventHandler {
                     Morpheus.playerSleepStatus.remove(event.world.provider.getDimensionId());
                 }
             }
+        }
+    }
+
+    @SubscribeEvent
+    public void playerSleepInBed(PlayerSleepInBedEvent event) {
+        if (event.result != EntityPlayer.EnumStatus.OK && Morpheus.setSpawn) {
+            event.entityPlayer.setSpawnChunk(event.entityPlayer.playerLocation, false, event.entityPlayer.dimension);
+            event.entityPlayer.addChatMessage(new ChatComponentText("Your spawn point has been updated"));
         }
     }
 }

@@ -1,5 +1,6 @@
 package net.quetzi.morpheus;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -29,6 +30,7 @@ public class Morpheus {
     private static boolean  alertEnabled;
     public static  boolean  includeMiners;
     public static  int      groundLevel;
+    public static boolean setSpawn;
 
     @Instance(References.MODID)
     public static  Morpheus INSTANCE;
@@ -51,14 +53,16 @@ public class Morpheus {
         // Read configs
         Configuration config = new Configuration(event.getSuggestedConfigurationFile());
         config.load();
+        String CAT = "settings";
+        perc = config.get(CAT, "SleeperPerc", 50).getInt();
+        alertEnabled = config.get(CAT, "AlertEnabled", true).getBoolean();
+        onSleepText = config.get(CAT, "OnSleepText", "is now sleeping.").getString();
+        onWakeText = config.get(CAT, "OnWakeText", "has left their bed.").getString();
+        onMorningText = config.get(CAT, "OnMorningText", "Wakey, wakey, rise and shine... Good Morning everyone!").getString();
+        includeMiners = config.get(CAT, "IncludeMiners", true).getBoolean();
+        groundLevel = config.getInt(CAT, "GroundLevel", 64, 1, 255, "Ground Level (1-255)");
+        setSpawn = config.get(CAT, "SetSpawnDuringDay", true, "Set this true to enable beds to set players respawn location during the day").getBoolean();
 
-        perc = config.get("settings", "SleeperPerc", 50).getInt();
-        alertEnabled = config.get("settings", "AlertEnabled", true).getBoolean();
-        onSleepText = config.get("settings", "OnSleepText", "is now sleeping.").getString();
-        onWakeText = config.get("settings", "OnWakeText", "has left their bed.").getString();
-        onMorningText = config.get("settings", "OnMorningText", "Wakey, wakey, rise and shine... Good Morning everyone!").getString();
-        includeMiners = config.get("settings", "IncludeMiners", true).getBoolean();
-        groundLevel = config.getInt("settings", "GroundLevel", 64, 1, 255, "Ground Level (1-255)");
         config.save();
 
     }
@@ -67,6 +71,7 @@ public class Morpheus {
     public void PostInit(FMLPostInitializationEvent event) {
 
         FMLCommonHandler.instance().bus().register(new MorpheusEventHandler());
+        MinecraftForge.EVENT_BUS.register(new MorpheusEventHandler());
     }
 
     @EventHandler
