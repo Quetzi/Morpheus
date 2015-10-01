@@ -6,7 +6,10 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.quetzi.morpheus.world.WorldSleepState;
 
 public class MorpheusEventHandler {
@@ -64,6 +67,15 @@ public class MorpheusEventHandler {
                     }
                 }
             }
+        }
+    }
+
+    @SubscribeEvent
+    public void playerSleepInBed(PlayerSleepInBedEvent event) {
+
+        if (event.result != EntityPlayer.EnumStatus.OK && Morpheus.setSpawn) {
+            event.entityPlayer.setSpawnChunk(event.entityPlayer.getPlayerCoordinates(), false, event.entityPlayer.dimension);
+            event.entityPlayer.addChatMessage(new ChatComponentText("Your spawn point has been updated."));
         }
     }
 }
