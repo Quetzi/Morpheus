@@ -29,6 +29,7 @@ public class Morpheus {
     private static boolean  alertEnabled;
     public static  boolean  includeMiners;
     public static  int      groundLevel;
+    public static Configuration config;
 
     @Instance(References.MODID)
     public static  Morpheus INSTANCE;
@@ -49,7 +50,7 @@ public class Morpheus {
         Morpheus.mLog = event.getModLog();
         mLog.info("Loading configuration");
         // Read configs
-        Configuration config = new Configuration(event.getSuggestedConfigurationFile());
+        config = new Configuration(event.getSuggestedConfigurationFile());
         config.load();
 
         perc = config.get("settings", "SleeperPerc", 50).getInt();

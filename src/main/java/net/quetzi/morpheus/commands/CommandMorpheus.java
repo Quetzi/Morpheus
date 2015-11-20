@@ -6,7 +6,6 @@ import net.minecraft.command.NumberInvalidException;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.quetzi.morpheus.Morpheus;
-import net.quetzi.morpheus.MorpheusRegistry;
 import net.quetzi.morpheus.helpers.References;
 
 import java.util.ArrayList;
@@ -75,6 +74,11 @@ public class CommandMorpheus extends CommandBase {
             }
         } else if (astring[0].equalsIgnoreCase("version")) {
             sender.addChatMessage(new ChatComponentText("Morpheus version: " + References.VERSION));
+        } else if (astring[0].equalsIgnoreCase("percent")) {
+            if (astring[1] != null) {
+                Morpheus.config.get("settings", "SleeperPerc",50).set(parseInt(astring[1]));
+                Morpheus.config.save();
+            }
         }
     }
 
