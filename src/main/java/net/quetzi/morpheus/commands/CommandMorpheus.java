@@ -92,6 +92,11 @@ public class CommandMorpheus extends CommandBase {
         }
         else if (astring[0].equalsIgnoreCase("version")) {
             sender.addChatMessage(new ChatComponentText("Morpheus version: " + References.VERSION));
+        } else if (astring[0].equalsIgnoreCase("percent")) {
+            if (astring[1] != null) {
+                Morpheus.config.get("settings", "SleeperPerc",50).set(parseInt(sender, astring[1]));
+                Morpheus.config.save();
+            }
         }
     }
 
