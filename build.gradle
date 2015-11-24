@@ -17,9 +17,6 @@ buildscript {
     }
 }
 
-plugins {
-    id "net.minecraftforge.gradle.forge" version "2.0.2"
-}
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 project.ext {
