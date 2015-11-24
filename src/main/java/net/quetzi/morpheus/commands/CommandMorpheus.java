@@ -22,12 +22,6 @@ public class CommandMorpheus extends CommandBase {
     }
 
     @Override
-    public int compareTo(Object arg0) {
-
-        return 0;
-    }
-
-    @Override
     public String getCommandName() {
 
         return "morpheus";
