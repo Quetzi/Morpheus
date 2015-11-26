@@ -1,5 +1,6 @@
 package net.quetzi.morpheus;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -67,7 +68,7 @@ public class Morpheus {
     @EventHandler
     public void PostInit(FMLPostInitializationEvent event) {
 
-        FMLCommonHandler.instance().bus().register(new MorpheusEventHandler());
+        MinecraftForge.EVENT_BUS.register(new MorpheusEventHandler());
     }
 
     @EventHandler
