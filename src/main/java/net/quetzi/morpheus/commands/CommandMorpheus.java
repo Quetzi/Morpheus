@@ -94,8 +94,15 @@ public class CommandMorpheus extends CommandBase {
             sender.addChatMessage(new ChatComponentText("Morpheus version: " + References.VERSION));
         } else if (astring[0].equalsIgnoreCase("percent")) {
             if (astring[1] != null) {
-                Morpheus.config.get("settings", "SleeperPerc",50).set(parseInt(sender, astring[1]));
-                Morpheus.config.save();
+                int newPercent = parseInt(sender, astring[1]);
+                if (newPercent > 0 && newPercent <= 100) {
+                    Morpheus.perc = newPercent;
+                    Morpheus.config.get("settings", "SleeperPerc", 50).set(newPercent);
+                    Morpheus.config.save();
+                    sender.addChatMessage(new ChatComponentText("Sleep vote percentage set to " + Morpheus.perc + "%"));
+                } else {
+                    sender.addChatMessage(new ChatComponentText("Invalid percentage value, round numbers between 0 and 100 are acceptable."));
+                }
             }
         }
     }

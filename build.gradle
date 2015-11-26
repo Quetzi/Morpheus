@@ -1,3 +1,5 @@
+import scala.tools.nsc.io.Jar
+
 buildscript {
     repositories {
         mavenCentral()
@@ -26,7 +28,7 @@ group = "net.quetzi.morpheus"
 archivesBaseName = "Morpheus"
 
 minecraft {
-    version = "1.7.10-10.13.0.1208"
+    version = "1.7.10-10.13.4.1451"
     assetDir = "eclipse/assets"
 
     // replacing stuff in the source

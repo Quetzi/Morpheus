@@ -18,7 +18,7 @@ public class MorpheusEventHandler {
             if (Morpheus.playerSleepStatus.get(event.player.dimension) == null) {
                 Morpheus.playerSleepStatus.put(event.player.dimension, new WorldSleepState(event.player.dimension));
             }
-            Morpheus.playerSleepStatus.get(event.player.dimension).setPlayerAwake(event.player.getGameProfile().getName());
+            Morpheus.playerSleepStatus.get(event.player.dimension).setPlayerAwake(event.player.getCommandSenderName());
         }
     }
 
@@ -27,7 +27,7 @@ public class MorpheusEventHandler {
 
         if (!MinecraftServer.getServer().worldServerForDimension(event.player.dimension).isRemote) {
             if (Morpheus.playerSleepStatus.get(event.player.dimension) == null) { return; }
-            Morpheus.playerSleepStatus.get(event.player.dimension).removePlayer(event.player.getGameProfile().getName());
+            Morpheus.playerSleepStatus.get(event.player.dimension).removePlayer(event.player.getCommandSenderName());
         }
     }
 
@@ -40,10 +40,10 @@ public class MorpheusEventHandler {
             }
             // Remove player from old World state
             if (Morpheus.playerSleepStatus.get(event.fromDim) != null) {
-                Morpheus.playerSleepStatus.get(event.fromDim).removePlayer(event.player.getGameProfile().getName());
+                Morpheus.playerSleepStatus.get(event.fromDim).removePlayer(event.player.getCommandSenderName());
             }
             // Add player to new world state
-            Morpheus.playerSleepStatus.get(event.toDim).setPlayerAwake(event.player.getGameProfile().getName());
+            Morpheus.playerSleepStatus.get(event.toDim).setPlayerAwake(event.player.getCommandSenderName());
         }
     }
 

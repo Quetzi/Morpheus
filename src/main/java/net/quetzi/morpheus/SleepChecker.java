@@ -17,7 +17,7 @@ public class SleepChecker {
 
         // Iterate players and update their status
         for (EntityPlayer player : (List<EntityPlayer>) world.playerEntities) {
-            String username = player.getGameProfile().getName();
+            String username = player.getCommandSenderName();
             if (player.isPlayerFullyAsleep() && !Morpheus.playerSleepStatus.get(player.dimension).isPlayerSleeping(username)) {
                 Morpheus.playerSleepStatus.get(player.dimension).setPlayerAsleep(username);
                 // Alert players that this player has gone to bed
