@@ -26,7 +26,7 @@ group = "net.quetzi.morpheus"
 archivesBaseName = "Morpheus"
 
 minecraft {
-    version = "1.7.10-10.13.4.1451"
+    version = "1.7.10-10.13.4.1451-1.7.10"
     assetDir = "eclipse/assets"
 
     // replacing stuff in the source
