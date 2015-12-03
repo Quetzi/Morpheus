@@ -34,7 +34,7 @@ public class WorldSleepState {
         return !Morpheus.includeMiners ? miningPlayers : 0;
     }
 
-    private int getSleepingPlayers() {
+    public int getSleepingPlayers() {
 
         int asleepCount = 0;
         for (Entry<String, Boolean> entry : this.playerStatus.entrySet()) {
