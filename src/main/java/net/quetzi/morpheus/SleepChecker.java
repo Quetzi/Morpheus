@@ -75,6 +75,9 @@ public class SleepChecker {
 
     private boolean areEnoughPlayersAsleep(int dimension) {
 
-        return ((dimension == 0) || (MorpheusRegistry.registry.get(dimension) != null)) && Morpheus.playerSleepStatus.get(dimension).getPercentSleeping() >= Morpheus.perc;
+        if (Morpheus.playerSleepStatus.get(dimension).getSleepingPlayers() > 0) {
+            return ((dimension == 0) || (MorpheusRegistry.registry.get(dimension) != null)) && Morpheus.playerSleepStatus.get(dimension).getPercentSleeping() >= Morpheus.perc;
+        }
+        return false;
     }
 }
