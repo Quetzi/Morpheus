@@ -34,6 +34,9 @@ public class SleepChecker {
             }
         }
         if (areEnoughPlayersAsleep(world.provider.getDimensionId())) {
+            if (!alertSent.containsKey(world.provider.getDimensionId())) {
+                alertSent.put(world.provider.getDimensionId(), false);
+            }
             advanceToMorning(world);
         } else {
             alertSent.put(world.provider.getDimensionId(), false);
