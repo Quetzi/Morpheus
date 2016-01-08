@@ -25,16 +25,16 @@ project.ext {
     } else {
         build = "-custom"
     }
-    mcVersion = "1.8.8"
+    mcVersion = "1.8.9"
 }
 version = "${project.ext.mcVersion}-${project.ext.major}.${project.minor}.${project.build}"
 group = "net.quetzi.morpheus"
 archivesBaseName = "Morpheus"
 
 minecraft {
-    version = "${project.ext.mcVersion}-11.14.4.1589-1.8.8"
+    version = "${project.ext.mcVersion}-11.15.0.1688"
     runDir = "eclipse"
-    mappings = "snapshot_20151123"
+    mappings = "snapshot_20160108"
 
     // replacing stuff in the source
     replace '@MAJOR@', project.major

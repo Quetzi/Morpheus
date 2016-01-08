@@ -3,7 +3,6 @@ package net.quetzi.morpheus.commands;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.NumberInvalidException;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.quetzi.morpheus.Morpheus;
 import net.quetzi.morpheus.helpers.References;
@@ -56,7 +55,7 @@ public class CommandMorpheus extends CommandBase {
             }
         } else if (astring[0].equalsIgnoreCase("disable")) {
             if (astring[1] != null) {
-                int ageToDisable = parseInt(astring[1]);
+                int ageToDisable = parseInt(sender, astring[1]);
                 if (Morpheus.register.isDimRegistered(ageToDisable)) {
                     Morpheus.register.unregisterHandler(ageToDisable);
                     sender.addChatMessage(new ChatComponentText("Disabled sleep vote checks in dimension " + ageToDisable));
@@ -70,7 +69,7 @@ public class CommandMorpheus extends CommandBase {
             sender.addChatMessage(new ChatComponentText("Morpheus version: " + References.VERSION));
         } else if (astring[0].equalsIgnoreCase("percent")) {
             if (astring[1] != null) {
-                int newPercent = parseInt(astring[1]);
+                int newPercent = parseInt(sender, astring[1]);
                 if (newPercent > 0 && newPercent <= 100) {
                     Morpheus.perc = newPercent;
                     Morpheus.config.get("settings", "SleeperPerc", 50).set(newPercent);
@@ -90,7 +89,7 @@ public class CommandMorpheus extends CommandBase {
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring, BlockPos pos) {
+    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring) {
 
         return null;
     }
