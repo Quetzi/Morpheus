@@ -104,6 +104,6 @@ public class CommandMorpheus extends CommandBase {
     @Override
     public int getRequiredPermissionLevel() {
 
-        return 3;
+        return 4;
     }
 }
