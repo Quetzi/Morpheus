@@ -75,7 +75,9 @@ public class SleepChecker {
             Morpheus.playerSleepStatus.get(world.provider.getDimensionId()).wakeAllPlayers();
             alertSent.put(world.provider.getDimensionId(), true);
         }
-        world.provider.resetRainAndThunder();
+        if(world.getWorldInfo().isRaining() || world.getWorldInfo().isThundering()) {
+            world.provider.resetRainAndThunder();
+        }
     }
 
     private boolean areEnoughPlayersAsleep(int dimension) {
