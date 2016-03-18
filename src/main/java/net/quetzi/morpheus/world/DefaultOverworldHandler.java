@@ -1,7 +1,7 @@
 package net.quetzi.morpheus.world;
 
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.quetzi.morpheus.api.INewDayHandler;
 
 /**
@@ -12,7 +12,7 @@ public class DefaultOverworldHandler implements INewDayHandler {
     @Override
     public void startNewDay() {
 
-        World world = MinecraftServer.getServer().worldServerForDimension(0);
+        World world = FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(0);
         world.setWorldTime(world.getWorldTime() + getTimeToSunrise(world));
     }
 

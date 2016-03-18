@@ -3,8 +3,9 @@ package net.quetzi.morpheus.commands;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.NumberInvalidException;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.quetzi.morpheus.Morpheus;
 import net.quetzi.morpheus.helpers.References;
 
@@ -40,34 +41,34 @@ public class CommandMorpheus extends CommandBase {
     }
 
     @Override
-    public void processCommand(ICommandSender sender, String[] astring) throws NumberInvalidException {
+    public void execute(MinecraftServer server, ICommandSender sender, String[] astring) throws NumberInvalidException {
 
         if (astring.length == 0) {
-            sender.addChatMessage(new ChatComponentText(References.USAGE));
+            sender.addChatMessage(new TextComponentString(References.USAGE));
             return;
         }
         if (astring[0].equalsIgnoreCase("alert")) {
             if (Morpheus.isAlertEnabled()) {
                 Morpheus.setAlertPlayers(false);
-                sender.addChatMessage(new ChatComponentText(References.ALERTS_OFF));
+                sender.addChatMessage(new TextComponentString(References.ALERTS_OFF));
             } else {
                 Morpheus.setAlertPlayers(true);
-                sender.addChatMessage(new ChatComponentText(References.ALERTS_ON));
+                sender.addChatMessage(new TextComponentString(References.ALERTS_ON));
             }
         } else if (astring[0].equalsIgnoreCase("disable")) {
             if (astring[1] != null) {
                 int ageToDisable = parseInt(astring[1]);
                 if (Morpheus.register.isDimRegistered(ageToDisable)) {
                     Morpheus.register.unregisterHandler(ageToDisable);
-                    sender.addChatMessage(new ChatComponentText("Disabled sleep vote checks in dimension " + ageToDisable));
+                    sender.addChatMessage(new TextComponentString("Disabled sleep vote checks in dimension " + ageToDisable));
                 } else {
-                    sender.addChatMessage(new ChatComponentText("Sleep vote checks are already disabled in dimension " + ageToDisable));
+                    sender.addChatMessage(new TextComponentString("Sleep vote checks are already disabled in dimension " + ageToDisable));
                 }
             } else {
-                sender.addChatMessage(new ChatComponentText(References.DISABLE_USAGE));
+                sender.addChatMessage(new TextComponentString(References.DISABLE_USAGE));
             }
         } else if (astring[0].equalsIgnoreCase("version")) {
-            sender.addChatMessage(new ChatComponentText("Morpheus version: " + References.VERSION));
+            sender.addChatMessage(new TextComponentString("Morpheus version: " + References.VERSION));
         } else if (astring[0].equalsIgnoreCase("percent")) {
             if (astring[1] != null) {
                 int newPercent = parseInt(astring[1]);
@@ -75,22 +76,22 @@ public class CommandMorpheus extends CommandBase {
                     Morpheus.perc = newPercent;
                     Morpheus.config.get("settings", "SleeperPerc", 50).set(newPercent);
                     Morpheus.config.save();
-                    sender.addChatMessage(new ChatComponentText("Sleep vote percentage set to " + Morpheus.perc + "%"));
+                    sender.addChatMessage(new TextComponentString("Sleep vote percentage set to " + Morpheus.perc + "%"));
                 } else {
-                    sender.addChatMessage(new ChatComponentText("Invalid percentage value, round numbers between 0 and 100 are acceptable."));
+                    sender.addChatMessage(new TextComponentString("Invalid percentage value, round numbers between 0 and 100 are acceptable."));
                 }
             }
         }
     }
 
     @Override
-    public boolean canCommandSenderUseCommand(ICommandSender icommandsender) {
+    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
 
         return true;
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring, BlockPos pos) {
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
 
         return null;
     }

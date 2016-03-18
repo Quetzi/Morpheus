@@ -18,23 +18,23 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 project.ext {
-    major = "2"
+    major = "3"
     minor = "0"
     if (System.getenv("BUILD_NUMBER") != null) {
         build = System.getenv("BUILD_NUMBER")
     } else {
         build = "-custom"
     }
-    mcVersion = "1.8.9"
+    mcVersion = "1.9"
 }
 version = "${project.ext.mcVersion}-${project.ext.major}.${project.minor}.${project.build}"
 group = "net.quetzi.morpheus"
 archivesBaseName = "Morpheus"
 
 minecraft {
-    version = "${project.ext.mcVersion}-11.15.0.1688"
+    version = "${project.ext.mcVersion}-12.16.0.1766-1.9"
     runDir = "eclipse"
-    mappings = "snapshot_20160108"
+    mappings = "snapshot_nodoc_20160318"
 
     // replacing stuff in the source
     replace '@MAJOR@', project.major

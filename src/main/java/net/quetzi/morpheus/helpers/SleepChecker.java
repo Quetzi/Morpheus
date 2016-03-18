@@ -1,8 +1,9 @@
 package net.quetzi.morpheus.helpers;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextComponentBase;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.quetzi.morpheus.Morpheus;
 import net.quetzi.morpheus.MorpheusRegistry;
@@ -28,22 +29,22 @@ public class SleepChecker {
             else if (!player.isPlayerFullyAsleep() && Morpheus.playerSleepStatus.get(player.dimension).isPlayerSleeping(username)) {
                 Morpheus.playerSleepStatus.get(player.dimension).setPlayerAwake(username);
                 // Alert players that this player has woken up
-                if (!world.isDaytime() && !alertSent.get(world.provider.getDimensionId())) {
+                if (!world.isDaytime() && !alertSent.get(world.provider.getDimension())) {
                     alertPlayers(createAlert(player.dimension, player.getDisplayNameString(), Morpheus.onWakeText), world);
                 }
             }
         }
-        if (areEnoughPlayersAsleep(world.provider.getDimensionId())) {
-            if (!alertSent.containsKey(world.provider.getDimensionId())) {
-                alertSent.put(world.provider.getDimensionId(), false);
+        if (areEnoughPlayersAsleep(world.provider.getDimension())) {
+            if (!alertSent.containsKey(world.provider.getDimension())) {
+                alertSent.put(world.provider.getDimension(), false);
             }
             advanceToMorning(world);
         } else {
-            alertSent.put(world.provider.getDimensionId(), false);
+            alertSent.put(world.provider.getDimension(), false);
         }
     }
 
-    private void alertPlayers(ChatComponentText alert, World world) {
+    private void alertPlayers(TextComponentString alert, World world) {
 
         if ((alert != null) && (Morpheus.isAlertEnabled())) {
             for (EntityPlayer player : (List<EntityPlayer>) world.playerEntities) {
@@ -52,28 +53,28 @@ public class SleepChecker {
         }
     }
 
-    private ChatComponentText createAlert(int dimension, String username, String text) {
+    private TextComponentString createAlert(int dimension, String username, String text) {
 
-        String alertText = EnumChatFormatting.WHITE + username + EnumChatFormatting.GOLD + " " + text + " "
+        String alertText = TextFormatting.WHITE + username + TextFormatting.GOLD + " " + text + " "
                 + Morpheus.playerSleepStatus.get(dimension).toString();
         Morpheus.mLog.info(username + " " + text + " " + Morpheus.playerSleepStatus.get(dimension).toString());
-        return new ChatComponentText(alertText);
+        return new TextComponentString(alertText);
     }
 
     private void advanceToMorning(World world) {
 
         try {
-            MorpheusRegistry.registry.get(world.provider.getDimensionId()).startNewDay();
+            MorpheusRegistry.registry.get(world.provider.getDimension()).startNewDay();
         }
         catch (Exception e) {
-            Morpheus.mLog.error("Exception caught while starting a new day for dimension " + world.provider.getDimensionId());
+            Morpheus.mLog.error("Exception caught while starting a new day for dimension " + world.provider.getDimension());
         }
 
-        if (!alertSent.get(world.provider.getDimensionId())) {
+        if (!alertSent.get(world.provider.getDimension())) {
             // Send Good morning message
-            alertPlayers(new ChatComponentText(DateHandler.getMorningText()), world);
-            Morpheus.playerSleepStatus.get(world.provider.getDimensionId()).wakeAllPlayers();
-            alertSent.put(world.provider.getDimensionId(), true);
+            alertPlayers(new TextComponentString(DateHandler.getMorningText()), world);
+            Morpheus.playerSleepStatus.get(world.provider.getDimension()).wakeAllPlayers();
+            alertSent.put(world.provider.getDimension(), true);
         }
         world.provider.resetRainAndThunder();
     }
