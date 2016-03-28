@@ -32,9 +32,9 @@ group = "net.quetzi.morpheus"
 archivesBaseName = "Morpheus"
 
 minecraft {
-    version = "${project.ext.mcVersion}-12.16.0.1766-1.9"
+    version = "${project.ext.mcVersion}-12.16.0.1811-1.9"
     runDir = "eclipse"
-    mappings = "snapshot_nodoc_20160318"
+    mappings = "snapshot_20160328"
 
     // replacing stuff in the source
     replace '@MAJOR@', project.major

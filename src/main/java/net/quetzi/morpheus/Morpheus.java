@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 
-@Mod(modid = References.MODID, name = References.NAME, version = References.VERSION, dependencies = "required-after:Forge@[11.14.0.1239,);", acceptableRemoteVersions = "*")
+@Mod(modid = References.MODID, name = References.NAME, version = References.VERSION, dependencies = "required-after:Forge@[12.16.0.1811,);", acceptableRemoteVersions = "*")
 public class Morpheus {
 
     public static int    perc;

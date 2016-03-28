@@ -35,7 +35,7 @@ public class CommandMorpheus extends CommandBase {
     }
 
     @Override
-    public List getCommandAliases() {
+    public List<String> getCommandAliases() {
 
         return aliases;
     }
