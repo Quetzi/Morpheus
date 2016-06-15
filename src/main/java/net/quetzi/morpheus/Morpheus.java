@@ -2,7 +2,6 @@ package net.quetzi.morpheus;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -19,36 +18,36 @@ import org.apache.logging.log4j.Logger;
 import java.util.HashMap;
 
 @Mod(modid = References.MODID, name = References.NAME, version = References.VERSION, dependencies = "required-after:Forge@[12.17.0.1909,);", acceptableRemoteVersions = "*")
-public class Morpheus {
-
+public class Morpheus
+{
     public static int    perc;
     public static String onSleepText, onWakeText, onMorningText;
     public static Logger mLog;
     public static final HashMap<Integer, WorldSleepState> playerSleepStatus = new HashMap<Integer, WorldSleepState>();
     public static final SleepChecker                      checker           = new SleepChecker();
     public static       MorpheusRegistry                  register          = new MorpheusRegistry();
-    private static boolean  alertEnabled;
-    public static  boolean  includeMiners;
-    public static  int      groundLevel;
-    public static  boolean  setSpawnDaytime;
-    public static Configuration config;
+    private static boolean       alertEnabled;
+    public static  boolean       includeMiners;
+    public static  int           groundLevel;
+    public static  boolean       setSpawnDaytime;
+    public static  Configuration config;
 
     @Instance(References.MODID)
-    public static  Morpheus INSTANCE;
+    public static Morpheus INSTANCE;
 
-    public static boolean isAlertEnabled() {
-
+    public static boolean isAlertEnabled()
+    {
         return alertEnabled;
     }
 
-    public static void setAlertPlayers(boolean state) {
-
+    public static void setAlertPlayers(boolean state)
+    {
         alertEnabled = state;
     }
 
     @EventHandler
-    public void PreInit(FMLPreInitializationEvent event) {
-
+    public void PreInit(FMLPreInitializationEvent event)
+    {
         Morpheus.mLog = event.getModLog();
         mLog.info("Loading configuration");
         // Read configs
@@ -62,20 +61,19 @@ public class Morpheus {
         onMorningText = config.get("settings", "OnMorningText", "Wakey, wakey, rise and shine... Good Morning everyone!").getString();
         includeMiners = config.get("settings", "IncludeMiners", true).getBoolean();
         groundLevel = config.getInt("settings", "GroundLevel", 64, 1, 255, "Ground Level (1-255)");
-        setSpawnDaytime = config.get("settings", "AllowSetSpanwDaytime", true).getBoolean();
+        setSpawnDaytime = config.get("settings", "AllowSetSpawnDaytime", true).getBoolean();
         config.save();
-
     }
 
     @EventHandler
-    public void PostInit(FMLPostInitializationEvent event) {
-
+    public void PostInit(FMLPostInitializationEvent event)
+    {
         MinecraftForge.EVENT_BUS.register(new MorpheusEventHandler());
     }
 
     @EventHandler
-    public void serverLoad(FMLServerStartingEvent event) {
-
+    public void serverLoad(FMLServerStartingEvent event)
+    {
         event.registerServerCommand(new CommandMorpheus());
     }
 }

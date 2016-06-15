@@ -1,7 +1,7 @@
 package net.quetzi.morpheus.api;
 
-public interface IMorpheusAPI {
-
+public interface IMorpheusAPI
+{
     /**
      * Register your INewDayHandler with MorpheusRegistry
      *

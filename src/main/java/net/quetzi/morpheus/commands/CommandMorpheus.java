@@ -12,72 +12,93 @@ import net.quetzi.morpheus.helpers.References;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandMorpheus extends CommandBase {
-
+public class CommandMorpheus extends CommandBase
+{
     private final List<String> aliases;
 
-    public CommandMorpheus() {
-
+    public CommandMorpheus()
+    {
         aliases = new ArrayList<String>();
         aliases.add("sleepvote");
     }
 
     @Override
-    public String getCommandName() {
-
+    public String getCommandName()
+    {
         return "morpheus";
     }
 
     @Override
-    public String getCommandUsage(ICommandSender sender) {
-
+    public String getCommandUsage(ICommandSender sender)
+    {
         return References.USAGE;
     }
 
     @Override
-    public List<String> getCommandAliases() {
-
+    public List<String> getCommandAliases()
+    {
         return aliases;
     }
 
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] astring) throws NumberInvalidException {
-
-        if (astring.length == 0) {
+    public void execute(MinecraftServer server, ICommandSender sender, String[] astring) throws NumberInvalidException
+    {
+        if (astring.length == 0)
+        {
             sender.addChatMessage(new TextComponentString(References.USAGE));
             return;
         }
-        if (astring[0].equalsIgnoreCase("alert")) {
-            if (Morpheus.isAlertEnabled()) {
+        if (astring[0].equalsIgnoreCase("alert"))
+        {
+            if (Morpheus.isAlertEnabled())
+            {
                 Morpheus.setAlertPlayers(false);
                 sender.addChatMessage(new TextComponentString(References.ALERTS_OFF));
-            } else {
+            }
+            else
+            {
                 Morpheus.setAlertPlayers(true);
                 sender.addChatMessage(new TextComponentString(References.ALERTS_ON));
             }
-        } else if (astring[0].equalsIgnoreCase("disable")) {
-            if (astring[1] != null) {
+        }
+        else if (astring[0].equalsIgnoreCase("disable"))
+        {
+            if (astring[1] != null)
+            {
                 int ageToDisable = parseInt(astring[1]);
-                if (Morpheus.register.isDimRegistered(ageToDisable)) {
+                if (Morpheus.register.isDimRegistered(ageToDisable))
+                {
                     Morpheus.register.unregisterHandler(ageToDisable);
                     sender.addChatMessage(new TextComponentString("Disabled sleep vote checks in dimension " + ageToDisable));
-                } else {
+                }
+                else
+                {
                     sender.addChatMessage(new TextComponentString("Sleep vote checks are already disabled in dimension " + ageToDisable));
                 }
-            } else {
+            }
+            else
+            {
                 sender.addChatMessage(new TextComponentString(References.DISABLE_USAGE));
             }
-        } else if (astring[0].equalsIgnoreCase("version")) {
+        }
+        else if (astring[0].equalsIgnoreCase("version"))
+        {
             sender.addChatMessage(new TextComponentString("Morpheus version: " + References.VERSION));
-        } else if (astring[0].equalsIgnoreCase("percent")) {
-            if (astring[1] != null) {
+        }
+        else if (astring[0].equalsIgnoreCase("percent"))
+        {
+            if (astring[1] != null)
+            {
                 int newPercent = parseInt(astring[1]);
-                if (newPercent > 0 && newPercent <= 100) {
+                if (newPercent > 0 && newPercent <= 100)
+                {
                     Morpheus.perc = newPercent;
                     Morpheus.config.get("settings", "SleeperPerc", 50).set(newPercent);
                     Morpheus.config.save();
                     sender.addChatMessage(new TextComponentString("Sleep vote percentage set to " + Morpheus.perc + "%"));
-                } else {
+                }
+                else
+                {
                     sender.addChatMessage(new TextComponentString("Invalid percentage value, round numbers between 0 and 100 are acceptable."));
                 }
             }
@@ -85,26 +106,26 @@ public class CommandMorpheus extends CommandBase {
     }
 
     @Override
-    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-
+    public boolean checkPermission(MinecraftServer server, ICommandSender sender)
+    {
         return true;
     }
 
     @Override
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
-
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    {
         return null;
     }
 
     @Override
-    public boolean isUsernameIndex(String[] astring, int i) {
-
+    public boolean isUsernameIndex(String[] astring, int i)
+    {
         return false;
     }
 
     @Override
-    public int getRequiredPermissionLevel() {
-
+    public int getRequiredPermissionLevel()
+    {
         return 4;
     }
 }

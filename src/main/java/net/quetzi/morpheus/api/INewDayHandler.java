@@ -1,6 +1,6 @@
 package net.quetzi.morpheus.api;
 
-public interface INewDayHandler {
-
+public interface INewDayHandler
+{
     void startNewDay();
 }
