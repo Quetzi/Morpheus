@@ -30,6 +30,7 @@ public class Morpheus {
     private static boolean  alertEnabled;
     public static  boolean  includeMiners;
     public static  int      groundLevel;
+    public static  boolean  setSpawnDaytime;
     public static Configuration config;
 
     @Instance(References.MODID)
@@ -61,6 +62,7 @@ public class Morpheus {
         onMorningText = config.get("settings", "OnMorningText", "Wakey, wakey, rise and shine... Good Morning everyone!").getString();
         includeMiners = config.get("settings", "IncludeMiners", true).getBoolean();
         groundLevel = config.getInt("settings", "GroundLevel", 64, 1, 255, "Ground Level (1-255)");
+        setSpawnDaytime = config.get("settings", "AllowSetSpanwDaytime", true).getBoolean();
         config.save();
 
     }
