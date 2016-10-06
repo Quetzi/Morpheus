@@ -3,6 +3,7 @@ package net.quetzi.morpheus.commands;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.NumberInvalidException;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -89,17 +90,21 @@ public class CommandMorpheus extends CommandBase
         {
             if (astring[1] != null)
             {
-                int newPercent = parseInt(astring[1]);
-                if (newPercent > 0 && newPercent <= 100)
+                // Do op check
+                if (isPlayerOpped(sender))
                 {
-                    Morpheus.perc = newPercent;
-                    Morpheus.config.get("settings", "SleeperPerc", 50).set(newPercent);
-                    Morpheus.config.save();
-                    sender.addChatMessage(new TextComponentString("Sleep vote percentage set to " + Morpheus.perc + "%"));
-                }
-                else
-                {
-                    sender.addChatMessage(new TextComponentString("Invalid percentage value, round numbers between 0 and 100 are acceptable."));
+                    int newPercent = parseInt(astring[1]);
+                    if (newPercent > 0 && newPercent <= 100)
+                    {
+                        Morpheus.perc = newPercent;
+                        Morpheus.config.get("settings", "SleeperPerc", 50).set(newPercent);
+                        Morpheus.config.save();
+                        sender.addChatMessage(new TextComponentString("Sleep vote percentage set to " + Morpheus.perc + "%"));
+                    }
+                    else
+                    {
+                        sender.addChatMessage(new TextComponentString("Invalid percentage value, round numbers between 0 and 100 are acceptable."));
+                    }
                 }
             }
         }
@@ -109,6 +114,22 @@ public class CommandMorpheus extends CommandBase
     public boolean checkPermission(MinecraftServer server, ICommandSender sender)
     {
         return true;
+    }
+
+    private boolean isPlayerOpped(ICommandSender sender)
+    {
+        if (sender instanceof EntityPlayer)
+        {
+            for (String player : sender.getServer().getPlayerList().getOppedPlayerNames())
+            {
+                if (player.toLowerCase().equals(sender.getName()))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return true; // If it isn't a player, then it's the console
     }
 
     @Override
