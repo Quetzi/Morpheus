@@ -122,7 +122,7 @@ public class CommandMorpheus extends CommandBase
         {
             for (String player : sender.getServer().getPlayerList().getOppedPlayerNames())
             {
-                if (player.toLowerCase().equals(sender.getName()))
+                if (player.equals(sender.getName()))
                 {
                     return true;
                 }
