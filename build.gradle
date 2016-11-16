@@ -19,7 +19,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 project.ext {
     major = "3"
-    minor = "1"
+    minor = "2"
     if (System.getenv("BUILD_NUMBER") != null) {
         build = System.getenv("BUILD_NUMBER")
     } else {
