@@ -113,7 +113,7 @@ public class MorpheusEventHandler
                         {
                             event.getEntityPlayer().setSpawnPoint(event.getEntityPlayer().getPosition(), false);
                             event.getEntityPlayer().setSpawnChunk(pos, false, event.getWorld().provider.getDimension());
-                            event.getEntityPlayer().addChatComponentMessage(new TextComponentString(References.SPAWN_SET));
+                            event.getEntityPlayer().addChatComponentMessage(new TextComponentString(References.SPAWN_SET), true);
                             event.setCanceled(true);
                         }
                     }
