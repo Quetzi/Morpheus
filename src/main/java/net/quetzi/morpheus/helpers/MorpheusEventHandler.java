@@ -95,29 +95,31 @@ public class MorpheusEventHandler
         {
             BlockPos     pos    = event.getPos();
             EntityPlayer player = event.getEntityPlayer();
-            if (!event.getWorld().isRemote && event.getWorld().isDaytime() && !player.isSneaking() &&
-                    (player.getBedLocation().getDistance(pos.getX(), pos.getY(), pos.getZ()) > 4))
+            if (!event.getWorld().isRemote && event.getWorld().isDaytime() && !player.isSneaking())
             {
-                IBlockState state = event.getWorld().getBlockState(pos);
-                if (state.getBlock() instanceof BlockBed)
+                if (player.getBedLocation() == null || (player.getBedLocation().getDistance(pos.getX(), pos.getY(), pos.getZ()) > 4))
                 {
-                    if (state.getValue(BlockBed.PART) != BlockBed.EnumPartType.HEAD)
+                    IBlockState state = event.getWorld().getBlockState(pos);
+                    if (state.getBlock() instanceof BlockBed)
                     {
-                        pos = event.getPos().offset(state.getValue(BlockBed.FACING));
-                        state = event.getWorld().getBlockState(pos);
-                        if (!(state.getBlock() instanceof BlockBed) || state.getValue(BlockBed.PART) != BlockBed.EnumPartType.HEAD)
+                        if (state.getValue(BlockBed.PART) != BlockBed.EnumPartType.HEAD)
                         {
-                            return;
+                            pos = event.getPos().offset(state.getValue(BlockBed.FACING));
+                            state = event.getWorld().getBlockState(pos);
+                            if (!(state.getBlock() instanceof BlockBed) || state.getValue(BlockBed.PART) != BlockBed.EnumPartType.HEAD)
+                            {
+                                return;
+                            }
                         }
-                    }
-                    if (event.getWorld().provider.canRespawnHere() && event.getWorld().provider.getBiomeForCoords(pos) != Biomes.HELL)
-                    {
-                        if (!state.getValue(BlockBed.OCCUPIED))
+                        if (event.getWorld().provider.canRespawnHere() && event.getWorld().provider.getBiomeForCoords(pos) != Biomes.HELL)
                         {
-                            player.setSpawnPoint(event.getEntityPlayer().getPosition(), false);
-                            player.setSpawnChunk(pos, false, event.getWorld().provider.getDimension());
-                            player.addChatComponentMessage(new TextComponentString(References.SPAWN_SET));
-                            event.setCanceled(true);
+                            if (!state.getValue(BlockBed.OCCUPIED))
+                            {
+                                player.setSpawnPoint(event.getEntityPlayer().getPosition(), false);
+                                player.setSpawnChunk(pos, false, event.getWorld().provider.getDimension());
+                                player.addChatComponentMessage(new TextComponentString(References.SPAWN_SET));
+                                event.setCanceled(true);
+                            }
                         }
                     }
                 }
