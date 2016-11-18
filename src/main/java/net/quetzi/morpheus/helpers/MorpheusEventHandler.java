@@ -2,6 +2,7 @@ package net.quetzi.morpheus.helpers;
 
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Biomes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -92,9 +93,11 @@ public class MorpheusEventHandler
     {
         if (Morpheus.setSpawnDaytime)
         {
-            if (!event.getWorld().isRemote && event.getWorld().isDaytime())
+            BlockPos     pos    = event.getPos();
+            EntityPlayer player = event.getEntityPlayer();
+            if (!event.getWorld().isRemote && event.getWorld().isDaytime() && !player.isSneaking() &&
+                    (player.getBedLocation().getDistance(pos.getX(), pos.getY(), pos.getZ()) > 4))
             {
-                BlockPos pos = event.getPos();
                 IBlockState state = event.getWorld().getBlockState(pos);
                 if (state.getBlock() instanceof BlockBed)
                 {
@@ -111,9 +114,9 @@ public class MorpheusEventHandler
                     {
                         if (!state.getValue(BlockBed.OCCUPIED))
                         {
-                            event.getEntityPlayer().setSpawnPoint(event.getEntityPlayer().getPosition(), false);
-                            event.getEntityPlayer().setSpawnChunk(pos, false, event.getWorld().provider.getDimension());
-                            event.getEntityPlayer().addChatComponentMessage(new TextComponentString(References.SPAWN_SET));
+                            player.setSpawnPoint(event.getEntityPlayer().getPosition(), false);
+                            player.setSpawnChunk(pos, false, event.getWorld().provider.getDimension());
+                            player.addChatComponentMessage(new TextComponentString(References.SPAWN_SET));
                             event.setCanceled(true);
                         }
                     }
