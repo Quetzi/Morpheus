@@ -55,7 +55,7 @@ public class SleepChecker
         {
             for (EntityPlayer player : world.playerEntities)
             {
-                player.addChatComponentMessage(alert);
+                player.sendStatusMessage(alert, true);
             }
         }
     }
@@ -63,7 +63,7 @@ public class SleepChecker
     private TextComponentString createAlert(int dimension, String username, String text)
     {
         String alertText = TextFormatting.WHITE + username + TextFormatting.GOLD + " " + text + " "
-                           + Morpheus.playerSleepStatus.get(dimension).toString();
+                + Morpheus.playerSleepStatus.get(dimension).toString();
         Morpheus.mLog.info(username + " " + text + " " + Morpheus.playerSleepStatus.get(dimension).toString());
         return new TextComponentString(alertText);
     }
