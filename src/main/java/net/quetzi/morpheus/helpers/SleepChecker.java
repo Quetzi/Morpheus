@@ -55,7 +55,7 @@ public class SleepChecker
         {
             for (EntityPlayer player : world.playerEntities)
             {
-                player.addChatComponentMessage(alert, true);
+                player.addChatComponentMessage(alert);
             }
         }
     }

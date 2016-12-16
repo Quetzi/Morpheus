@@ -2,7 +2,7 @@ package net.quetzi.morpheus.helpers;
 
 public class References
 {
-    public static final  String MODID     = "Morpheus";
+    public static final  String MODID     = "morpheus";
     public static final  String NAME      = "Morpheus";
     private static final String MAJOR     = "@MAJOR@";
     private static final String MINOR     = "@MINOR@";
