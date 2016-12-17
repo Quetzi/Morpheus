@@ -8,6 +8,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.quetzi.morpheus.Morpheus;
+import net.quetzi.morpheus.MorpheusRegistry;
 import net.quetzi.morpheus.helpers.References;
 
 import java.util.ArrayList;
@@ -135,7 +136,20 @@ public class CommandMorpheus extends CommandBase
     @Override
     public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
-        return null;
+        if (args.length == 1)
+        {
+            return getListOfStringsMatchingLastWord(args, new String[]{"alerts", "disable", "percent", "version"});
+        }
+        List options = new ArrayList();
+        if (args[0].equalsIgnoreCase("disable"))
+        {
+            for (Integer dimensionId : MorpheusRegistry.registry.keySet())
+            {
+                options.add(dimensionId.toString());
+            }
+            options = getListOfStringsMatchingLastWord(args, options);
+        }
+        return options;
     }
 
     @Override
