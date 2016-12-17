@@ -43,14 +43,14 @@ public class CommandMorpheus extends CommandBase
     }
 
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] astring) throws NumberInvalidException
+    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws NumberInvalidException
     {
-        if (astring.length == 0)
+        if (args.length == 0)
         {
             sender.sendMessage(new TextComponentString(References.USAGE));
             return;
         }
-        if (astring[0].equalsIgnoreCase("alert"))
+        if (args[0].equalsIgnoreCase("alert"))
         {
             if (Morpheus.isAlertEnabled())
             {
@@ -63,11 +63,11 @@ public class CommandMorpheus extends CommandBase
                 sender.sendMessage(new TextComponentString(References.ALERTS_ON));
             }
         }
-        else if (astring[0].equalsIgnoreCase("disable"))
+        else if (args[0].equalsIgnoreCase("disable"))
         {
-            if (astring[1] != null)
+            if (args[1] != null)
             {
-                int ageToDisable = parseInt(astring[1]);
+                int ageToDisable = parseInt(args[1]);
                 if (Morpheus.register.isDimRegistered(ageToDisable))
                 {
                     Morpheus.register.unregisterHandler(ageToDisable);
@@ -83,18 +83,18 @@ public class CommandMorpheus extends CommandBase
                 sender.sendMessage(new TextComponentString(References.DISABLE_USAGE));
             }
         }
-        else if (astring[0].equalsIgnoreCase("version"))
+        else if (args[0].equalsIgnoreCase("version"))
         {
             sender.sendMessage(new TextComponentString("Morpheus version: " + References.VERSION));
         }
-        else if (astring[0].equalsIgnoreCase("percent"))
+        else if (args[0].equalsIgnoreCase("percent"))
         {
-            if (astring[1] != null)
+            if (args[1] != null)
             {
                 // Do op check
                 if (isPlayerOpped(sender))
                 {
-                    int newPercent = parseInt(astring[1]);
+                    int newPercent = parseInt(args[1]);
                     if (newPercent > 0 && newPercent <= 100)
                     {
                         Morpheus.perc = newPercent;
