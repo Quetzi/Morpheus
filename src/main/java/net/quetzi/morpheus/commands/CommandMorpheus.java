@@ -49,7 +49,7 @@ public class CommandMorpheus extends CommandBase
     {
         if (args.length == 0)
         {
-            sender.sendMessage(new TextComponentString(References.USAGE));
+            sender.sendMessage(new TextComponentString("Usage: " + References.USAGE).setStyle(new Style().setColor(TextFormatting.RED)));
             return;
         }
         if (args[0].equalsIgnoreCase("alert"))
