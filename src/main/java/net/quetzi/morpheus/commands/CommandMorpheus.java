@@ -6,7 +6,9 @@ import net.minecraft.command.NumberInvalidException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.quetzi.morpheus.Morpheus;
 import net.quetzi.morpheus.MorpheusRegistry;
 import net.quetzi.morpheus.helpers.References;
@@ -80,7 +82,7 @@ public class CommandMorpheus extends CommandBase
             }
             else
             {
-                sender.sendMessage(new TextComponentString(References.DISABLE_USAGE));
+                sender.sendMessage(new TextComponentString(References.DISABLE_USAGE).setStyle(new Style().setColor(TextFormatting.RED)));
             }
         }
         else if (args[0].equalsIgnoreCase("version"))
@@ -107,6 +109,10 @@ public class CommandMorpheus extends CommandBase
                         sender.sendMessage(new TextComponentString("Invalid percentage value, round numbers between 0 and 100 are acceptable."));
                     }
                 }
+            }
+            else
+            {
+                sender.sendMessage(new TextComponentString(References.PERCENT_USAGE).setStyle(new Style().setColor(TextFormatting.RED)));
             }
         }
     }
