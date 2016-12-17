@@ -65,7 +65,7 @@ public class CommandMorpheus extends CommandBase
         }
         else if (args[0].equalsIgnoreCase("disable"))
         {
-            if (args[1] != null)
+        	if (args.length > 1)
             {
                 int ageToDisable = parseInt(args[1]);
                 if (Morpheus.register.isDimRegistered(ageToDisable))
@@ -89,7 +89,7 @@ public class CommandMorpheus extends CommandBase
         }
         else if (args[0].equalsIgnoreCase("percent"))
         {
-            if (args[1] != null)
+            if (args.length > 1)
             {
                 // Do op check
                 if (isPlayerOpped(sender))
