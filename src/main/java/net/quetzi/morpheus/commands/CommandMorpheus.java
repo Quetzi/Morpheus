@@ -13,6 +13,7 @@ import net.quetzi.morpheus.Morpheus;
 import net.quetzi.morpheus.MorpheusRegistry;
 import net.quetzi.morpheus.helpers.References;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,22 +23,25 @@ public class CommandMorpheus extends CommandBase
 
     public CommandMorpheus()
     {
-        aliases = new ArrayList<String>();
+        aliases = new ArrayList<>();
         aliases.add("sleepvote");
     }
 
+    @Nonnull
     @Override
     public String getName()
     {
         return "morpheus";
     }
 
+    @Nonnull
     @Override
-    public String getUsage(ICommandSender sender)
+    public String getUsage(@Nonnull ICommandSender sender)
     {
         return References.USAGE;
     }
 
+    @Nonnull
     @Override
     public List<String> getAliases()
     {
@@ -45,7 +49,7 @@ public class CommandMorpheus extends CommandBase
     }
 
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws NumberInvalidException
+    public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args) throws NumberInvalidException
     {
         if (args.length == 0)
         {
@@ -122,11 +126,12 @@ public class CommandMorpheus extends CommandBase
     }
 
     @Override
-    public boolean checkPermission(MinecraftServer server, ICommandSender sender)
+    public boolean checkPermission(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender)
     {
         return true;
     }
 
+    @SuppressWarnings("ConstantConditions")
     private boolean isPlayerOpped(ICommandSender sender)
     {
         if (sender instanceof EntityPlayer)
@@ -143,12 +148,13 @@ public class CommandMorpheus extends CommandBase
         return true; // If it isn't a player, then it's the console
     }
 
+    @Nonnull
     @Override
     public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
         if (args.length == 1)
         {
-            return getListOfStringsMatchingLastWord(args, new String[]{"alert", "disable", "percent", "version"});
+            return getListOfStringsMatchingLastWord(args, "alert", "disable", "percent", "version");
         }
         List options = new ArrayList();
         if (args[0].equalsIgnoreCase("disable"))

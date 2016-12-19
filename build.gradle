@@ -31,6 +31,12 @@ version = "${project.ext.mcVersion}-${project.ext.major}.${project.minor}.${proj
 group = "net.quetzi.morpheus"
 archivesBaseName = "Morpheus"
 
+allprojects {
+    apply plugin: 'java'
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
 minecraft {
     version = "${project.ext.mcVersion}-13.19.1.2189"
     runDir = "run"

@@ -24,7 +24,7 @@ public class MorpheusEventHandler
     {
         if (!event.player.getEntityWorld().getMinecraftServer().worldServerForDimension(event.player.dimension).isRemote)
         {
-            if (Morpheus.playerSleepStatus.get(event.player.dimension) == null)
+            if (!Morpheus.playerSleepStatus.containsKey(event.player.dimension))
             {
                 Morpheus.playerSleepStatus.put(event.player.dimension, new WorldSleepState(event.player.dimension));
             }
@@ -50,7 +50,7 @@ public class MorpheusEventHandler
     {
         if (!event.player.getEntityWorld().getMinecraftServer().worldServerForDimension(event.player.dimension).isRemote)
         {
-            if (Morpheus.playerSleepStatus.get(event.toDim) == null)
+            if (!Morpheus.playerSleepStatus.containsKey(event.toDim))
             {
                 Morpheus.playerSleepStatus.put(event.toDim, new WorldSleepState(event.toDim));
             }
@@ -74,7 +74,7 @@ public class MorpheusEventHandler
             {
                 if (event.world.playerEntities.size() > 0)
                 {
-                    if (Morpheus.playerSleepStatus.get(event.world.provider.getDimension()) == null)
+                    if (!Morpheus.playerSleepStatus.containsKey(event.world.provider.getDimension()))
                     {
                         Morpheus.playerSleepStatus.put(event.world.provider.getDimension(), new WorldSleepState(event.world.provider.getDimension()));
                     }

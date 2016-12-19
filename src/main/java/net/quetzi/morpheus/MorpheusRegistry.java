@@ -12,7 +12,7 @@ public class MorpheusRegistry implements IMorpheusAPI
 
     public MorpheusRegistry()
     {
-        registry = new HashMap<Integer, INewDayHandler>();
+        registry = new HashMap<>();
         registerHandler(new DefaultOverworldHandler(), 0);
     }
 

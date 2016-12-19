@@ -15,7 +15,7 @@ public class WorldSleepState
     public WorldSleepState(int dimension)
     {
         this.dimension = dimension;
-        this.playerStatus = new HashMap<String, Boolean>();
+        this.playerStatus = new HashMap<>();
     }
 
     public int getPercentSleeping()
