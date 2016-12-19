@@ -1,6 +1,6 @@
 [
 {
-  "modid" : "Morpheus",
+  "modid" : "morpheus",
   "name" : "Morpheus",
   "version" : "${version}",
   "url" : "http://www.curse.com/mc-mods/Minecraft/morpheus",
