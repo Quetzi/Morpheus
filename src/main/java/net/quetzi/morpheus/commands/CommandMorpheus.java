@@ -6,10 +6,14 @@ import net.minecraft.command.NumberInvalidException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.quetzi.morpheus.Morpheus;
+import net.quetzi.morpheus.MorpheusRegistry;
 import net.quetzi.morpheus.helpers.References;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,18 +27,21 @@ public class CommandMorpheus extends CommandBase
         aliases.add("sleepvote");
     }
 
+    @Nonnull
     @Override
     public String getCommandName()
     {
         return "morpheus";
     }
 
+    @Nonnull
     @Override
-    public String getCommandUsage(ICommandSender sender)
+    public String getCommandUsage(@Nonnull ICommandSender sender)
     {
         return References.USAGE;
     }
 
+    @Nonnull
     @Override
     public List<String> getCommandAliases()
     {
@@ -42,14 +49,14 @@ public class CommandMorpheus extends CommandBase
     }
 
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] astring) throws NumberInvalidException
+    public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args) throws NumberInvalidException
     {
-        if (astring.length == 0)
+        if (args.length == 0)
         {
-            sender.addChatMessage(new TextComponentString(References.USAGE));
+            sender.addChatMessage(new TextComponentString("Usage: " + References.USAGE).setStyle(new Style().setColor(TextFormatting.RED)));
             return;
         }
-        if (astring[0].equalsIgnoreCase("alert"))
+        if (args[0].equalsIgnoreCase("alert"))
         {
             if (Morpheus.isAlertEnabled())
             {
@@ -62,56 +69,64 @@ public class CommandMorpheus extends CommandBase
                 sender.addChatMessage(new TextComponentString(References.ALERTS_ON));
             }
         }
-        else if (astring[0].equalsIgnoreCase("disable"))
-        {
-            if (astring[1] != null)
-            {
-                int ageToDisable = parseInt(astring[1]);
-                if (Morpheus.register.isDimRegistered(ageToDisable))
-                {
-                    Morpheus.register.unregisterHandler(ageToDisable);
-                    sender.addChatMessage(new TextComponentString("Disabled sleep vote checks in dimension " + ageToDisable));
-                }
-                else
-                {
-                    sender.addChatMessage(new TextComponentString("Sleep vote checks are already disabled in dimension " + ageToDisable));
-                }
-            }
-            else
-            {
-                sender.addChatMessage(new TextComponentString(References.DISABLE_USAGE));
-            }
-        }
-        else if (astring[0].equalsIgnoreCase("version"))
+        else if (args[0].equalsIgnoreCase("version"))
         {
             sender.addChatMessage(new TextComponentString("Morpheus version: " + References.VERSION));
         }
-        else if (astring[0].equalsIgnoreCase("percent"))
+        else
         {
-            if (astring[1] != null)
+            boolean setPercent = args[0].equalsIgnoreCase("percent");
+            if (setPercent || args[0].equalsIgnoreCase("disable"))
             {
-                // Do op check
-                if (isPlayerOpped(sender))
+                if (args.length > 1)
                 {
-                    int newPercent = parseInt(astring[1]);
-                    if (newPercent > 0 && newPercent <= 100)
+                    // Do op check
+                    if (isPlayerOpped(sender))
                     {
-                        Morpheus.perc = newPercent;
-                        Morpheus.config.get("settings", "SleeperPerc", 50).set(newPercent);
-                        Morpheus.config.save();
-                        sender.addChatMessage(new TextComponentString("Sleep vote percentage set to " + Morpheus.perc + "%"));
+                        if (setPercent)
+                        {
+                            int newPercent = parseInt(args[1]);
+                            if (newPercent > 0 && newPercent <= 100)
+                            {
+                                Morpheus.perc = newPercent;
+                                Morpheus.config.get("settings", "SleeperPerc", 50).set(newPercent);
+                                Morpheus.config.save();
+                                sender.addChatMessage(new TextComponentString("Sleep vote percentage set to " + Morpheus.perc + "%"));
+                            }
+                            else
+                            {
+                                sender.addChatMessage(new TextComponentString("Invalid percentage value, round numbers between 0 and 100 are acceptable."));
+                            }
+                        }
+                        else
+                        {
+                            int ageToDisable = parseInt(args[1]);
+                            if (Morpheus.register.isDimRegistered(ageToDisable))
+                            {
+                                Morpheus.register.unregisterHandler(ageToDisable);
+                                sender.addChatMessage(new TextComponentString("Disabled sleep vote checks in dimension " + ageToDisable));
+                            }
+                            else
+                            {
+                                sender.addChatMessage(new TextComponentString("Sleep vote checks are already disabled in dimension " + ageToDisable));
+                            }
+                        }
                     }
                     else
                     {
-                        sender.addChatMessage(new TextComponentString("Invalid percentage value, round numbers between 0 and 100 are acceptable."));
+                        sender.addChatMessage(new TextComponentString("You must be opped to " + (setPercent ? "set the sleep vote percentage." : "disable dimensions.")));
                     }
+                }
+                else
+                {
+                    sender.addChatMessage(new TextComponentString(setPercent ? References.PERCENT_USAGE : References.DISABLE_USAGE).setStyle(new Style().setColor(TextFormatting.RED)));
                 }
             }
         }
     }
 
     @Override
-    public boolean checkPermission(MinecraftServer server, ICommandSender sender)
+    public boolean checkPermission(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender)
     {
         return true;
     }
@@ -132,21 +147,23 @@ public class CommandMorpheus extends CommandBase
         return true; // If it isn't a player, then it's the console
     }
 
+    @Nonnull
     @Override
     public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
-        return null;
-    }
-
-    @Override
-    public boolean isUsernameIndex(String[] astring, int i)
-    {
-        return false;
-    }
-
-    @Override
-    public int getRequiredPermissionLevel()
-    {
-        return 4;
+        if (args.length == 1)
+        {
+            return getListOfStringsMatchingLastWord(args, "alert", "disable", "percent", "version");
+        }
+        List options = new ArrayList();
+        if (args[0].equalsIgnoreCase("disable"))
+        {
+            for (Integer dimensionId : MorpheusRegistry.registry.keySet())
+            {
+                options.add(dimensionId.toString());
+            }
+            options = getListOfStringsMatchingLastWord(args, options);
+        }
+        return options;
     }
 }
