@@ -156,7 +156,7 @@ public class CommandMorpheus extends CommandBase
         {
             return getListOfStringsMatchingLastWord(args, "alert", "disable", "percent", "version");
         }
-        List options = new ArrayList();
+        List<String> options = new ArrayList<>();
         if (args[0].equalsIgnoreCase("disable"))
         {
             for (Integer dimensionId : MorpheusRegistry.registry.keySet())

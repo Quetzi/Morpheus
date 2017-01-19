@@ -97,7 +97,7 @@ public class MorpheusEventHandler
             BlockPos pos = event.getPos();
             if (!event.getWorld().isRemote && event.getWorld().isDaytime() && !event.getEntityPlayer().isSneaking())
             {
-                if (player.getBedLocation() == null || player.getBedLocation().getDistance(pos.getX(), pos.getY(), pos.getZ()) > 4)
+                if (player.getBedLocation() == BlockPos.NULL_VECTOR || player.getBedLocation().getDistance(pos.getX(), pos.getY(), pos.getZ()) > 4)
                 {
                     IBlockState state = event.getWorld().getBlockState(pos);
                     if (state.getBlock() instanceof BlockBed)

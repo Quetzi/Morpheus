@@ -25,7 +25,7 @@ project.ext {
     } else {
         build = "-custom"
     }
-    mcVersion = "1.11"
+    mcVersion = "1.11.2"
 }
 version = "${project.ext.mcVersion}-${project.ext.major}.${project.minor}.${project.build}"
 group = "net.quetzi.morpheus"
@@ -38,9 +38,9 @@ allprojects {
 }
 
 minecraft {
-    version = "${project.ext.mcVersion}-13.19.1.2189"
+    version = "${project.ext.mcVersion}-13.20.0.2223"
     runDir = "run"
-    mappings = "snapshot_20161216"
+    mappings = "snapshot_20170119"
 
     // replacing stuff in the source
     replace '@MAJOR@', project.major

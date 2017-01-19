@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public class SleepChecker
 {
-    private HashMap<Integer, Boolean> alertSent = new HashMap<Integer, Boolean>();
+    private HashMap<Integer, Boolean> alertSent = new HashMap<>();
 
     public void updatePlayerStates(World world)
     {
@@ -62,10 +62,8 @@ public class SleepChecker
 
     private TextComponentString createAlert(int dimension, String username, String text)
     {
-        String alertText = TextFormatting.WHITE + username + TextFormatting.GOLD + " " + text + " "
-                + Morpheus.playerSleepStatus.get(dimension).toString();
-        Morpheus.mLog.info(username + " " + text + " " + Morpheus.playerSleepStatus.get(dimension).toString());
-        return new TextComponentString(alertText);
+        Morpheus.mLog.info(String.format("%s %s %s", username, text, Morpheus.playerSleepStatus.get(dimension).toString()));
+        return new TextComponentString(String.format("%s%s%s %s %s", TextFormatting.WHITE, username, TextFormatting.GOLD, text, Morpheus.playerSleepStatus.get(dimension).toString()));
     }
 
     private void advanceToMorning(World world)
@@ -73,7 +71,8 @@ public class SleepChecker
         try
         {
             MorpheusRegistry.registry.get(world.provider.getDimension()).startNewDay();
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             Morpheus.mLog.error("Exception caught while starting a new day for dimension " + world.provider.getDimension());
         }
