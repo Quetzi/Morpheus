@@ -55,7 +55,7 @@ public class SleepChecker
         {
             for (EntityPlayer player : world.playerEntities)
             {
-                player.sendStatusMessage(alert, true);
+                player.sendMessage(alert);
             }
         }
     }
