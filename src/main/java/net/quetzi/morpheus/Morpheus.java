@@ -20,9 +20,9 @@ import java.util.HashMap;
 @Mod(modid = References.MODID,
         name = References.NAME,
         version = References.VERSION,
-        dependencies = "required-after:forge@[13.20.0.2223,);",
+        dependencies = "required-after:forge@[14.21.0.2320,);",
         acceptableRemoteVersions = "*",
-        acceptedMinecraftVersions = "[1.11,1.12)"
+        acceptedMinecraftVersions = "[1.12,1.13)"
 )
 public class Morpheus
 {
