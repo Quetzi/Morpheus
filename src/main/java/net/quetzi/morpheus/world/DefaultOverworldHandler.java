@@ -13,7 +13,7 @@ public class DefaultOverworldHandler implements INewDayHandler
     @Override
     public void startNewDay()
     {
-        World world = FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(0);
+        World world = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(0);
         world.setWorldTime(world.getWorldTime() + getTimeToSunrise(world));
     }
 

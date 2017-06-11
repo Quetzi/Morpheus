@@ -22,7 +22,7 @@ public class MorpheusEventHandler
     @SubscribeEvent
     public void loggedInEvent(PlayerLoggedInEvent event)
     {
-        if (!event.player.getEntityWorld().getMinecraftServer().worldServerForDimension(event.player.dimension).isRemote)
+        if (!event.player.getEntityWorld().getMinecraftServer().getWorld(event.player.dimension).isRemote)
         {
             if (!Morpheus.playerSleepStatus.containsKey(event.player.dimension))
             {
@@ -35,20 +35,19 @@ public class MorpheusEventHandler
     @SubscribeEvent
     public void loggedOutEvent(PlayerLoggedOutEvent event)
     {
-        if (!event.player.getEntityWorld().getMinecraftServer().worldServerForDimension(event.player.dimension).isRemote)
+        if (!event.player.getEntityWorld().getMinecraftServer().getWorld(event.player.dimension).isRemote)
         {
-            if (Morpheus.playerSleepStatus.get(event.player.dimension) == null)
+            if (Morpheus.playerSleepStatus.get(event.player.dimension) != null)
             {
-                return;
+                Morpheus.playerSleepStatus.get(event.player.dimension).removePlayer(event.player.getGameProfile().getName());
             }
-            Morpheus.playerSleepStatus.get(event.player.dimension).removePlayer(event.player.getGameProfile().getName());
         }
     }
 
     @SubscribeEvent
     public void changedDimensionEvent(PlayerChangedDimensionEvent event)
     {
-        if (!event.player.getEntityWorld().getMinecraftServer().worldServerForDimension(event.player.dimension).isRemote)
+        if (!event.player.getEntityWorld().getMinecraftServer().getWorld(event.player.dimension).isRemote)
         {
             if (!Morpheus.playerSleepStatus.containsKey(event.toDim))
             {
@@ -94,7 +93,7 @@ public class MorpheusEventHandler
         if (Morpheus.setSpawnDaytime)
         {
             EntityPlayer player = event.getEntityPlayer();
-            BlockPos pos = event.getPos();
+            BlockPos     pos    = event.getPos();
             if (!event.getWorld().isRemote && event.getWorld().isDaytime() && !event.getEntityPlayer().isSneaking())
             {
                 if (player.getBedLocation() == null || player.getBedLocation().getDistance(pos.getX(), pos.getY(), pos.getZ()) > 4)

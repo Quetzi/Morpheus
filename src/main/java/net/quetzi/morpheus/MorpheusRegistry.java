@@ -19,7 +19,8 @@ public class MorpheusRegistry implements IMorpheusAPI
     @Override
     public void registerHandler(INewDayHandler newDayHandler, int dimension)
     {
-        if (registry.containsKey(dimension)) Morpheus.mLog.warn("New day handler for dimension " + dimension + " has been replaced");
+        if (registry.containsKey(dimension))
+            Morpheus.mLog.warn("New day handler for dimension " + dimension + " has been replaced");
         registry.put(dimension, newDayHandler);
     }
 

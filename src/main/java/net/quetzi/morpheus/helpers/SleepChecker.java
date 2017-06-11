@@ -15,37 +15,41 @@ public class SleepChecker
 
     public void updatePlayerStates(World world)
     {
-        // Iterate players and update their status
-        for (EntityPlayer player : world.playerEntities)
+        //Don't bother updating if there is only 1 player
+        if (world.playerEntities.size() > 1)
         {
-            String username = player.getGameProfile().getName();
-            if (player.isPlayerFullyAsleep() && !Morpheus.playerSleepStatus.get(player.dimension).isPlayerSleeping(username))
+            // Iterate players and update their status
+            for (EntityPlayer player : world.playerEntities)
             {
-                Morpheus.playerSleepStatus.get(player.dimension).setPlayerAsleep(username);
-                // Alert players that this player has gone to bed
-                alertPlayers(createAlert(player.dimension, player.getDisplayNameString(), Morpheus.onSleepText), world);
-            }
-            else if (!player.isPlayerFullyAsleep() && Morpheus.playerSleepStatus.get(player.dimension).isPlayerSleeping(username))
-            {
-                Morpheus.playerSleepStatus.get(player.dimension).setPlayerAwake(username);
-                // Alert players that this player has woken up
-                if (!world.isDaytime() && !alertSent.get(world.provider.getDimension()))
+                String username = player.getGameProfile().getName();
+                if (player.isPlayerFullyAsleep() && !Morpheus.playerSleepStatus.get(player.dimension).isPlayerSleeping(username))
                 {
-                    alertPlayers(createAlert(player.dimension, player.getDisplayNameString(), Morpheus.onWakeText), world);
+                    Morpheus.playerSleepStatus.get(player.dimension).setPlayerAsleep(username);
+                    // Alert players that this player has gone to bed
+                    alertPlayers(createAlert(player.dimension, player.getDisplayNameString(), Morpheus.onSleepText), world);
+                }
+                else if (!player.isPlayerFullyAsleep() && Morpheus.playerSleepStatus.get(player.dimension).isPlayerSleeping(username))
+                {
+                    Morpheus.playerSleepStatus.get(player.dimension).setPlayerAwake(username);
+                    // Alert players that this player has woken up
+                    if (!world.isDaytime() && !alertSent.get(world.provider.getDimension()))
+                    {
+                        alertPlayers(createAlert(player.dimension, player.getDisplayNameString(), Morpheus.onWakeText), world);
+                    }
                 }
             }
-        }
-        if (areEnoughPlayersAsleep(world.provider.getDimension()))
-        {
-            if (!alertSent.containsKey(world.provider.getDimension()))
+            if (areEnoughPlayersAsleep(world.provider.getDimension()))
+            {
+                if (!alertSent.containsKey(world.provider.getDimension()))
+                {
+                    alertSent.put(world.provider.getDimension(), false);
+                }
+                advanceToMorning(world);
+            }
+            else
             {
                 alertSent.put(world.provider.getDimension(), false);
             }
-            advanceToMorning(world);
-        }
-        else
-        {
-            alertSent.put(world.provider.getDimension(), false);
         }
     }
 

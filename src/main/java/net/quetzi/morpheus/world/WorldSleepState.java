@@ -26,7 +26,7 @@ public class WorldSleepState
     private int getMiningPlayers()
     {
         int miningPlayers = 0;
-        for (EntityPlayer player : FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(this.dimension).playerEntities)
+        for (EntityPlayer player : FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(this.dimension).playerEntities)
         {
             if (player.posY < Morpheus.groundLevel)
             {
