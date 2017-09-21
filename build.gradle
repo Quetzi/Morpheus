@@ -19,13 +19,13 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 project.ext {
     major = "3"
-    minor = "3"
+    minor = "4"
     if (System.getenv("BUILD_NUMBER") != null) {
         build = System.getenv("BUILD_NUMBER")
     } else {
         build = "-custom"
     }
-    mcVersion = "1.12"
+    mcVersion = "1.12.2"
 }
 version = "${project.ext.mcVersion}-${project.ext.major}.${project.minor}.${project.build}"
 group = "net.quetzi.morpheus"
@@ -38,9 +38,9 @@ allprojects {
 }
 
 minecraft {
-    version = "${project.ext.mcVersion}-14.21.0.2321"
+    version = "${project.ext.mcVersion}-14.23.0.2487"
     runDir = "run"
-    mappings = "snapshot_20170610"
+    mappings = "snapshot_20170919"
 
     // replacing stuff in the source
     replace '@MAJOR@', project.major
