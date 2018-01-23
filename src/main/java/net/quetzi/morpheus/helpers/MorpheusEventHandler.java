@@ -116,7 +116,7 @@ public class MorpheusEventHandler
                             {
                                 player.setSpawnPoint(event.getEntityPlayer().getPosition(), false);
                                 player.setSpawnChunk(pos, false, event.getWorld().provider.getDimension());
-                                player.sendMessage(new TextComponentString(References.SPAWN_SET));
+                                player.sendStatusMessage(new TextComponentString(References.SPAWN_SET), true);
                                 event.setCanceled(true);
                             }
                         }
