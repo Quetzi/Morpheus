@@ -1,5 +1,8 @@
 package net.quetzi.morpheus.helpers;
 
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.quetzi.morpheus.Morpheus;
 
@@ -12,20 +15,22 @@ public class DateHandler
 {
     public enum Event
     {
-        XMAS(25, 12, TextFormatting.RED + References.XMASTEXT),
-        NEW_YEAR(1, 1, TextFormatting.GOLD + References.NEWYEARTEXT),
-        STPATRICKS(17, 3, TextFormatting.DARK_GREEN + References.STPATRICKSTEXT),
-        HALLOWEEN(31, 10, TextFormatting.DARK_PURPLE + References.HALLOWEENTEXT),
-        NONE(0, 0, TextFormatting.GOLD + Morpheus.onMorningText);
+        XMAS(25, 12, new Style().setColor(TextFormatting.RED), References.XMASTEXT),
+        NEW_YEAR(1, 1, new Style().setColor(TextFormatting.GOLD), References.NEWYEARTEXT),
+        STPATRICKS(17, 3, new Style().setColor(TextFormatting.DARK_GREEN), References.STPATRICKSTEXT),
+        HALLOWEEN(31, 10, new Style().setColor(TextFormatting.DARK_PURPLE), References.HALLOWEENTEXT),
+        NONE(0, 0, new Style().setColor(TextFormatting.GOLD), Morpheus.onMorningText);
 
         private final int    month;
         private final int    day;
+        private final Style  style;
         private final String text;
 
-        Event(int day, int month, String text)
+        Event(int day, int month, Style style, String text)
         {
             this.month = month;
             this.day = day;
+            this.style = style;
             this.text = text;
         }
 
@@ -47,8 +52,9 @@ public class DateHandler
         return Event.NONE;
     }
 
-    public static String getMorningText()
+    public static ITextComponent getMorningTextComponent()
     {
-        return getEvent(Calendar.getInstance()).text;
+        DateHandler.Event event = getEvent(Calendar.getInstance());
+        return new TextComponentString(event.text).setStyle(event.style);
     }
 }

@@ -1,6 +1,8 @@
 package net.quetzi.morpheus.helpers;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -53,7 +55,7 @@ public class SleepChecker
         }
     }
 
-    private void alertPlayers(TextComponentString alert, World world)
+    private void alertPlayers(ITextComponent alert, World world)
     {
         if ((alert != null) && (Morpheus.isAlertEnabled()))
         {
@@ -64,10 +66,15 @@ public class SleepChecker
         }
     }
 
-    private TextComponentString createAlert(int dimension, String username, String text)
+    private ITextComponent createAlert(int dimension, String username, String text)
     {
         Morpheus.mLog.info(String.format("%s %s %s", username, text, Morpheus.playerSleepStatus.get(dimension).toString()));
-        return new TextComponentString(String.format("%s%s%s %s %s", TextFormatting.WHITE, username, TextFormatting.GOLD, text, Morpheus.playerSleepStatus.get(dimension).toString()));
+        ITextComponent toSend = new TextComponentString(username).setStyle(new Style().setColor(TextFormatting.WHITE))
+                .appendSibling(new TextComponentString(" "))
+                .appendSibling(new TextComponentString(text).setStyle(new Style().setColor(TextFormatting.GOLD)))
+                .appendSibling(new TextComponentString(" "))
+                .appendSibling(new TextComponentString(Morpheus.playerSleepStatus.get(dimension).toString()));
+        return toSend;
     }
 
     private void advanceToMorning(World world)
@@ -83,7 +90,7 @@ public class SleepChecker
         if (!alertSent.get(world.provider.getDimension()))
         {
             // Send Good morning message
-            alertPlayers(new TextComponentString(DateHandler.getMorningText()), world);
+            alertPlayers(DateHandler.getMorningTextComponent(), world);
             Morpheus.playerSleepStatus.get(world.provider.getDimension()).wakeAllPlayers();
             alertSent.put(world.provider.getDimension(), true);
         }
