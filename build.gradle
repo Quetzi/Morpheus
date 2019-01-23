@@ -40,7 +40,7 @@ allprojects {
 minecraft {
     version = "${project.ext.mcVersion}-14.23.0.2487"
     runDir = "run"
-    mappings = "snapshot_20170919"
+    mappings = "snapshot_20180813"
 
     // replacing stuff in the source
     replace '@MAJOR@', project.major
