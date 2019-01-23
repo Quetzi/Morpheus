@@ -20,8 +20,8 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 project.ext {
     major = "3"
     minor = "4"
-    if (System.getenv("BUILD_NUMBER") != null) {
-        build = System.getenv("BUILD_NUMBER")
+    if (System.getenv("CI_JOB_ID") != null) {
+        build = System.getenv("CI_JOB_ID")
     } else {
         build = "-custom"
     }
