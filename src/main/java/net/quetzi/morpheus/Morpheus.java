@@ -20,7 +20,7 @@ import java.util.HashMap;
 @Mod(modid = References.MODID,
         name = References.NAME,
         version = References.VERSION,
-        dependencies = "required-after:forge@[14.21.0.2320,);",
+        dependencies = "required-after:forge@[14.23.5.2808,);",
         acceptableRemoteVersions = "*",
         acceptedMinecraftVersions = "[1.12,1.13)"
 )
