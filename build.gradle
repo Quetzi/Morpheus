@@ -14,8 +14,8 @@ apply plugin: 'eclipse'
 project.ext {
     major = "4"
     minor = "0"
-    if (System.getenv("BUILD_NUMBER") != null) {
-        build = System.getenv("BUILD_NUMBER")
+    if (System.getenv("CI_JOB_ID") != null) {
+        build = System.getenv("CI_JOB_ID")
     } else {
         build = "-custom"
     }
