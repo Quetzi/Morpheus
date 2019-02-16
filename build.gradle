@@ -32,13 +32,13 @@ compileJava {
 }
 
 minecraft {
-    version = "${project.ext.mcVersion}-25.0.13"
+    version = "${project.ext.mcVersion}-${project.version}"
     mappings channel: 'snapshot', version: '20180921-1.13'
     // replacing stuff in the source
-    ant.replace(file: 'src/main/java/net/quetzi/morpheus/helpers/References.java', token: '@MAJOR@', value: project.major)
-    ant.replace(file: 'src/main/java/net/quetzi/morpheus/helpers/References.java', token: '@MINOR@', value: project.minor)
-    ant.replace(file: 'src/main/java/net/quetzi/morpheus/helpers/References.java', token: '@MC_VERSION@', value: project.mcVersion)
-    ant.replace(file: 'src/main/java/net/quetzi/morpheus/helpers/References.java', token: '@BUILD_NUMBER@', value: project.build)
+    ant.replace(file: 'src/main/java/net/quetzi/morpheus/helpers/References.java', token: '@MAJOR@', value: project.ext.major)
+    ant.replace(file: 'src/main/java/net/quetzi/morpheus/helpers/References.java', token: '@MINOR@', value: project.ext.minor)
+    ant.replace(file: 'src/main/java/net/quetzi/morpheus/helpers/References.java', token: '@MC_VERSION@', value: project.ext.mcVersion)
+    ant.replace(file: 'src/main/java/net/quetzi/morpheus/helpers/References.java', token: '@BUILD_NUMBER@', value: project.ext.build)
     runs {
         client = {
             // recommended logging data for a userdev environment
