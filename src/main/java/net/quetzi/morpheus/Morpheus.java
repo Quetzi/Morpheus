@@ -1,45 +1,45 @@
 package net.quetzi.morpheus;
 
+import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.Mod.Instance;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.quetzi.morpheus.commands.CommandMorpheus;
 import net.quetzi.morpheus.helpers.MorpheusEventHandler;
-import net.quetzi.morpheus.helpers.References;
 import net.quetzi.morpheus.helpers.SleepChecker;
 import net.quetzi.morpheus.world.WorldSleepState;
 import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
+import java.util.List;
 
-@Mod(modid = References.MODID,
-        name = References.NAME,
-        version = References.VERSION,
-        dependencies = "required-after:forge@[14.21.0.2320,);",
-        acceptableRemoteVersions = "*",
-        acceptedMinecraftVersions = "[1.12,1.13)"
-)
+@Mod(value = Morpheus.MODID)
 public class Morpheus
 {
+    public static final String MODID = "morpheus";
     public static int    perc;
     public static String onSleepText, onWakeText, onMorningText;
     public static Logger mLog;
     public static final HashMap<Integer, WorldSleepState> playerSleepStatus = new HashMap<Integer, WorldSleepState>();
     public static final SleepChecker                      checker           = new SleepChecker();
     public static       MorpheusRegistry                  register          = new MorpheusRegistry();
-    private static boolean       alertEnabled;
-    public static  boolean       includeMiners;
-    public static  int           groundLevel;
-    public static  boolean       setSpawnDaytime;
-    public static  Configuration config;
+    private static      boolean                           alertEnabled;
+    public static       boolean                           includeMiners;
+    public static       int                               groundLevel;
+    public static       boolean                           setSpawnDaytime;
+    public static       ModConfig                         config;
 
-    @Instance(References.MODID)
-    public static Morpheus INSTANCE;
+    public static Morpheus instance;
+
+    public Morpheus() {
+        instance = this;
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::PreInit);
+        MinecraftForge.EVENT_BUS.register(new MorpheusEventHandler());
+    }
 
     public static boolean isAlertEnabled()
     {
@@ -51,13 +51,12 @@ public class Morpheus
         alertEnabled = state;
     }
 
-    @EventHandler
-    public void PreInit(FMLPreInitializationEvent event)
+    public void PreInit(FMLCommonSetupEvent event)
     {
         Morpheus.mLog = event.getModLog();
         mLog.info("Loading configuration");
         // Read configs
-        config = new Configuration(event.getSuggestedConfigurationFile());
+        config = new ModConfig(ModConfig.Type.COMMON, ForgeConfigSpec(config, new HashMap<List<String>, String>()), Morpheus.instance);
         config.load();
 
         perc = config.get("settings", "SleeperPerc", 50).getInt();
@@ -71,13 +70,7 @@ public class Morpheus
         config.save();
     }
 
-    @EventHandler
-    public void PostInit(FMLPostInitializationEvent event)
-    {
-        MinecraftForge.EVENT_BUS.register(new MorpheusEventHandler());
-    }
-
-    @EventHandler
+    @Mod.EventBusSubscriber(modid = Morpheus.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
     public void serverLoad(FMLServerStartingEvent event)
     {
         event.registerServerCommand(new CommandMorpheus());
