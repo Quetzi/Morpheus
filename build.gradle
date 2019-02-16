@@ -32,7 +32,7 @@ compileJava {
 }
 
 minecraft {
-    version = "${project.ext.mcVersion}-${project.version}"
+    version = "${project.version}"
     mappings channel: 'snapshot', version: '20180921-1.13'
     // replacing stuff in the source
     ant.replace(file: 'src/main/java/net/quetzi/morpheus/helpers/References.java', token: '@MAJOR@', value: project.ext.major)
