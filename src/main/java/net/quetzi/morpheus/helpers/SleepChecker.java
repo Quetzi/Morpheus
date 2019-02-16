@@ -22,33 +22,33 @@ public class SleepChecker
             for (EntityPlayer player : world.playerEntities)
             {
                 String username = player.getGameProfile().getName();
-                if (player.isPlayerFullyAsleep() && !Morpheus.playerSleepStatus.get(player.dimension).isPlayerSleeping(username))
+                if (player.isPlayerFullyAsleep() && !Morpheus.playerSleepStatus.get(player.dimension.getId()).isPlayerSleeping(username))
                 {
-                    Morpheus.playerSleepStatus.get(player.dimension).setPlayerAsleep(username);
+                    Morpheus.playerSleepStatus.get(player.dimension.getId()).setPlayerAsleep(username);
                     // Alert players that this player has gone to bed
-                    alertPlayers(createAlert(player.dimension, player.getDisplayNameString(), Morpheus.onSleepText), world);
+                    alertPlayers(createAlert(player.dimension.getId(), player.getDisplayName().getString(), Morpheus.onSleepText), world);
                 }
-                else if (!player.isPlayerFullyAsleep() && Morpheus.playerSleepStatus.get(player.dimension).isPlayerSleeping(username))
+                else if (!player.isPlayerFullyAsleep() && Morpheus.playerSleepStatus.get(player.dimension.getId()).isPlayerSleeping(username))
                 {
-                    Morpheus.playerSleepStatus.get(player.dimension).setPlayerAwake(username);
+                    Morpheus.playerSleepStatus.get(player.dimension.getId()).setPlayerAwake(username);
                     // Alert players that this player has woken up
-                    if (!world.isDaytime() && !alertSent.get(world.provider.getDimension()))
+                    if (!world.isDaytime() && !alertSent.get(world.getDimension().getType().getId()))
                     {
-                        alertPlayers(createAlert(player.dimension, player.getDisplayNameString(), Morpheus.onWakeText), world);
+                        alertPlayers(createAlert(player.dimension.getId(), player.getDisplayName().getString(), Morpheus.onWakeText), world);
                     }
                 }
             }
-            if (areEnoughPlayersAsleep(world.provider.getDimension()))
+            if (areEnoughPlayersAsleep(world.getDimension().getType().getId()))
             {
-                if (!alertSent.containsKey(world.provider.getDimension()))
+                if (!alertSent.containsKey(world.getDimension().getType().getId()))
                 {
-                    alertSent.put(world.provider.getDimension(), false);
+                    alertSent.put(world.getDimension().getType().getId(), false);
                 }
                 advanceToMorning(world);
             }
             else
             {
-                alertSent.put(world.provider.getDimension(), false);
+                alertSent.put(world.getDimension().getType().getId(), false);
             }
         }
     }
@@ -66,7 +66,7 @@ public class SleepChecker
 
     private TextComponentString createAlert(int dimension, String username, String text)
     {
-        Morpheus.mLog.info(String.format("%s %s %s", username, text, Morpheus.playerSleepStatus.get(dimension).toString()));
+        Morpheus.logger.info(String.format("%s %s %s", username, text, Morpheus.playerSleepStatus.get(dimension).toString()));
         return new TextComponentString(String.format("%s%s%s %s %s", TextFormatting.WHITE, username, TextFormatting.GOLD, text, Morpheus.playerSleepStatus.get(dimension).toString()));
     }
 
@@ -74,20 +74,20 @@ public class SleepChecker
     {
         try
         {
-            MorpheusRegistry.registry.get(world.provider.getDimension()).startNewDay();
+            MorpheusRegistry.registry.get(world.getDimension().getType().getId()).startNewDay();
         }
         catch (Exception e)
         {
-            Morpheus.mLog.error("Exception caught while starting a new day for dimension " + world.provider.getDimension());
+            Morpheus.logger.error("Exception caught while starting a new day for dimension " + world.getDimension().getType().getId());
         }
-        if (!alertSent.get(world.provider.getDimension()))
+        if (!alertSent.get(world.getDimension().getType().getId()))
         {
             // Send Good morning message
             alertPlayers(new TextComponentString(DateHandler.getMorningText()), world);
-            Morpheus.playerSleepStatus.get(world.provider.getDimension()).wakeAllPlayers();
-            alertSent.put(world.provider.getDimension(), true);
+            Morpheus.playerSleepStatus.get(world.getDimension().getType().getId()).wakeAllPlayers();
+            alertSent.put(world.getDimension().getType().getId(), true);
         }
-        world.provider.resetRainAndThunder();
+        world.getDimension().resetRainAndThunder();
     }
 
     private boolean areEnoughPlayersAsleep(int dimension)

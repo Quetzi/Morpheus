@@ -1,6 +1,6 @@
 package net.quetzi.morpheus.commands;
 
-import net.minecraft.command.CommandBase;
+/*import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.NumberInvalidException;
 import net.minecraft.entity.player.EntityPlayer;
@@ -167,4 +167,4 @@ public class CommandMorpheus extends CommandBase
         }
         return options;
     }
-}
+}*/

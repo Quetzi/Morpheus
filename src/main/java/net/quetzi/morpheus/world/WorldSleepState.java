@@ -1,7 +1,8 @@
 package net.quetzi.morpheus.world;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraft.world.dimension.DimensionType;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import net.quetzi.morpheus.Morpheus;
 
 import java.util.HashMap;
@@ -26,7 +27,7 @@ public class WorldSleepState
     private int getMiningPlayers()
     {
         int miningPlayers = 0;
-        for (EntityPlayer player : FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(this.dimension).playerEntities)
+        for (EntityPlayer player : ServerLifecycleHooks.getCurrentServer().getWorld(DimensionType.getById(this.dimension)).playerEntities)
         {
             if (player.posY < Morpheus.groundLevel)
             {

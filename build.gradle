@@ -32,7 +32,7 @@ compileJava {
 }
 
 minecraft {
-    version = "${project.ext.mcVersion}-25.0.10"
+    version = "${project.ext.mcVersion}-25.0.13"
     mappings channel: 'snapshot', version: '20180921-1.13'
     // replacing stuff in the source
     ant.replace(file: 'src/main/java/net/quetzi/morpheus/helpers/References.java', token: '@MAJOR@', value: project.major)
@@ -71,7 +71,7 @@ artifacts {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.13.2-25.0.10'
+    minecraft 'net.minecraftforge:forge:1.13.2-25.0.13'
 }
 
 jar {
