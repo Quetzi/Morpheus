@@ -1,31 +1,25 @@
 buildscript {
     repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
+        jcenter()
         mavenCentral()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
     }
 }
-
-apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'eclipse'
 
 project.ext {
-    major = "3"
-    minor = "4"
+    major = "4"
+    minor = "0"
     if (System.getenv("BUILD_NUMBER") != null) {
         build = System.getenv("BUILD_NUMBER")
     } else {
         build = "-custom"
     }
-    mcVersion = "1.12.2"
+    mcVersion = "1.13.2"
 }
 version = "${project.ext.mcVersion}-${project.ext.major}.${project.minor}.${project.build}"
 group = "net.quetzi.morpheus"
@@ -38,15 +32,34 @@ allprojects {
 }
 
 minecraft {
-    version = "${project.ext.mcVersion}-14.23.0.2487"
+    version = "${project.ext.mcVersion}-25.0.10"
     runDir = "run"
-    mappings = "snapshot_20170919"
+    mappings channel: 'snapshot', version: '20180921-1.13'
 
     // replacing stuff in the source
     replace '@MAJOR@', project.major
     replace '@MINOR@', project.minor
     replace '@MC_VERSION@', project.ext.mcVersion
     replace '@BUILD_NUMBER@', project.build
+
+    runs {
+        client = {
+            // recommended logging data for a userdev environment
+            properties 'forge.logging.markers': 'SCAN,REGISTRIES,REGISTRYDUMP'
+            // recommended logging level for the console
+            properties 'forge.logging.console.level': 'debug'
+            workingDirectory project.file('run').canonicalPath
+            source sourceSets.main
+        }
+        server = {
+            // recommended logging data for a userdev environment
+            properties 'forge.logging.markers': 'SCAN,REGISTRIES,REGISTRYDUMP'
+            // recommended logging level for the console
+            properties 'forge.logging.console.level': 'debug'
+            workingDirectory project.file('run').canonicalPath
+            source sourceSets.main
+        }
+    }
 }
 
 task libJar(type: Jar) {
@@ -76,5 +89,21 @@ processResources {
     // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
+    }
+}
+
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.13.2-25.0.10'
+}
+
+jar {
+    manifest {
+        attributes(["Specification-Title": "Morpheus",
+                    "Specification-Vendor": "Quetzi",
+                    "Specification-Version": "24.0", // We are version 1 of the modlauncher specification
+                    "Implementation-Title": project.name,
+                    "Implementation-Version": "${version}",
+                    "Implementation-Vendor" :"Quetzi",
+                    "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")],)
     }
 }
