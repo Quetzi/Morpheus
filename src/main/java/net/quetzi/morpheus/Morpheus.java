@@ -1,9 +1,12 @@
 package net.quetzi.morpheus;
 
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.quetzi.morpheus.commands.CommandMorpheus;
 import net.quetzi.morpheus.helpers.Config;
 import net.quetzi.morpheus.helpers.MorpheusEventHandler;
 import net.quetzi.morpheus.helpers.SleepChecker;
@@ -32,6 +35,7 @@ public class Morpheus
 
     public Morpheus() {
         instance = this;
+        MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new MorpheusEventHandler());
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, Config.SERVER_SPEC);
     }
@@ -46,10 +50,9 @@ public class Morpheus
         alertEnabled = state;
     }
 
-    //Remove command for now
-//    @Mod.EventBusSubscriber(value = Dist.DEDICATED_SERVER, this.MODID, bus = FMLServerStartingEvent)
-//    public void serverLoad(FMLServerStartingEvent event)
-//    {
-//        event.registerServerCommand(new CommandMorpheus());
-//    }
+    @SubscribeEvent
+    public void serverLoad(FMLServerStartingEvent event)
+    {
+        CommandMorpheus.register(event.getCommandDispatcher());
+    }
 }
