@@ -35,7 +35,6 @@ minecraft {
     version = "${project.ext.mcVersion}-25.0.10"
     runDir = "run"
     mappings channel: 'snapshot', version: '20180921-1.13'
-
     // replacing stuff in the source
     replace '@MAJOR@', project.major
     replace '@MINOR@', project.minor
