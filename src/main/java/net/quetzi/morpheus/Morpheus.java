@@ -17,21 +17,20 @@ import org.apache.logging.log4j.Logger;
 import java.util.HashMap;
 
 @Mod(value = Morpheus.MODID)
-public class Morpheus
-{
-    public static final String   MODID  = "morpheus";
-    public static       Morpheus instance;
-    public static       Logger   logger = LogManager.getLogger(MODID);
+public class Morpheus {
+    public static final String MODID = "morpheus";
+    public static Morpheus instance;
+    public static Logger logger = LogManager.getLogger(MODID);
 
-    public static int    perc;
+    public static int perc;
     public static String onSleepText, onWakeText, onMorningText;
     public static final HashMap<Integer, WorldSleepState> playerSleepStatus = new HashMap<Integer, WorldSleepState>();
-    public static final SleepChecker                      checker           = new SleepChecker();
-    public static       MorpheusRegistry                  register          = new MorpheusRegistry();
-    private static      boolean                           alertEnabled;
-    public static       boolean                           includeMiners;
-    public static       int                               groundLevel;
-    public static       boolean                           setSpawnDaytime;
+    public static final SleepChecker checker = new SleepChecker();
+    public static MorpheusRegistry register = new MorpheusRegistry();
+    private static boolean alertEnabled;
+    public static boolean includeMiners;
+    public static int groundLevel;
+    public static boolean setSpawnDaytime;
 
     public Morpheus() {
         instance = this;
@@ -40,19 +39,16 @@ public class Morpheus
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, Config.SERVER_SPEC);
     }
 
-    public static boolean isAlertEnabled()
-    {
+    public static boolean isAlertEnabled() {
         return alertEnabled;
     }
 
-    public static void setAlertPlayers(boolean state)
-    {
+    public static void setAlertPlayers(boolean state) {
         alertEnabled = state;
     }
 
     @SubscribeEvent
-    public void serverLoad(FMLServerStartingEvent event)
-    {
+    public void serverLoad(FMLServerStartingEvent event) {
         CommandMorpheus.register(event.getCommandDispatcher());
     }
 }

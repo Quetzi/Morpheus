@@ -1,25 +1,24 @@
 package net.quetzi.morpheus.helpers;
 
-public class References
-{
-    public static final  String MODID     = "morpheus";
-    public static final  String NAME      = "Morpheus";
-    private static final String MAJOR     = "4";
-    private static final String MINOR     = "0";
-    private static final String BUILD     = "-custom";
+public class References {
+    public static final String MODID = "morpheus";
+    public static final String NAME = "Morpheus";
+    private static final String MAJOR = "4";
+    private static final String MINOR = "0";
+    private static final String BUILD = "-custom";
     private static final String MCVERSION = "1.13.2";
-    public static final  String VERSION   = MCVERSION + "-" + MAJOR + "." + MINOR + "." + BUILD;
+    public static final String VERSION = MCVERSION + "-" + MAJOR + "." + MINOR + "." + BUILD;
 
-    public static final String ALERTS_OFF    = "Text alerts turned off";
-    public static final String ALERTS_ON     = "Text alerts turned on";
+    public static final String ALERTS_OFF = "Text alerts turned off";
+    public static final String ALERTS_ON = "Text alerts turned on";
     public static final String PERCENT_USAGE = "Usage: /morpheus percent <percentage>";
     public static final String DISABLE_USAGE = "Usage: /morpheus disable <dimension number>";
-    public static final String USAGE         = "/morpheus <alert : version> | /morpheus percent <percentage> | /morpheus disable <dimension number>";
+    public static final String USAGE = "/morpheus <alert : version> | /morpheus percent <percentage> | /morpheus disable <dimension number>";
 
-    public static final String NEWYEARTEXT    = "Good morning everyone! HAPPY NEW YEAR!";
-    public static final String XMASTEXT       = "Good morning everyone! HAPPY CHRISTMAS!";
+    public static final String NEWYEARTEXT = "Good morning everyone! HAPPY NEW YEAR!";
+    public static final String XMASTEXT = "Good morning everyone! HAPPY CHRISTMAS!";
     public static final String STPATRICKSTEXT = "Good morning everyone! HAPPY ST PATRICKS DAY!";
-    public static final String HALLOWEENTEXT  = "Good morning everyone! HAPPY SAMHAIN!";
+    public static final String HALLOWEENTEXT = "Good morning everyone! HAPPY SAMHAIN!";
 
     public static final String SPAWN_SET = "New spawnpoint has been set!";
 }

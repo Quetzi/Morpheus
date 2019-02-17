@@ -3,12 +3,12 @@ package net.quetzi.morpheus.helpers;
 import net.minecraftforge.common.ForgeConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 
-public class Config
-{
+public class Config {
     public static final ServerConfig SERVER;
     public static final ForgeConfigSpec SERVER_SPEC;
+
     static {
-        final Pair<ServerConfig,ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(ServerConfig::new);
+        final Pair<ServerConfig, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(ServerConfig::new);
         SERVER_SPEC = specPair.getRight();
         SERVER = specPair.getLeft();
     }
@@ -22,8 +22,7 @@ public class Config
     public static int groundLevel;
     public static boolean setSpawnDaytime;
 
-    public static void load()
-    {
+    public static void load() {
         perc = SERVER.perc.get();
         alertEnabled = SERVER.alertEnabled.get();
         onSleepText = SERVER.onSleepText.get();
@@ -34,19 +33,17 @@ public class Config
         setSpawnDaytime = SERVER.setSpawnDaytime.get();
     }
 
-    public static class ServerConfig
-    {
-        public ForgeConfigSpec.IntValue            perc;
-        public ForgeConfigSpec.BooleanValue        alertEnabled;
+    public static class ServerConfig {
+        public ForgeConfigSpec.IntValue perc;
+        public ForgeConfigSpec.BooleanValue alertEnabled;
         public ForgeConfigSpec.ConfigValue<String> onSleepText;
         public ForgeConfigSpec.ConfigValue<String> onWakeText;
         public ForgeConfigSpec.ConfigValue<String> onMorningText;
-        public ForgeConfigSpec.BooleanValue        includeMiners;
-        public ForgeConfigSpec.IntValue            groundLevel;
-        public ForgeConfigSpec.BooleanValue        setSpawnDaytime;
+        public ForgeConfigSpec.BooleanValue includeMiners;
+        public ForgeConfigSpec.IntValue groundLevel;
+        public ForgeConfigSpec.BooleanValue setSpawnDaytime;
 
-        ServerConfig(ForgeConfigSpec.Builder builder)
-        {
+        ServerConfig(ForgeConfigSpec.Builder builder) {
             builder.push("settings");
             perc = builder
                     .comment("Percentage of players required to trigger a successful sleep.")
