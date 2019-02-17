@@ -2,4 +2,6 @@ out
 .dat.nosync*
 Morpheus.iml
 .gradle
+build
+run
 
