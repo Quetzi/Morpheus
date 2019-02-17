@@ -3,10 +3,10 @@ package net.quetzi.morpheus.helpers;
 public class References {
     public static final String MODID = "morpheus";
     public static final String NAME = "Morpheus";
-    private static final String MAJOR = "4";
-    private static final String MINOR = "0";
-    private static final String BUILD = "-custom";
-    private static final String MCVERSION = "1.13.2";
+    private static final String MAJOR = "@MAJOR@";
+    private static final String MINOR = "@MINOR@";
+    private static final String BUILD = "@BUILD@";
+    private static final String MCVERSION = "@MCVERSION@";
     public static final String VERSION = MCVERSION + "-" + MAJOR + "." + MINOR + "." + BUILD;
 
     public static final String ALERTS_OFF = "Text alerts turned off";
