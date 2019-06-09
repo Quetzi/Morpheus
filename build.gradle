@@ -14,13 +14,13 @@ apply plugin: 'idea'
 
 project.ext {
     major = "4"
-    minor = "0"
+    minor = "1"
     if (System.getenv("CI_PIPELINE_IID") != null) {
         build = System.getenv("CI_PIPELINE_IID")
     } else {
         build = "-custom"
     }
-    mcVersion = "1.13.2"
+    mcVersion = "1.14.2"
 }
 version = "${project.ext.mcVersion}-${project.ext.major}.${project.minor}.${project.build}"
 group = "net.quetzi.morpheus"
@@ -32,8 +32,8 @@ compileJava {
 }
 
 minecraft {
-    version = "${project.version}"
-    mappings channel: 'snapshot', version: '20180921-1.13'
+    //version = "${project.version}"
+    mappings channel: 'snapshot', version: '20190608-1.14.2'
     // replacing stuff in the source
     if (System.getenv("CI_PIPELINE_IID") != null) {
         ant.replace(file: 'src/main/java/net/quetzi/morpheus/helpers/References.java', token: '@MAJOR@', value: project.ext.major)
@@ -73,14 +73,14 @@ artifacts {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.13.2-25.0.13'
+    minecraft 'net.minecraftforge:forge:1.14.2-26.0.12'
 }
 
 jar {
     manifest {
         attributes(["Specification-Title": "Morpheus",
                     "Specification-Vendor": "Quetzi",
-                    "Specification-Version": "24.0", // We are version 1 of the modlauncher specification
+                    "Specification-Version": "1", // We are version 1 of the modlauncher specification
                     "Implementation-Title": project.name,
                     "Implementation-Version": "${project.version}",
                     "Implementation-Vendor" :"Quetzi",

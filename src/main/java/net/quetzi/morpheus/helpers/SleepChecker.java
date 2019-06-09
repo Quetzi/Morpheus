@@ -1,7 +1,7 @@
 package net.quetzi.morpheus.helpers;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.quetzi.morpheus.Morpheus;
@@ -14,9 +14,9 @@ public class SleepChecker {
 
     public void updatePlayerStates(World world) {
         //Don't bother updating if there is only 1 player
-        if (world.playerEntities.size() > 1) {
+        if (world.getPlayers().size() > 1) {
             // Iterate players and update their status
-            for (EntityPlayer player : world.playerEntities) {
+            for (PlayerEntity player : world.getPlayers()) {
                 String username = player.getGameProfile().getName();
                 if (player.isPlayerFullyAsleep() && !Morpheus.playerSleepStatus.get(player.dimension.getId()).isPlayerSleeping(username)) {
                     Morpheus.playerSleepStatus.get(player.dimension.getId()).setPlayerAsleep(username);
@@ -41,17 +41,17 @@ public class SleepChecker {
         }
     }
 
-    private void alertPlayers(TextComponentString alert, World world) {
+    private void alertPlayers(StringTextComponent alert, World world) {
         if ((alert != null) && (Morpheus.isAlertEnabled())) {
-            for (EntityPlayer player : world.playerEntities) {
+            for (PlayerEntity player : world.getPlayers()) {
                 player.sendMessage(alert);
             }
         }
     }
 
-    private TextComponentString createAlert(int dimension, String username, String text) {
+    private StringTextComponent createAlert(int dimension, String username, String text) {
         Morpheus.logger.info(String.format("%s %s %s", username, text, Morpheus.playerSleepStatus.get(dimension).toString()));
-        return new TextComponentString(String.format("%s%s%s %s %s", TextFormatting.WHITE, username, TextFormatting.GOLD, text, Morpheus.playerSleepStatus.get(dimension).toString()));
+        return new StringTextComponent(String.format("%s%s%s %s %s", TextFormatting.WHITE, username, TextFormatting.GOLD, text, Morpheus.playerSleepStatus.get(dimension).toString()));
     }
 
     private void advanceToMorning(World world) {
@@ -62,7 +62,7 @@ public class SleepChecker {
         }
         if (!alertSent.get(world.getDimension().getType().getId())) {
             // Send Good morning message
-            alertPlayers(new TextComponentString(DateHandler.getMorningText()), world);
+            alertPlayers(new StringTextComponent(DateHandler.getMorningText()), world);
             Morpheus.playerSleepStatus.get(world.getDimension().getType().getId()).wakeAllPlayers();
             alertSent.put(world.getDimension().getType().getId(), true);
         }
