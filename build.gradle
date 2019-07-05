@@ -20,7 +20,7 @@ project.ext {
     } else {
         build = "-custom"
     }
-    mcVersion = "1.14.2"
+    mcVersion = "1.14.3"
 }
 version = "${project.ext.mcVersion}-${project.ext.major}.${project.minor}.${project.build}"
 group = "net.quetzi.morpheus"
@@ -33,7 +33,7 @@ compileJava {
 
 minecraft {
     //version = "${project.version}"
-    mappings channel: 'snapshot', version: '20190608-1.14.2'
+    mappings channel: 'snapshot', version: '20190621-1.14.2'
     // replacing stuff in the source
     if (System.getenv("CI_PIPELINE_IID") != null) {
         ant.replace(file: 'src/main/java/net/quetzi/morpheus/helpers/References.java', token: '@MAJOR@', value: project.ext.major)
@@ -73,7 +73,7 @@ artifacts {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.14.2-26.0.12'
+    minecraft 'net.minecraftforge:forge:1.14.3-27.0.22'
 }
 
 jar {
