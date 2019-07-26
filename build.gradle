@@ -20,20 +20,18 @@ project.ext {
     } else {
         build = "-custom"
     }
-    mcVersion = "1.14.3"
+    mcVersion = "1.14.4"
 }
 version = "${project.ext.mcVersion}-${project.ext.major}.${project.minor}.${project.build}"
 group = "net.quetzi.morpheus"
 archivesBaseName = "Morpheus"
 
-sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
-compileJava {
-    sourceCompatibility = targetCompatibility = '1.8'
-}
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+
 
 minecraft {
     //version = "${project.version}"
-    mappings channel: 'snapshot', version: '20190621-1.14.2'
+    mappings channel: 'snapshot', version: '20190719-1.14.3'
     // replacing stuff in the source
     if (System.getenv("CI_PIPELINE_IID") != null) {
         ant.replace(file: 'src/main/java/net/quetzi/morpheus/helpers/References.java', token: '@MAJOR@', value: project.ext.major)
@@ -47,16 +45,40 @@ minecraft {
             properties 'forge.logging.markers': 'SCAN,REGISTRIES,REGISTRYDUMP'
             // recommended logging level for the console
             properties 'forge.logging.console.level': 'debug'
-            workingDirectory project.file('run').canonicalPath
-            source sourceSets.main
+            workingDirectory project.file('run')
+            mods {
+                morpheus {
+                    source sourceSets.main
+                }
+            }
         }
         server = {
             // recommended logging data for a userdev environment
             properties 'forge.logging.markers': 'SCAN,REGISTRIES,REGISTRYDUMP'
             // recommended logging level for the console
             properties 'forge.logging.console.level': 'debug'
-            workingDirectory project.file('run').canonicalPath
-            source sourceSets.main
+            mods {
+                morpheus {
+                    source sourceSets.main
+                }
+            }
+        }
+        data {
+            workingDirectory project.file('run')
+
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+
+            args '--mod', 'examplemod', '--all', '--output', file('src/generated/resources/')
+
+            mods {
+                morpheus {
+                    source sourceSets.main
+                }
+            }
         }
     }
 }
@@ -73,7 +95,7 @@ artifacts {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.14.3-27.0.22'
+    minecraft 'net.minecraftforge:forge:1.14.4-28.0.18'
 }
 
 jar {

@@ -5,14 +5,11 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import net.quetzi.morpheus.api.INewDayHandler;
 
-/**
- * @author dmillerw
- */
 public class DefaultOverworldHandler implements INewDayHandler {
 
     @Override
     public void startNewDay() {
-        World world = ServerLifecycleHooks.getCurrentServer().getWorld(DimensionType.getById(0));
+        World world = ServerLifecycleHooks.getCurrentServer().getWorld(DimensionType.OVERWORLD);
         world.setGameTime(world.getGameTime() + getTimeToSunrise(world));
     }
 
