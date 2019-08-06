@@ -14,7 +14,7 @@ apply plugin: 'idea'
 
 project.ext {
     major = "4"
-    minor = "1"
+    minor = "2"
     if (System.getenv("CI_PIPELINE_IID") != null) {
         build = System.getenv("CI_PIPELINE_IID")
     } else {
@@ -95,7 +95,7 @@ artifacts {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.14.4-28.0.18'
+    minecraft 'net.minecraftforge:forge:1.14.4-28.0.45'
 }
 
 jar {
