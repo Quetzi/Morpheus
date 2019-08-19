@@ -17,7 +17,7 @@ public class WorldSleepState {
     }
 
     public int getPercentSleeping() {
-        return (this.playerStatus.size() - this.getMiningPlayers() > 0) ? (this.getSleepingPlayers() > 0) ? (this.getSleepingPlayers() * 100) / (this.playerStatus.size() - this.getMiningPlayers()) : 0 : 100;
+        return (this.playerStatus.size() - this.getMiningPlayers() - this.getSpectators() > 0) ? (this.getSleepingPlayers() > 0) ? (this.getSleepingPlayers() * 100) / (this.playerStatus.size() - this.getMiningPlayers() - this.getSpectators()) : 0 : 100;
     }
 
     private int getMiningPlayers() {
