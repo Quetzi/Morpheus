@@ -30,6 +30,16 @@ public class WorldSleepState {
         return Morpheus.includeMiners ? miningPlayers : 0;
     }
 
+    private int getSpectators() {
+        int spectators = 0;
+        for (PlayerEntity player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
+            if (player.isSpectator()) {
+                spectators++;
+            }
+        }
+        return spectators;
+    }
+
     public int getSleepingPlayers() {
         int asleepCount = 0;
         for (Entry<String, Boolean> entry : this.playerStatus.entrySet()) {
