@@ -21,12 +21,12 @@ public class SleepChecker {
                 if (player.isPlayerFullyAsleep() && !Morpheus.playerSleepStatus.get(player.dimension.getId()).isPlayerSleeping(username)) {
                     Morpheus.playerSleepStatus.get(player.dimension.getId()).setPlayerAsleep(username);
                     // Alert players that this player has gone to bed
-                    alertPlayers(createAlert(player.dimension.getId(), player.getDisplayName().getString(), Config.onSleepText), world);
+                    alertPlayers(createAlert(player.dimension.getId(), player.getDisplayName().getString(), Config.SERVER.onSleepText.get()), world);
                 } else if (!player.isPlayerFullyAsleep() && Morpheus.playerSleepStatus.get(player.dimension.getId()).isPlayerSleeping(username)) {
                     Morpheus.playerSleepStatus.get(player.dimension.getId()).setPlayerAwake(username);
                     // Alert players that this player has woken up
                     if (!world.isDaytime() && !alertSent.get(world.getDimension().getType().getId())) {
-                        alertPlayers(createAlert(player.dimension.getId(), player.getDisplayName().getString(), Config.onWakeText), world);
+                        alertPlayers(createAlert(player.dimension.getId(), player.getDisplayName().getString(), Config.SERVER.onWakeText.get()), world);
                     }
                 }
             }
@@ -71,7 +71,7 @@ public class SleepChecker {
 
     private boolean areEnoughPlayersAsleep(int dimension) {
         if (Morpheus.playerSleepStatus.get(dimension).getSleepingPlayers() > 0) {
-            return ((dimension == 0) || (MorpheusRegistry.registry.get(dimension) != null)) && Morpheus.playerSleepStatus.get(dimension).getPercentSleeping() >= Config.perc;
+            return ((dimension == 0) || (MorpheusRegistry.registry.get(dimension) != null)) && Morpheus.playerSleepStatus.get(dimension).getPercentSleeping() >= Config.SERVER.perc.get();
         }
         return false;
     }

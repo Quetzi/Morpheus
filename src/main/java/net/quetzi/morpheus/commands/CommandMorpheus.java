@@ -57,5 +57,7 @@ public class CommandMorpheus {
             return 1;
         });
         cmdDisp.register(morpheusCommand);
+        cmdDisp.register(percentCommand);
+        cmdDisp.register(disableCommand);
     }
 }
