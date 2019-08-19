@@ -33,7 +33,8 @@ public class CommandMorpheus {
             }
             return 1;
         }));
-        morpheusCommand.then(Commands.literal("percent")).then(Commands.argument("value", IntegerArgumentType.integer(0,100)).executes((command) -> {
+        LiteralArgumentBuilder<CommandSource> percentCommand = Commands.literal("morpheus percent");
+        percentCommand.then(Commands.argument("value", IntegerArgumentType.integer(0,100)).executes((command) -> {
             if (command.getSource().hasPermissionLevel(2)) {
                 int newPercent = IntegerArgumentType.getInteger(command, "value");
                 Morpheus.perc = newPercent;
@@ -42,7 +43,8 @@ public class CommandMorpheus {
             }
             return 1;
         }));
-        morpheusCommand.then(Commands.literal("disable").then(Commands.argument("dim", IntegerArgumentType.integer())).executes((command) -> {
+        LiteralArgumentBuilder<CommandSource> disableCommand = Commands.literal("morpheus disable");
+        disableCommand.then(Commands.argument("dim", IntegerArgumentType.integer())).executes((command) -> {
             if (command.getSource().hasPermissionLevel(2)) {
                 int ageToDisable = command.getArgument("dim", Integer.class);
                 if (Morpheus.register.isDimRegistered(ageToDisable)) {
@@ -53,8 +55,7 @@ public class CommandMorpheus {
                 }
             }
             return 1;
-        }));
-
+        });
         cmdDisp.register(morpheusCommand);
     }
 }
