@@ -14,7 +14,7 @@ public class DateHandler {
         NEW_YEAR(1, 1, TextFormatting.GOLD + References.NEWYEARTEXT),
         STPATRICKS(17, 3, TextFormatting.DARK_GREEN + References.STPATRICKSTEXT),
         HALLOWEEN(31, 10, TextFormatting.DARK_PURPLE + References.HALLOWEENTEXT),
-        NONE(0, 0, TextFormatting.GOLD + Morpheus.onMorningText);
+        NONE(0, 0, TextFormatting.GOLD + Config.SERVER.onMorningText.get());
 
         private final int month;
         private final int day;
