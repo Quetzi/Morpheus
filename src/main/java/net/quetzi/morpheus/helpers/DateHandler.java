@@ -1,7 +1,6 @@
 package net.quetzi.morpheus.helpers;
 
 import net.minecraft.util.text.TextFormatting;
-import net.quetzi.morpheus.Morpheus;
 
 import java.util.Calendar;
 
