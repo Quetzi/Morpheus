@@ -33,7 +33,7 @@ public class WorldSleepState {
     private int getSpectators() {
         int spectators = 0;
         for (PlayerEntity player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
-            if (player.isSpectator()) {
+            if (player.isSpectator() || player.isCreative()) {
                 spectators++;
             }
         }

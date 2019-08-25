@@ -3,6 +3,7 @@ package net.quetzi.morpheus.commands;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.tree.CommandNode;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.util.text.StringTextComponent;
@@ -33,18 +34,17 @@ public class CommandMorpheus {
             }
             return 1;
         }));
-        LiteralArgumentBuilder<CommandSource> percentCommand = Commands.literal("morpheus percent");
-        percentCommand.then(Commands.argument("value", IntegerArgumentType.integer(0,100)).executes((command) -> {
+        morpheusCommand.then(Commands.literal("percent")).then(Commands.argument("value", IntegerArgumentType.integer(0,100)).executes((command) -> {
             if (command.getSource().hasPermissionLevel(2)) {
                 int newPercent = IntegerArgumentType.getInteger(command, "value");
                 Morpheus.perc = newPercent;
                 Config.SERVER.perc.set(newPercent);
+                Config.SERVER.perc.save();
                 command.getSource().sendFeedback(new StringTextComponent("Sleep vote percentage set to " + Morpheus.perc + "%"), true);
             }
             return 1;
         }));
-        LiteralArgumentBuilder<CommandSource> disableCommand = Commands.literal("morpheus disable");
-        disableCommand.then(Commands.argument("dim", IntegerArgumentType.integer())).executes((command) -> {
+        morpheusCommand.then(Commands.literal("disable")).then(Commands.argument("dim", IntegerArgumentType.integer())).executes((command) -> {
             if (command.getSource().hasPermissionLevel(2)) {
                 int ageToDisable = command.getArgument("dim", Integer.class);
                 if (Morpheus.register.isDimRegistered(ageToDisable)) {
@@ -57,7 +57,5 @@ public class CommandMorpheus {
             return 1;
         });
         cmdDisp.register(morpheusCommand);
-        cmdDisp.register(percentCommand);
-        cmdDisp.register(disableCommand);
     }
 }
