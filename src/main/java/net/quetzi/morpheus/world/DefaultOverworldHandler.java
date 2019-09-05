@@ -11,7 +11,7 @@ public class DefaultOverworldHandler implements INewDayHandler {
     @Override
     public void startNewDay() {
         World world = ServerLifecycleHooks.getCurrentServer().getWorld(DimensionType.OVERWORLD);
-        Morpheus.logger.debug("Attempting to set morning on dimension: " + world);
+        Morpheus.logger.debug("Attempting to set morning on dimension: " + world.getDimension().getType().getId());
         world.setGameTime(world.getGameTime() + getTimeToSunrise(world));
     }
 
