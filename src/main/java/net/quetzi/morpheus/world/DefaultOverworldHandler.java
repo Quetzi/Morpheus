@@ -9,7 +9,7 @@ public class DefaultOverworldHandler implements INewDayHandler {
 
     @Override
     public void startNewDay() {
-        World world = ServerLifecycleHooks.getCurrentServer().getWorld(DimensionType.OVERWORLD);
+        World world = ServerLifecycleHooks.getCurrentServer().getWorld(DimensionType.getById(1));
         world.setGameTime(world.getGameTime() + getTimeToSunrise(world));
     }
 

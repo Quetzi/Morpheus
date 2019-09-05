@@ -2,7 +2,7 @@ package net.quetzi.morpheus.world;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
-import net.quetzi.morpheus.Morpheus;
+import net.quetzi.morpheus.helpers.Config;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -23,11 +23,11 @@ public class WorldSleepState {
     private int getMiningPlayers() {
         int miningPlayers = 0;
         for (PlayerEntity player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
-            if ((player.dimension.getId() == this.dimension) && (player.posY < Morpheus.groundLevel)) {
+            if ((player.dimension.getId() == this.dimension) && (player.posY < Config.groundLevel)) {
                 miningPlayers++;
             }
         }
-        return Morpheus.includeMiners ? miningPlayers : 0;
+        return Config.includeMiners ? miningPlayers : 0;
     }
 
     private int getSpectators() {
@@ -51,7 +51,7 @@ public class WorldSleepState {
     }
 
     public String toString() {
-        return !Morpheus.includeMiners ? this.getSleepingPlayers() + "/" + this.playerStatus.size() + " (" + this.getPercentSleeping() + "%)" : this.getSleepingPlayers() + "/" + this.playerStatus.size() + " - " + this.getMiningPlayers() + " miners (" + this.getPercentSleeping() + "%)";
+        return !Config.includeMiners ? this.getSleepingPlayers() + "/" + this.playerStatus.size() + " (" + this.getPercentSleeping() + "%)" : this.getSleepingPlayers() + "/" + this.playerStatus.size() + " - " + this.getMiningPlayers() + " miners (" + this.getPercentSleeping() + "%)";
     }
 
     public void setPlayerAsleep(String username) {
