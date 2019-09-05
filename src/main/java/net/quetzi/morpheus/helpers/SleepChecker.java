@@ -34,6 +34,7 @@ public class SleepChecker {
                 if (!alertSent.containsKey(world.getDimension().getType().getId())) {
                     alertSent.put(world.getDimension().getType().getId(), false);
                 }
+                Morpheus.logger.info("Vote succeeded, attempting to change time");
                 advanceToMorning(world);
             } else {
                 alertSent.put(world.getDimension().getType().getId(), false);
@@ -71,6 +72,7 @@ public class SleepChecker {
 
     private boolean areEnoughPlayersAsleep(int dimension) {
         if (Morpheus.playerSleepStatus.get(dimension).getSleepingPlayers() > 0) {
+            Morpheus.logger.info("Vote underway: " + Morpheus.playerSleepStatus.get(dimension).getSleepingPlayers() + " sleeping players (" + Morpheus.playerSleepStatus.get(dimension).getPercentSleeping() + "%)");
             return ((dimension == 0) || (MorpheusRegistry.registry.get(dimension) != null)) && Morpheus.playerSleepStatus.get(dimension).getPercentSleeping() >= Config.SERVER.perc.get();
         }
         return false;
