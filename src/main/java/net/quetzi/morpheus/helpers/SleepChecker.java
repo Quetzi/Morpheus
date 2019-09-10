@@ -42,7 +42,7 @@ public class SleepChecker {
     }
 
     private void alertPlayers(StringTextComponent alert, World world) {
-        if ((alert != null) && (Morpheus.isAlertEnabled())) {
+        if ((alert != null) && (Config.alertEnabled)) {
             for (PlayerEntity player : world.getPlayers()) {
                 player.sendMessage(alert);
             }
