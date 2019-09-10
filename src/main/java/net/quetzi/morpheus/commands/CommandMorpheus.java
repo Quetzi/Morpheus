@@ -3,7 +3,6 @@ package net.quetzi.morpheus.commands;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import com.mojang.brigadier.tree.CommandNode;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.util.text.StringTextComponent;
@@ -29,11 +28,11 @@ public class CommandMorpheus {
         morpheusCommand
                 .then(Commands.literal("alert")
                 .executes((command) -> {
-                    if (Morpheus.isAlertEnabled()) {
-                        Morpheus.setAlertPlayers(false);
+                    if (Config.SERVER.alertEnabled.get()) {
+                        Config.SERVER.alertEnabled.set(false);
                         command.getSource().sendFeedback(new StringTextComponent(References.ALERTS_OFF), true);
                     } else {
-                        Morpheus.setAlertPlayers(true);
+                        Config.SERVER.alertEnabled.set(true);
                         command.getSource().sendFeedback(new StringTextComponent(References.ALERTS_ON), true);
                     }
                     return 1;

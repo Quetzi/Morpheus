@@ -42,7 +42,7 @@ public class SleepChecker {
     }
 
     private void alertPlayers(StringTextComponent alert, World world) {
-        if ((alert != null) && (Config.alertEnabled)) {
+        if ((alert != null) && (Config.SERVER.alertEnabled.get())) {
             for (PlayerEntity player : world.getPlayers()) {
                 player.sendMessage(alert);
             }

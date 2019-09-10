@@ -23,11 +23,11 @@ public class WorldSleepState {
     private int getMiningPlayers() {
         int miningPlayers = 0;
         for (PlayerEntity player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
-            if ((player.dimension.getId() == this.dimension) && (player.posY < Config.groundLevel)) {
+            if ((player.dimension.getId() == this.dimension) && (player.posY < Config.SERVER.groundLevel.get())) {
                 miningPlayers++;
             }
         }
-        return Config.includeMiners ? miningPlayers : 0;
+        return Config.SERVER.includeMiners.get() ? miningPlayers : 0;
     }
 
     private int getSpectators() {
@@ -51,7 +51,7 @@ public class WorldSleepState {
     }
 
     public String toString() {
-        return !Config.includeMiners ? this.getSleepingPlayers() + "/" + this.playerStatus.size() + " (" + this.getPercentSleeping() + "%)" : this.getSleepingPlayers() + "/" + this.playerStatus.size() + " - " + this.getMiningPlayers() + " miners (" + this.getPercentSleeping() + "%)";
+        return !Config.SERVER.includeMiners.get() ? this.getSleepingPlayers() + "/" + this.playerStatus.size() + " (" + this.getPercentSleeping() + "%)" : this.getSleepingPlayers() + "/" + this.playerStatus.size() + " - " + this.getMiningPlayers() + " miners (" + this.getPercentSleeping() + "%)";
     }
 
     public void setPlayerAsleep(String username) {
