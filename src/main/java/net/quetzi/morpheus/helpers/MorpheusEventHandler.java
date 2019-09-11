@@ -76,7 +76,7 @@ public class MorpheusEventHandler {
             PlayerEntity player = event.getPlayer();
             BlockPos pos = event.getPos();
             if (!event.getWorld().isRemote && event.getWorld().isDaytime() && !player.isSneaking()) {
-                if (player.getBedLocation(player.dimension) == null || player.getBedLocation(player.dimension).compareTo(pos) > 4) {
+                if (player.getBedLocation(player.dimension) == null || player.getBedLocation(player.dimension).compareTo(pos) != 0) {
                     BlockState state = event.getWorld().getBlockState(pos);
                     if (state.getBlock() instanceof BedBlock) {
                         if (event.getWorld().getDimension().canRespawnHere() && event.getWorld().getDimension().getBiome(pos) != Biomes.NETHER) {
