@@ -26,7 +26,6 @@ public class Morpheus {
     public static final HashMap<Integer, WorldSleepState> playerSleepStatus = new HashMap<Integer, WorldSleepState>();
     public static final SleepChecker checker = new SleepChecker();
     public static MorpheusRegistry register = new MorpheusRegistry();
-    public static boolean setSpawnDaytime;
 
     public Morpheus() {
         instance = this;

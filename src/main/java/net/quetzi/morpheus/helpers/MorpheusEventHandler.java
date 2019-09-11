@@ -72,7 +72,7 @@ public class MorpheusEventHandler {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void bedClicked(PlayerInteractEvent.RightClickBlock event) {
-        if (Morpheus.setSpawnDaytime) {
+        if (Config.SERVER.setSpawnDaytime.get()) {
             PlayerEntity player = event.getPlayer();
             BlockPos pos = event.getPos();
             if (!event.getWorld().isRemote && event.getWorld().isDaytime() && !player.isSneaking()) {
