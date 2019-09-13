@@ -1,8 +1,8 @@
 out
 .dat.nosync*
-Morpheus.iml
-Morpheus.ipr
-Morpheus.iws
+*.iml
+*.ipr
+*.iws
 .gradle
 build
 run

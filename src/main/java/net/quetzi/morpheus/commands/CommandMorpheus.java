@@ -43,10 +43,9 @@ public class CommandMorpheus {
                 .executes((command) -> {
                     if (command.getSource().hasPermissionLevel(2)) {
                         int newPercent = IntegerArgumentType.getInteger(command, "value");
-                        Morpheus.perc = newPercent;
                         Config.SERVER.perc.set(newPercent);
                         Config.SERVER.perc.save();
-                        command.getSource().sendFeedback(new StringTextComponent("Sleep vote percentage set to " + Morpheus.perc + "%"), true);
+                        command.getSource().sendFeedback(new StringTextComponent("Sleep vote percentage set to " + Config.SERVER.perc.get() + "%"), true);
                     }
                     return 1;
                 })));
