@@ -6,6 +6,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.biome.Biomes;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerChangedDimensionEvent;
@@ -75,13 +76,13 @@ public class MorpheusEventHandler {
         if (Config.SERVER.setSpawnDaytime.get()) {
             PlayerEntity player = event.getPlayer();
             BlockPos pos = event.getPos();
-            if (!event.getWorld().isRemote && event.getWorld().isDaytime() && !player.isSneaking()) {
+            if (!event.getWorld().isRemote && event.getWorld().isDaytime() && !player.isCrouching()) {
                 if (player.getBedLocation(player.dimension) == null || player.getBedLocation(player.dimension).compareTo(pos) != 0) {
                     BlockState state = event.getWorld().getBlockState(pos);
                     if (state.getBlock() instanceof BedBlock) {
-                        if (event.getWorld().getDimension().canRespawnHere() && event.getWorld().getDimension().getBiome(pos) != Biomes.NETHER) {
+                        if (event.getWorld().getDimension().canRespawnHere() && event.getWorld().getDimension().getType() != DimensionType.THE_NETHER) {
                             if (!state.get(BedBlock.OCCUPIED)) {
-                                player.setSpawnPoint(pos, false, event.getWorld().getDimension().getType());
+                                player.setSpawnPoint(pos, false, true, event.getWorld().getDimension().getType());
                                 player.sendMessage(new StringTextComponent(References.SPAWN_SET));
                                 event.setCanceled(true);
                             }

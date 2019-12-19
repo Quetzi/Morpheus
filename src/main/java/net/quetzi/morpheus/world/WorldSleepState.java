@@ -23,7 +23,7 @@ public class WorldSleepState {
     private int getMiningPlayers() {
         int miningPlayers = 0;
         for (PlayerEntity player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
-            if ((player.dimension.getId() == this.dimension) && (player.posY < Config.SERVER.groundLevel.get())) {
+            if ((player.dimension.getId() == this.dimension) && (player.getPosition().getY() < Config.SERVER.groundLevel.get())) {
                 miningPlayers++;
             }
         }
