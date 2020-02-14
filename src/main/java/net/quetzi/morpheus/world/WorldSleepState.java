@@ -20,6 +20,14 @@ public class WorldSleepState {
         return (this.playerStatus.size() - this.getMiningPlayers() - this.getSpectators() > 0) ? (this.getSleepingPlayers() > 0) ? (this.getSleepingPlayers() * 100) / (this.playerStatus.size() - this.getMiningPlayers() - this.getSpectators()) : 0 : 100;
     }
 
+    public int getPlayerCount() {
+        return this.playerStatus.size();
+    }
+
+    public void resetPlayers() {
+        playerStatus.clear();
+    }
+
     private int getMiningPlayers() {
         int miningPlayers = 0;
         for (PlayerEntity player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {

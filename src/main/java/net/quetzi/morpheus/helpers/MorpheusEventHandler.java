@@ -63,6 +63,9 @@ public class MorpheusEventHandler {
                     if (!Morpheus.playerSleepStatus.containsKey(dimid)) {
                         Morpheus.playerSleepStatus.put(dimid, new WorldSleepState(dimid));
                     }
+                    if (Morpheus.playerSleepStatus.get(dimid).getPlayerCount() > event.world.getPlayers().size()) {
+                        Morpheus.playerSleepStatus.get(dimid).resetPlayers();
+                    }
                     Morpheus.checker.updatePlayerStates(event.world);
                 } else {
                     Morpheus.playerSleepStatus.remove(dimid);
