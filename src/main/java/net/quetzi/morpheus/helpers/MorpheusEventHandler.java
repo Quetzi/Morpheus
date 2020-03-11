@@ -86,7 +86,6 @@ public class MorpheusEventHandler {
                         if (event.getWorld().getDimension().canRespawnHere() && event.getWorld().getDimension().getType() != DimensionType.THE_NETHER) {
                             if (!state.get(BedBlock.OCCUPIED)) {
                                 player.setSpawnPoint(pos, false, true, event.getWorld().getDimension().getType());
-                                player.sendMessage(new StringTextComponent(References.SPAWN_SET));
                                 event.setCanceled(true);
                             }
                         }
