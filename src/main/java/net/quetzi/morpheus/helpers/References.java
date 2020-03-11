@@ -19,6 +19,4 @@ public class References {
     public static final String XMASTEXT = "Good morning everyone! HAPPY CHRISTMAS!";
     public static final String STPATRICKSTEXT = "Good morning everyone! HAPPY ST PATRICKS DAY!";
     public static final String HALLOWEENTEXT = "Good morning everyone! HAPPY SAMHAIN!";
-
-    public static final String SPAWN_SET = "New spawnpoint has been set!";
 }
