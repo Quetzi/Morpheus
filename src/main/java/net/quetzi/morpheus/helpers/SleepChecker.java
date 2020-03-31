@@ -59,6 +59,7 @@ public class SleepChecker {
             MorpheusRegistry.registry.get(world.getDimension().getType().getId()).startNewDay();
         } catch (Exception e) {
             Morpheus.logger.error("Exception caught while starting a new day for dimension " + world.getDimension().getType().getId());
+            Morpheus.logger.error(e.getStackTrace());
         }
         if (!alertSent.get(world.getDimension().getType().getId())) {
             // Send Good morning message
