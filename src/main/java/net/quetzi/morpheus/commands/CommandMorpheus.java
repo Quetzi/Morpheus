@@ -6,9 +6,6 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextFormatting;
-import net.quetzi.morpheus.Morpheus;
 import net.quetzi.morpheus.helpers.Config;
 import net.quetzi.morpheus.helpers.References;
 
@@ -16,7 +13,7 @@ public class CommandMorpheus {
     public static void register(CommandDispatcher<CommandSource> cmdDisp) {
         LiteralArgumentBuilder<CommandSource> morpheusCommand = Commands.literal("morpheus");
         morpheusCommand.executes((command) -> {
-            command.getSource().sendFeedback(new StringTextComponent("Usage: " + References.USAGE).setStyle(new Style().setColor(TextFormatting.RED)), true);
+            command.getSource().sendFeedback(new StringTextComponent("Usage: " + References.USAGE), true);
             return 1;
         });
         morpheusCommand
@@ -49,21 +46,21 @@ public class CommandMorpheus {
                     }
                     return 1;
                 })));
-        morpheusCommand
-                .then(Commands.literal("disable")
-                .then(Commands.argument("dim", IntegerArgumentType.integer())
-                .executes((command) -> {
-                    if (command.getSource().hasPermissionLevel(2)) {
-                        int ageToDisable = command.getArgument("dim", Integer.class);
-                        if (Morpheus.register.isDimRegistered(ageToDisable)) {
-                            Morpheus.register.unregisterHandler(ageToDisable);
-                            command.getSource().sendFeedback(new StringTextComponent("Disabled sleep vote checks in dimension " + ageToDisable), true);
-                        } else {
-                            command.getSource().sendFeedback(new StringTextComponent("Sleep vote checks are already disabled in dimension " + ageToDisable), true);
-                        }
-                    }
-                    return 1;
-                })));
+//        morpheusCommand
+//                .then(Commands.literal("disable")
+//                .then(Commands.argument("dim", IntegerArgumentType.integer())
+//                .executes((command) -> {
+//                    if (command.getSource().hasPermissionLevel(2)) {
+//                        int ageToDisable = command.getArgument("dim", Integer.class);
+//                        if (Morpheus.register.isDimRegistered(ageToDisable)) {
+//                            Morpheus.register.unregisterHandler(ageToDisable);
+//                            command.getSource().sendFeedback(new StringTextComponent("Disabled sleep vote checks in dimension " + ageToDisable), true);
+//                        } else {
+//                            command.getSource().sendFeedback(new StringTextComponent("Sleep vote checks are already disabled in dimension " + ageToDisable), true);
+//                        }
+//                    }
+//                    return 1;
+//                })));
         cmdDisp.register(morpheusCommand);
     }
 }

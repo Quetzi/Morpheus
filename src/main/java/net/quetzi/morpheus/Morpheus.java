@@ -1,5 +1,7 @@
 package net.quetzi.morpheus;
 
+import net.minecraft.util.RegistryKey;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -22,7 +24,7 @@ public class Morpheus {
     public static Morpheus instance;
     public static Logger logger = LogManager.getLogger(MODID);
 
-    public static final HashMap<Integer, WorldSleepState> playerSleepStatus = new HashMap<Integer, WorldSleepState>();
+    public static final HashMap<RegistryKey<World>, WorldSleepState> playerSleepStatus = new HashMap<RegistryKey<World>, WorldSleepState>();
     public static final SleepChecker checker = new SleepChecker();
     public static MorpheusRegistry register = new MorpheusRegistry();
 

@@ -1,6 +1,8 @@
 package net.quetzi.morpheus.world;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import net.quetzi.morpheus.helpers.Config;
 
@@ -8,10 +10,10 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 public class WorldSleepState {
-    private int dimension;
+    private RegistryKey<World> dimension;
     private HashMap<String, Boolean> playerStatus;
 
-    public WorldSleepState(int dimension) {
+    public WorldSleepState(RegistryKey<World> dimension) {
         this.dimension = dimension;
         this.playerStatus = new HashMap<>();
     }
@@ -31,7 +33,7 @@ public class WorldSleepState {
     private int getMiningPlayers() {
         int miningPlayers = 0;
         for (PlayerEntity player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
-            if ((player.dimension.getId() == this.dimension) && (player.getPosition().getY() < Config.SERVER.groundLevel.get())) {
+            if ((player.getEntityWorld().func_234923_W_() == this.dimension) && (player.getPosY() < Config.SERVER.groundLevel.get())) {
                 miningPlayers++;
             }
         }

@@ -1,16 +1,19 @@
 package net.quetzi.morpheus.world;
 
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.storage.ServerWorldInfo;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import net.quetzi.morpheus.api.INewDayHandler;
+
+import java.util.Objects;
 
 public class DefaultOverworldHandler implements INewDayHandler {
 
     @Override
     public void startNewDay() {
-        World world = ServerLifecycleHooks.getCurrentServer().getWorld(DimensionType.OVERWORLD);
-        world.setDayTime(world.getDayTime() + getTimeToSunrise(world));
+        World world = Objects.requireNonNull(ServerLifecycleHooks.getCurrentServer().getWorld(ServerWorld.field_234918_g_)).getWorld();
+        ((ServerWorldInfo)world.getWorldInfo()).setDayTime(world.getWorldInfo().getDayTime() + getTimeToSunrise(world));
     }
 
     private long getTimeToSunrise(World world) {

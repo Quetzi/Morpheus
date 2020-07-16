@@ -1,19 +1,12 @@
 package net.quetzi.morpheus.helpers;
 
-import net.minecraft.block.BedBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.biome.Biomes;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.world.World;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerChangedDimensionEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.quetzi.morpheus.Morpheus;
 import net.quetzi.morpheus.world.WorldSleepState;
@@ -22,18 +15,18 @@ public class MorpheusEventHandler {
     @SubscribeEvent
     public void loggedInEvent(PlayerLoggedInEvent event) {
         if (!event.getPlayer().getEntityWorld().isRemote) {
-            if (!Morpheus.playerSleepStatus.containsKey(event.getPlayer().dimension.getId())) {
-                Morpheus.playerSleepStatus.put(event.getPlayer().dimension.getId(), new WorldSleepState(event.getPlayer().dimension.getId()));
+            if (!Morpheus.playerSleepStatus.containsKey(event.getPlayer().getEntityWorld().func_234923_W_())) {
+                Morpheus.playerSleepStatus.put(event.getPlayer().getEntityWorld().func_234923_W_(), new WorldSleepState(event.getPlayer().getEntityWorld().func_234923_W_()));
             }
-            Morpheus.playerSleepStatus.get(event.getPlayer().dimension.getId()).setPlayerAwake(event.getPlayer().getGameProfile().getName());
+            Morpheus.playerSleepStatus.get(event.getPlayer().getEntityWorld().func_234923_W_()).setPlayerAwake(event.getPlayer().getGameProfile().getName());
         }
     }
 
     @SubscribeEvent
     public void loggedOutEvent(PlayerLoggedOutEvent event) {
         if (!event.getPlayer().getEntityWorld().isRemote) {
-            if (Morpheus.playerSleepStatus.get(event.getPlayer().dimension.getId()) != null) {
-                Morpheus.playerSleepStatus.get(event.getPlayer().dimension.getId()).removePlayer(event.getPlayer().getGameProfile().getName());
+            if (Morpheus.playerSleepStatus.get(event.getPlayer().getEntityWorld().func_234923_W_()) != null) {
+                Morpheus.playerSleepStatus.get(event.getPlayer().getEntityWorld().func_234923_W_()).removePlayer(event.getPlayer().getGameProfile().getName());
             }
         }
     }
@@ -41,21 +34,21 @@ public class MorpheusEventHandler {
     @SubscribeEvent
     public void changedDimensionEvent(PlayerChangedDimensionEvent event) {
         if (!event.getPlayer().getEntityWorld().isRemote) {
-            if (!Morpheus.playerSleepStatus.containsKey(event.getTo().getId())) {
-                Morpheus.playerSleepStatus.put(event.getTo().getId(), new WorldSleepState(event.getTo().getId()));
+            if (!Morpheus.playerSleepStatus.containsKey(event.getTo())) {
+                Morpheus.playerSleepStatus.put(event.getTo(), new WorldSleepState(event.getTo()));
             }
             // Remove player from old World state
-            if (Morpheus.playerSleepStatus.get(event.getFrom().getId()) != null) {
-                Morpheus.playerSleepStatus.get(event.getFrom().getId()).removePlayer(event.getPlayer().getGameProfile().getName());
+            if (Morpheus.playerSleepStatus.get(event.getFrom()) != null) {
+                Morpheus.playerSleepStatus.get(event.getFrom()).removePlayer(event.getPlayer().getGameProfile().getName());
             }
             // Add player to new world state
-            Morpheus.playerSleepStatus.get(event.getTo().getId()).setPlayerAwake(event.getPlayer().getGameProfile().getName());
+            Morpheus.playerSleepStatus.get(event.getTo()).setPlayerAwake(event.getPlayer().getGameProfile().getName());
         }
     }
 
     @SubscribeEvent
     public void worldTickEvent(WorldTickEvent event) {
-        int dimid = event.world.getDimension().getType().getId();
+        RegistryKey<World> dimid = event.world.func_234923_W_();
         if (!event.world.isRemote) {
             // This is called every tick, do something every 20 ticks
             if (event.world.getGameTime() % 20L == 10 && event.phase == TickEvent.Phase.END) {
@@ -72,30 +65,5 @@ public class MorpheusEventHandler {
                 }
             }
         }
-    }
-
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void bedClicked(PlayerInteractEvent.RightClickBlock event) {
-        if (Config.SERVER.setSpawnDaytime.get()) {
-            PlayerEntity player = event.getPlayer();
-            BlockPos pos = event.getPos();
-            if (!event.getWorld().isRemote && event.getWorld().isDaytime() && !player.isCrouching()) {
-                if (player.getBedLocation(player.dimension) == null || getDistance(pos, player.getPosition()) < 4) {
-                    BlockState state = event.getWorld().getBlockState(pos);
-                    if (state.getBlock() instanceof BedBlock) {
-                        if (event.getWorld().getDimension().canRespawnHere() && event.getWorld().getDimension().getType() != DimensionType.THE_NETHER) {
-                            if (!state.get(BedBlock.OCCUPIED)) {
-                                player.setSpawnPoint(pos, false, true, event.getWorld().getDimension().getType());
-                                event.setCanceled(true);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private double getDistance(BlockPos posA, BlockPos posB) {
-        return Math.sqrt(Math.pow((posA.getX() - posB.getX()), 2) + Math.pow(posA.getY() - posB.getY(), 2) + Math.pow(posA.getZ() - posB.getZ(), 2));
     }
 }
