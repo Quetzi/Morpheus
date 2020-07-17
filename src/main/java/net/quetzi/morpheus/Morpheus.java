@@ -37,6 +37,6 @@ public class Morpheus {
 
     @SubscribeEvent
     public void serverLoad(FMLServerStartingEvent event) {
-        CommandMorpheus.register(event.getCommandDispatcher());
+        CommandMorpheus.register(event.getServer().getCommandManager().getDispatcher());
     }
 }
