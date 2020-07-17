@@ -19,15 +19,16 @@ public class SleepChecker {
             // Iterate players and update their status
             for (PlayerEntity player : world.getPlayers()) {
                 String username = player.getGameProfile().getName();
-                if (player.isPlayerFullyAsleep() && !Morpheus.playerSleepStatus.get(player.getEntityWorld().func_234923_W_()).isPlayerSleeping(username)) {
-                    Morpheus.playerSleepStatus.get(player.getEntityWorld().func_234923_W_()).setPlayerAsleep(username);
+                RegistryKey<World> playerWorld = player.getEntityWorld().func_234923_W_();
+                if (player.isPlayerFullyAsleep() && !Morpheus.playerSleepStatus.get(playerWorld).isPlayerSleeping(username)) {
+                    Morpheus.playerSleepStatus.get(playerWorld).setPlayerAsleep(username);
                     // Alert players that this player has gone to bed
-                    alertPlayers(createAlert(player.getEntityWorld().func_234923_W_(), player.getDisplayName().getString(), Config.SERVER.onSleepText.get()), world);
-                } else if (!player.isPlayerFullyAsleep() && Morpheus.playerSleepStatus.get(player.getEntityWorld().func_234923_W_()).isPlayerSleeping(username)) {
-                    Morpheus.playerSleepStatus.get(player.getEntityWorld().func_234923_W_()).setPlayerAwake(username);
+                    alertPlayers(createAlert(playerWorld, player.getDisplayName().getString(), Config.SERVER.onSleepText.get()), world);
+                } else if (!player.isPlayerFullyAsleep() && Morpheus.playerSleepStatus.get(playerWorld).isPlayerSleeping(username)) {
+                    Morpheus.playerSleepStatus.get(playerWorld).setPlayerAwake(username);
                     // Alert players that this player has woken up
                     if (!world.isDaytime() && !alertSent.get(world.func_234923_W_())) {
-                        alertPlayers(createAlert(player.getEntityWorld().func_234923_W_(), player.getDisplayName().getString(), Config.SERVER.onWakeText.get()), world);
+                        alertPlayers(createAlert(playerWorld, player.getDisplayName().getString(), Config.SERVER.onWakeText.get()), world);
                     }
                 }
             }

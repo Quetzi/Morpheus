@@ -14,19 +14,21 @@ import net.quetzi.morpheus.world.WorldSleepState;
 public class MorpheusEventHandler {
     @SubscribeEvent
     public void loggedInEvent(PlayerLoggedInEvent event) {
+        RegistryKey<World> playerWorld = event.getPlayer().getEntityWorld().func_234923_W_();
         if (!event.getPlayer().getEntityWorld().isRemote) {
-            if (!Morpheus.playerSleepStatus.containsKey(event.getPlayer().getEntityWorld().func_234923_W_())) {
-                Morpheus.playerSleepStatus.put(event.getPlayer().getEntityWorld().func_234923_W_(), new WorldSleepState(event.getPlayer().getEntityWorld().func_234923_W_()));
+            if (!Morpheus.playerSleepStatus.containsKey(playerWorld)) {
+                Morpheus.playerSleepStatus.put(playerWorld, new WorldSleepState(playerWorld));
             }
-            Morpheus.playerSleepStatus.get(event.getPlayer().getEntityWorld().func_234923_W_()).setPlayerAwake(event.getPlayer().getGameProfile().getName());
+            Morpheus.playerSleepStatus.get(playerWorld).setPlayerAwake(event.getPlayer().getGameProfile().getName());
         }
     }
 
     @SubscribeEvent
     public void loggedOutEvent(PlayerLoggedOutEvent event) {
+        RegistryKey<World> playerWorld = event.getPlayer().getEntityWorld().func_234923_W_();
         if (!event.getPlayer().getEntityWorld().isRemote) {
-            if (Morpheus.playerSleepStatus.get(event.getPlayer().getEntityWorld().func_234923_W_()) != null) {
-                Morpheus.playerSleepStatus.get(event.getPlayer().getEntityWorld().func_234923_W_()).removePlayer(event.getPlayer().getGameProfile().getName());
+            if (Morpheus.playerSleepStatus.get(playerWorld) != null) {
+                Morpheus.playerSleepStatus.get(playerWorld).removePlayer(event.getPlayer().getGameProfile().getName());
             }
         }
     }
