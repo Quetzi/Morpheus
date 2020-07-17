@@ -70,7 +70,7 @@ public class SleepChecker {
             alertSent.put(world.func_234923_W_(), true);
         }
         if (world.isRaining()) {
-            world.setRainStrength(0);
+            world.getWorldInfo().setRaining(false);
         }
     }
 
