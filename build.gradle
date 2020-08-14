@@ -20,7 +20,7 @@ project.ext {
     } else {
         build = "-custom"
     }
-    mcVersion = "1.16.1"
+    mcVersion = "1.16.2"
 }
 version = "${project.ext.mcVersion}-${project.ext.major}.${project.minor}.${project.build}"
 group = "net.quetzi.morpheus"
