@@ -11,6 +11,7 @@ loaderVersion="[32,)" #mandatory (24 is current forge version)
 issueTrackerURL="https://github.com/Quetzi/Morpheus/issues" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
 displayURL="https://www.curse.com/mc-mods/Minecraft/morpheus" #optional
+license="All Rights Reserved"
 # A file name (in the root of the mod JAR) containing a logo for display
 #logoFile="examplemod.png" #optional
 # A text field displayed in the mod UI
