@@ -20,7 +20,7 @@ project.ext {
     } else {
         build = "-custom"
     }
-    mcVersion = "1.16.2"
+    mcVersion = "1.16.3"
 }
 version = "${project.ext.mcVersion}-${project.ext.major}.${project.minor}.${project.build}"
 group = "net.quetzi.morpheus"
@@ -95,7 +95,7 @@ artifacts {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.2-33.0.3'
+    minecraft 'net.minecraftforge:forge:1.16.3-34.0.7'
 }
 
 jar {
