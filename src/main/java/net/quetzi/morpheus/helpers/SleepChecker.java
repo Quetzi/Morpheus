@@ -5,6 +5,7 @@ import net.minecraft.util.RegistryKey;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.quetzi.morpheus.Morpheus;
 import net.quetzi.morpheus.MorpheusRegistry;
 
@@ -69,8 +70,8 @@ public class SleepChecker {
             Morpheus.playerSleepStatus.get(world.func_234923_W_()).wakeAllPlayers();
             alertSent.put(world.func_234923_W_(), true);
         }
-        if (world.isRaining()) {
-            world.getWorldInfo().setRaining(false);
+        if (world instanceof ServerWorld) {
+            ((ServerWorld) world).func_241113_a_(0, 0, false, false);
         }
     }
 
