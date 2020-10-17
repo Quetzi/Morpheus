@@ -13,7 +13,11 @@ public class CommandMorpheus {
     public static void register(CommandDispatcher<CommandSource> cmdDisp) {
         LiteralArgumentBuilder<CommandSource> morpheusCommand = Commands.literal("morpheus");
         morpheusCommand.executes((command) -> {
-            command.getSource().sendFeedback(new StringTextComponent("Usage: " + References.USAGE), true);
+            if(command.getSource().hasPermissionLevel(2)) {
+                command.getSource().sendFeedback(new StringTextComponent("Usage: " + References.USAGE), true);
+            }else {
+                command.getSource().sendFeedback(new StringTextComponent("Usage: " + References.USAGE_NOT_OP), true);
+            }
             return 1;
         });
         morpheusCommand
@@ -24,6 +28,7 @@ public class CommandMorpheus {
                 }));
         morpheusCommand
                 .then(Commands.literal("alert")
+                .requires(commandSource -> commandSource.hasPermissionLevel(2))
                 .executes((command) -> {
                     if (Config.SERVER.alertEnabled.get()) {
                         Config.SERVER.alertEnabled.set(false);
@@ -36,14 +41,13 @@ public class CommandMorpheus {
                 }));
         morpheusCommand
                 .then(Commands.literal("percent")
+                .requires(commandSource -> commandSource.hasPermissionLevel(2))
                 .then(Commands.argument("value", IntegerArgumentType.integer(0,100))
                 .executes((command) -> {
-                    if (command.getSource().hasPermissionLevel(2)) {
-                        int newPercent = IntegerArgumentType.getInteger(command, "value");
-                        Config.SERVER.perc.set(newPercent);
-                        Config.SERVER.perc.save();
-                        command.getSource().sendFeedback(new StringTextComponent("Sleep vote percentage set to " + Config.SERVER.perc.get() + "%"), true);
-                    }
+                    int newPercent = IntegerArgumentType.getInteger(command, "value");
+                    Config.SERVER.perc.set(newPercent);
+                    Config.SERVER.perc.save();
+                    command.getSource().sendFeedback(new StringTextComponent("Sleep vote percentage set to " + Config.SERVER.perc.get() + "%"), true);
                     return 1;
                 })));
 //        morpheusCommand

@@ -14,6 +14,7 @@ public class References {
     public static final String PERCENT_USAGE = "Usage: /morpheus percent <percentage>";
     public static final String DISABLE_USAGE = "Usage: /morpheus disable <dimension number>";
     public static final String USAGE = "/morpheus <alert : version> | /morpheus percent <percentage> | /morpheus disable <dimension number>";
+    public static final String USAGE_NOT_OP = "/morpheus version";
 
     public static final String NEWYEARTEXT = "Good morning everyone! HAPPY NEW YEAR!";
     public static final String XMASTEXT = "Good morning everyone! HAPPY CHRISTMAS!";
