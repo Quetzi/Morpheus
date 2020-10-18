@@ -104,7 +104,7 @@ jar {
                     "Specification-Vendor": "Quetzi",
                     "Specification-Version": "1", // We are version 1 of the modlauncher specification
                     "Implementation-Title": project.name,
-                    "Implementation-Version": "${project.version}",
+                    "Implementation-Version": "${project.ext.major}.${project.minor}.${project.build}",
                     "Implementation-Vendor" :"Quetzi",
                     "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")],)
     }
