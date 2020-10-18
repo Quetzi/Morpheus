@@ -4,15 +4,18 @@ import net.minecraft.util.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.fml.network.FMLNetworkConstants;
 import net.quetzi.morpheus.commands.CommandMorpheus;
 import net.quetzi.morpheus.helpers.Config;
 import net.quetzi.morpheus.helpers.MorpheusEventHandler;
 import net.quetzi.morpheus.helpers.SleepChecker;
 import net.quetzi.morpheus.world.WorldSleepState;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,6 +36,7 @@ public class Morpheus {
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new MorpheusEventHandler());
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, Config.SERVER_SPEC);
+        ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST, ()-> Pair.of(()->FMLNetworkConstants.IGNORESERVERONLY, (net, save)->true));
     }
 
     @SubscribeEvent
