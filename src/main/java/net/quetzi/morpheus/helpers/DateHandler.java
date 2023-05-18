@@ -1,6 +1,6 @@
 package net.quetzi.morpheus.helpers;
 
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
 
 import java.util.Calendar;
 
@@ -9,11 +9,11 @@ import java.util.Calendar;
  */
 public class DateHandler {
     public enum Event {
-        XMAS(25, 12, TextFormatting.RED + References.XMASTEXT),
-        NEW_YEAR(1, 1, TextFormatting.GOLD + References.NEWYEARTEXT),
-        STPATRICKS(17, 3, TextFormatting.DARK_GREEN + References.STPATRICKSTEXT),
-        HALLOWEEN(31, 10, TextFormatting.DARK_PURPLE + References.HALLOWEENTEXT),
-        NONE(0, 0, TextFormatting.GOLD + Config.SERVER.onMorningText.get());
+        XMAS(25, 12, ChatFormatting.RED + References.XMASTEXT),
+        NEW_YEAR(1, 1, ChatFormatting.GOLD + References.NEWYEARTEXT),
+        STPATRICKS(17, 3, ChatFormatting.DARK_GREEN + References.STPATRICKSTEXT),
+        HALLOWEEN(31, 10, ChatFormatting.DARK_PURPLE + References.HALLOWEENTEXT),
+        NONE(0, 0, ChatFormatting.GOLD + Config.SERVER.onMorningText.get());
 
         private final int month;
         private final int day;

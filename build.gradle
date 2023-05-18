@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
@@ -20,18 +20,16 @@ project.ext {
     } else {
         build = "-custom"
     }
-    mcVersion = "1.16.3"
+    mcVersion = "1.19.2"
 }
 version = "${project.ext.mcVersion}-${project.ext.major}.${project.minor}.${project.build}"
 group = "net.quetzi.morpheus"
 archivesBaseName = "Morpheus"
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
-
 
 minecraft {
     //version = "${project.version}"
-    mappings channel: 'snapshot', version: '20200707-1.16.1'
+    mappings channel: 'official', version: '1.19.2'
     // replacing stuff in the source
     if (System.getenv("CI_PIPELINE_IID") != null) {
         ant.replace(file: 'src/main/java/net/quetzi/morpheus/helpers/References.java', token: '@MAJOR@', value: project.ext.major)
@@ -84,6 +82,7 @@ minecraft {
 }
 
 task libJar(type: Jar) {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from(sourceSets.main.java) {
         include "net/quetzi/morpheus/api/*"
     }
@@ -95,7 +94,7 @@ artifacts {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.3-34.0.7'
+    minecraft "net.minecraftforge:forge:1.19.2-43.1.65"
 }
 
 jar {
@@ -111,6 +110,7 @@ jar {
 }
 
 processResources {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     // this will ensure that this task is redone when the versions change.
     inputs.property 'version', project.version
 
