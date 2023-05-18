@@ -1,19 +1,20 @@
 package net.quetzi.morpheus.world;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.server.ServerLifecycleHooks;
+import net.quetzi.morpheus.Morpheus;
 import net.quetzi.morpheus.helpers.Config;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
 
 public class WorldSleepState {
-    private RegistryKey<World> dimension;
+    private ResourceKey<Level> dimension;
     private HashMap<String, Boolean> playerStatus;
 
-    public WorldSleepState(RegistryKey<World> dimension) {
+    public WorldSleepState(ResourceKey<Level> dimension) {
         this.dimension = dimension;
         this.playerStatus = new HashMap<>();
     }
@@ -32,9 +33,13 @@ public class WorldSleepState {
 
     private int getMiningPlayers() {
         int miningPlayers = 0;
-        for (PlayerEntity player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
-            if ((player.getEntityWorld().func_234923_W_() == this.dimension) && (player.getPosY() < Config.SERVER.groundLevel.get())) {
-                miningPlayers++;
+        for (Player player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
+            if ((player.getLevel().dimension() == this.dimension) && (player.getY() < Config.SERVER.groundLevel.get())) {
+                if (!this.playerStatus.getOrDefault(player.getGameProfile().getName(), false))
+                {
+                    // If player is "mining" and sleeping don't count it with the miners
+                    miningPlayers++;
+                }
             }
         }
         return Config.SERVER.includeMiners.get() ? miningPlayers : 0;
@@ -42,7 +47,7 @@ public class WorldSleepState {
 
     private int getSpectators() {
         int spectators = 0;
-        for (PlayerEntity player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
+        for (Player player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
             if (player.isSpectator() || player.isCreative()) {
                 spectators++;
             }
